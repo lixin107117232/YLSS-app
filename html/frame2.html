@@ -175,6 +175,13 @@
         color: #fff;
         background: #E3E3E3;
       }
+	  #two_seckill,#one_seckill{
+		font-size:12px;
+	  }
+	  .inputbox.active {
+	      background-color: #ffb01f!important;
+	      color: #FFF!important;
+	  }
     </style>
 </head>
 <body>
@@ -193,32 +200,37 @@
 <script type="text/javascript" src="../script/template-web.js"></script>
 <script type="text/javascript" src="../script/jquery-3.2.1.min.js"></script>
 <script type="text/javascript" src="../script/swiper-3.3.1.jquery.min.js"></script>
+<script type="text/javascript" src="../script/rolling_time.js"></script>
 <script type="text/html" id="tpTime">
-  <div class="inputbox">
-    今日抢购时间: <span>{{timeArr.one_seckill_start_time[0]}}:{{timeArr.one_seckill_start_time[1]}}</span>
-  </div>
-  <!-- <div class="{{if choseTab == 1}} active df aic {{else}} df aic {{/if}}" onclick="changeList(1)"> -->
-    <!-- {{if timeArr.thisindex==1}}
+  <!--<div class="inputbox">今日抢购时间: <span>{{timeArr.one_seckill_start_time[0]}}:{{timeArr.one_seckill_start_time[1]}}</span></div>-->
+  <div class="inputbox  active df aic" id="show_time">00:00</div>
+  <div class="inputbox active df aic" style="display:none" id="one_seckill" onclick="changeList(1)">第一场:00:00</div>
+  &nbsp;
+  <div class="inputbox" id="two_seckill" style="display:none" onclick="changeList(2)">第二场:00:00</div>
+  <!--
+  <div class="{{if choseTab == 1}} active df aic {{else}} df aic {{/if}}" onclick="changeList(1)">
+    {{if timeArr.thisindex==1}}
     <span class="status">抢购中</span>
     {{else}}
     <span class="status">即将开始</span>
-    {{/if}} -->
-    <!-- <span class="status">第一场</span>
+    {{/if}}
+    <span class="status">第一场</span>
     <span class="countdown">{{timeArr.one_seckill_start_time[0]}}</span>
     <span class="colon">:</span>
     <span class="countdown">{{timeArr.one_seckill_start_time[1]}}</span>
-  </div> -->
-  <!-- <div class="{{if choseTab == 2}} active df aic {{else}} df aic {{/if}}" onclick="changeList(2)"> -->
-    <!-- {{if timeArr.thisindex==2}}
+  </div>
+  <div class="{{if choseTab == 2}} active df aic {{else}} df aic {{/if}}" onclick="changeList(2)">
+    {{if timeArr.thisindex==2}}
     <span class="status">抢购中</span>
     {{else}}
     <span class="status">即将开始</span>
-    {{/if}} -->
-    <!-- <span class="status">第二场</span>
+    {{/if}}
+    <span class="status">第二场</span>
     <span class="countdown">{{timeArr.two_seckill_start_time[0]}}</span>
     <span class="colon">:</span>
     <span class="countdown">{{timeArr.two_seckill_start_time[1]}}</span>
-  </div> -->
+  </div>
+  -->
 </script>
 <script type="text/html" id="tpbanner">
   <div class="swiper-wrapper">
@@ -247,7 +259,7 @@
   {{/each}}
 </script>
 <script type="text/javascript">
-var choseTab=1;
+var choseTab = 1;
 apiready = function () {
   $api.fixStatusBar( $api.dom('header') );
   var bodyTop = $api.offset($api.dom('header')).h;
@@ -272,10 +284,17 @@ apiready = function () {
 }
 // 切换
 function changeList(num){
-  choseTab=num;
-  list=[],page=1,isSclLoad=true;
-  drawTime();
-  getList();
+	choseTab=num;
+	list=[],page=1,isSclLoad=true;
+	//drawTime();
+	if(num == 1){
+		document.getElementById("one_seckill").classList.add("active");
+		document.getElementById("two_seckill").classList.remove("active");
+	}else{
+		document.getElementById("one_seckill").classList.remove("active");
+		document.getElementById("two_seckill").classList.add("active");
+	}
+	getList();
 }
 // 商品详情
 function detail(id){
@@ -292,7 +311,7 @@ function detail(id){
 function getBanner(){
   request1("/api/seckill.banner/index", "post", {
   }, function(res){
-    console.log(JSON.stringify(res.data));
+    // console.log(JSON.stringify(res.data));
     if(res.code == 1){
       var html = template("tpbanner", {banner:res.data,https:https});
       $api.html($api.dom(".banner"),html);
@@ -308,18 +327,24 @@ function getBanner(){
 
   })
 }
-var timeArr={};
+var timeArr=[];
 function getTime(){
+  console.log(timeArr);
+  if(!timeArr){
+    timeArr = $api.getStorage('miaoshaTime');
+  }
   request1("/api/seckill.goods/snapup", "post", {
   }, function(res){
-    // console.log(JSON.stringify(res.data));
+    //  console.log(JSON.stringify(res));
     if(res.code == 1){
       var oDate=new Date();
       var thisHour=parseInt(oDate.getHours());
+      // console.log(res.data);
       timeArr["one_seckill_start_time"]=res.data.one_seckill_start_time.split(":");
       timeArr["two_seckill_start_time"]=res.data.two_seckill_start_time.split(":");
       timeArr["thisindex"] = thisHour >= parseInt(timeArr["two_seckill_start_time"][0])?"2":(thisHour< parseInt(timeArr["one_seckill_start_time"][0])?"none":"1")
-      drawTime();
+      timeArr["data"] = res.data;
+	  drawTime();
     }
   },function(error){
 
@@ -345,12 +370,12 @@ function getList(){
     page:page,
     play:choseTab
   }, function(res){
-    // console.log(JSON.stringify(res.data.data));
+    //  console.log( "data:" + JSON.stringify(res.data.data));
     if(res.code == 1){
       if(res.data.data.length<1){
         isSclLoad=false;
       }else {
-        list=list.concat(res.data.data);
+        list = page == 1 ? res.data.data : list.concat(res.data.data);
       }
       drawList();
     }
@@ -362,8 +387,86 @@ function drawList(){
   var html = template("tplist", {list:list,https:https});
   $api.html($api.dom(".list"),html);
 }
+
+var isDrawTime = false,one_start_status = false,two_start_status = false,one_end_status = false,two_end_status = false;
+
 function drawTime(){
-  var html = template("tpTime", {timeArr:timeArr,https:https,choseTab:choseTab});
-  $api.html($api.dom("#header"),html);
+	if(isDrawTime) return ;
+	isDrawTime = true;
+	var html = template("tpTime", {timeArr:timeArr,https:https,choseTab:choseTab});
+	$api.html($api.dom("#header"),html);
+	
+	var one_data = {},two_data = {},one_seckill = document.getElementById('one_seckill'),one_outtime =0,two_seckill = document.getElementById('two_seckill'),two_outtime =0;
+	var show_time = document.getElementById("show_time");
+	function oenStart(){
+		one_data = countDown(timeArr.data.one_seckill_end_time);
+		two_data = countDown(timeArr.data.two_seckill_end_time);
+		if(
+			TimeStamp() < GiveTheSpecifiedTimeStamp(timeArr.data.one_seckill_start_time) &&
+			TimeStamp() > GiveTheSpecifiedTimeStamp(timeArr.data.two_seckill_end_time)
+		 ){
+			show_time.style.display = "none";
+			one_seckill.style.display = "";
+			two_seckill.style.display = "";
+			one_seckill.innerHTML = timeArr.data.one_seckill_start_time+" 即将开抢";
+			two_seckill.innerHTML = timeArr.data.two_seckill_start_time+" 明日开抢";
+			//show_time.innerHTML =  timeArr.data.one_seckill_start_time+" 明日开抢 "+ timeArr.data.two_seckill_start_time+" 即将开抢";
+		}else if(
+			TimeStamp() > GiveTheSpecifiedTimeStamp(timeArr.data.one_seckill_end_time) &&
+			TimeStamp() < GiveTheSpecifiedTimeStamp(timeArr.data.two_seckill_start_time)
+		 ){
+			show_time.style.display = "none";
+			one_seckill.style.display = "";
+			two_seckill.style.display = "";
+			one_seckill.innerHTML = timeArr.data.one_seckill_start_time+" 明日开抢";
+			two_seckill.innerHTML = timeArr.data.two_seckill_start_time+" 即将开抢";
+			//show_time.innerHTML =  timeArr.data.one_seckill_start_time+" 明日开抢 "+ timeArr.data.two_seckill_start_time+" 即将开抢";
+		}else if(
+			GiveTheSpecifiedTimeStamp(timeArr.data.one_seckill_start_time) > TimeStamp() &&
+			GiveTheSpecifiedTimeStamp(timeArr.data.two_seckill_start_time) > TimeStamp()
+		 ){
+			show_time.style.display = "none";
+			one_seckill.style.display = "";
+			two_seckill.style.display = "";
+			one_seckill.innerHTML = timeArr.data.one_seckill_start_time+" 即将开抢";
+			two_seckill.innerHTML = timeArr.data.two_seckill_start_time+" 即将开抢";
+			//show_time.innerHTML =  timeArr.data.one_seckill_start_time+" 即将开抢 "+ timeArr.data.two_seckill_start_time+" 即将开抢";
+		}else if(
+				TimeStamp() > GiveTheSpecifiedTimeStamp(timeArr.data.one_seckill_end_time) &&
+				TimeStamp() > GiveTheSpecifiedTimeStamp(timeArr.data.two_seckill_end_time)
+		){
+			show_time.style.display = "none";
+			one_seckill.style.display = "";
+			two_seckill.style.display = "";
+			one_seckill.innerHTML = timeArr.data.one_seckill_start_time+" 明日开抢";
+			two_seckill.innerHTML = timeArr.data.two_seckill_start_time+" 明日开抢";
+			//show_time.innerHTML =  timeArr.data.one_seckill_start_time+" 明日开抢 "+ timeArr.data.two_seckill_start_time+" 明日开抢";
+		}else if( one_data.days >= 0 && one_data.hour >= 0  && one_data.minute >= 0 && one_data.second > 0 ){
+			one_seckill.style.display = "none";
+			two_seckill.style.display = "none";
+			show_time.style.display = "";
+			show_time.innerHTML = timeArr.data.one_seckill_start_time+" 开抢中 距离结束 "+(
+				(one_data.days > 0 ?one_data.days+"天":"") +
+				(one_data.hour < 10 ?  "0"+one_data.hour : one_data.hour ) + ":" + (one_data.minute < 10 ?  "0"+one_data.minute : one_data.minute) + ":"+(one_data.second<10?"0"+one_data.second:one_data.second)
+			)+"";
+		}else if( two_data.days >= 0 && two_data.hour >= 0  && two_data.minute >= 0 && two_data.second > 0 ){
+			if(!two_start_status){
+				changeList(2);
+				
+			}
+			one_seckill.style.display = "none";
+			two_seckill.style.display = "none";
+			show_time.style.display = "";
+			show_time.innerHTML = timeArr.data.two_seckill_start_time+" 开抢中 距离结束 "+(
+				(two_data.days > 0 ?two_data.days+"天":"") +
+				(two_data.hour < 10 ? "0"+two_data.hour : two_data.hour ) + ":" + (two_data.minute < 10 ? "0" + two_data.minute  : two_data.minute) + ":"+( two_data.second< 10 ?"0"+two_data.second:two_data.second)
+			)+"";
+			two_start_status = true;
+		}
+	}
+	oenStart();
+	one_outtime = setInterval(function(){
+		oenStart();
+	},1000);
 }
 </script>

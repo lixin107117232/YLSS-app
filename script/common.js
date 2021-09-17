@@ -1,4 +1,4 @@
-var https="https://service.shengshiyongle66.com/";
+var https="http://2018.cool/";
 
 function getUrl(){
   return https;

@@ -230,7 +230,7 @@
       }
       .yongle_bt{
         width:99%;
-        height:30px;
+        height:46px;
         margin:10px auto 0px;
         display: block;
         background: #fff;
@@ -249,7 +249,7 @@
       }
       .bt_1 p{
         display: inline;
-        font-size:12px;
+        font-size:14px;
         color:#faa060;
         padding-left: 5px;
       }
@@ -259,7 +259,7 @@
       .bt_2{
         font-size:12px;
         float:right;
-        line-height: 30px;
+        line-height:46px;
         margin-right: 3px;
         color:rgb(88, 88, 88);
       }
@@ -274,17 +274,21 @@
   </header>
   <div class="banner swiper-container"></div>
   <div class="scrolltab"></div>
-  <div class="yongle_bt">
-    <span class="bt_1">永乐抢购
-      <p id="header">
-      <script type="text/html" id="tpTime">
-      <b>今日抢购时间{{timeArr.one_seckill_start_time[0]}}:{{timeArr.one_seckill_start_time[1]}}</b>
-      <!-- {{if timeArr.thisindex==1}}
-      <b>今日抢购时间{{timeArr.one_seckill_start_time[0]}}:{{timeArr.one_seckill_start_time[1]}}</b>
-      {{else timeArr.thisindex==2}}
-      <b>今日抢购时间{{timeArr.two_seckill_start_time[0]}}:{{timeArr.two_seckill_start_time[1]}}</b>
-      {{/if}}  -->
-    </script>
+  <div class="yongle_bt" style="display:flex;">
+    <span class="bt_1" style="flex:1;display: flex;align-content:center;align-items:center;align-self:center;">
+		<div style="height:46px;line-height:46px;">永乐抢购</div>
+      <p id="header" style="flex:1;text-align:center;padding:0;">
+		<b id="show_time"></b>
+		<b id="one_seckill"></b><br />
+		<b id="two_seckill"></b>
+		<script type="text/html" id="tpTime">
+			  <b>今日抢购时间{{timeArr.one_seckill_start_time[0]}}:{{timeArr.one_seckill_start_time[1]}}</b>
+			  <!-- {{if timeArr.thisindex==1}}
+			  <b>今日抢购时间{{timeArr.one_seckill_start_time[0]}}:{{timeArr.one_seckill_start_time[1]}}</b>
+			  {{else timeArr.thisindex==2}}
+			  <b>今日抢购时间{{timeArr.two_seckill_start_time[0]}}:{{timeArr.two_seckill_start_time[1]}}</b>
+			  {{/if}}  -->
+		</script>
     </p>
     </span>
     <span class="bt_2" onclick="changehtml2('{{$value.id}}')">查看全部 ></span>
@@ -302,7 +306,7 @@
 <script type="text/javascript" src="../script/template-web.js"></script>
 <script type="text/javascript" src="../script/jquery-3.2.1.min.js"></script>
 <script type="text/javascript" src="../script/swiper-3.3.1.jquery.min.js"></script>
-
+<script type="text/javascript" src="../script/rolling_time.js"></script>
 <script type="text/html" id="tpbanner">
   <div class="swiper-wrapper">
     {{each list}}
@@ -540,6 +544,9 @@ function getTime() {
         } else {
           timeArr["thisindex"] = "none";
         }
+		timeArr['data'] = res.data;
+		console.log( timeArr )
+		$api.setStorage('miaoshaTime',timeArr);
         drawTime();
       }
     }, function (error) {
@@ -608,9 +615,87 @@ function detail(id){
     var html = template("tplist", {list:list,https:https});
     $api.html($api.dom(".list"),html);
   }
+  
+  var isDrawTime = false,one_start_status = false,two_start_status = false,one_end_status = false,two_end_status = false;
+  
+  
   function drawTime(){
-    var html = template("tpTime", {timeArr:timeArr,https:https,choseTab:choseTab});
-    $api.html($api.dom("#header"),html);
+    //var html = template("tpTime", {timeArr:timeArr,https:https,choseTab:choseTab});
+    //$api.html($api.dom("#header"),html);
+	// {{timeArr.one_seckill_start_time[0]}}:{{timeArr.one_seckill_start_time[1]}}
+	if(isDrawTime) return ;
+	isDrawTime = true;
+	var one_data = {},two_data = {},one_seckill = document.getElementById('one_seckill'),one_outtime =0,two_seckill = document.getElementById('two_seckill'),two_outtime =0;
+	var show_time = document.getElementById("show_time");
+	
+	function oneStart(){
+		one_data = countDown(timeArr.data.one_seckill_end_time);
+		two_data = countDown(timeArr.data.two_seckill_end_time);
+		if(
+			TimeStamp() < GiveTheSpecifiedTimeStamp(timeArr.data.one_seckill_start_time) &&
+			TimeStamp() > GiveTheSpecifiedTimeStamp(timeArr.data.two_seckill_end_time)
+		 ){
+			show_time.style.display = "none";
+			one_seckill.style.display = "";
+			two_seckill.style.display = "";
+			one_seckill.innerHTML = timeArr.data.one_seckill_start_time+" 即将开抢";
+			two_seckill.innerHTML = timeArr.data.two_seckill_start_time+" 明日开抢";
+			//show_time.innerHTML =  timeArr.data.one_seckill_start_time+" 明日开抢 "+ timeArr.data.two_seckill_start_time+" 即将开抢";
+		}else if(
+			TimeStamp() > GiveTheSpecifiedTimeStamp(timeArr.data.one_seckill_end_time) &&
+			TimeStamp() < GiveTheSpecifiedTimeStamp(timeArr.data.two_seckill_start_time)
+		 ){
+			show_time.style.display = "none";
+			one_seckill.style.display = "";
+			two_seckill.style.display = "";
+			one_seckill.innerHTML = timeArr.data.one_seckill_start_time+" 明日开抢";
+			two_seckill.innerHTML = timeArr.data.two_seckill_start_time+" 即将开抢";
+			//show_time.innerHTML =  timeArr.data.one_seckill_start_time+" 明日开抢 "+ timeArr.data.two_seckill_start_time+" 即将开抢";
+		}else if(
+			GiveTheSpecifiedTimeStamp(timeArr.data.one_seckill_start_time) > TimeStamp() &&
+			GiveTheSpecifiedTimeStamp(timeArr.data.two_seckill_start_time) > TimeStamp()
+		 ){
+			show_time.style.display = "none";
+			one_seckill.style.display = "";
+			two_seckill.style.display = "";
+			one_seckill.innerHTML = timeArr.data.one_seckill_start_time+" 即将开抢";
+			two_seckill.innerHTML = timeArr.data.two_seckill_start_time+" 即将开抢";
+			//show_time.innerHTML =  timeArr.data.one_seckill_start_time+" 即将开抢 "+ timeArr.data.two_seckill_start_time+" 即将开抢";
+		}else if(
+				TimeStamp() > GiveTheSpecifiedTimeStamp(timeArr.data.one_seckill_end_time) &&
+				TimeStamp() > GiveTheSpecifiedTimeStamp(timeArr.data.two_seckill_end_time)
+		){
+			show_time.style.display = "none";
+			one_seckill.style.display = "";
+			two_seckill.style.display = "";
+			one_seckill.innerHTML = timeArr.data.one_seckill_start_time+" 明日开抢";
+			two_seckill.innerHTML = timeArr.data.two_seckill_start_time+" 明日开抢";
+			//show_time.innerHTML =  timeArr.data.one_seckill_start_time+" 明日开抢 "+ timeArr.data.two_seckill_start_time+" 明日开抢";
+		}else if( one_data.days >= 0 && one_data.hour >= 0  && one_data.minute >= 0 && one_data.second > 0 ){
+			one_seckill.style.display = "none";
+			two_seckill.style.display = "none";
+			show_time.style.display = "";
+			show_time.innerHTML = timeArr.data.one_seckill_start_time+" 开抢中 距离结束 "+(
+				(one_data.days > 0 ?one_data.days+"天":"") +
+				(one_data.hour < 10 ?  "0"+one_data.hour  : one_data.hour ) + ":" + (one_data.minute < 10 ? "0" + one_data.minute  : one_data.minute) + ":"+(one_data.second<10?"0"+one_data.second:one_data.second)
+			)+"";
+		}else if( two_data.days >= 0 && two_data.hour >= 0  && two_data.minute >= 0 && two_data.second > 0 ){
+			one_seckill.style.display = "none";
+			two_seckill.style.display = "none";
+			show_time.style.display = "";
+			show_time.innerHTML = timeArr.data.two_seckill_start_time+" 开抢中 距离结束 "+(
+				(two_data.days > 0 ?two_data.days+"天":"") +
+				(two_data.hour < 10 ?  "0"+two_data.hour  : two_data.hour ) + ":" + (two_data.minute < 10 ?   "0"+two_data.minute : two_data.minute) + ":"+( two_data.second< 10 ?"0"+two_data.second:two_data.second)
+			)+"";
+		}
+	}
+	oneStart();
+	one_outtime = setInterval(function(){
+		oneStart();
+	},1000);
+	
+	//two_outtime = setInterval(function(){},1000);
+	
   }
   // 商品详情2
   function detail2(id){

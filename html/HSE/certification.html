@@ -113,10 +113,10 @@
   </header>
   <div class="group">
     <div class="item">
-      <input type="text" name="real_name" value="" placeholder="请输入真实姓名">
+      <input type="text" name="real_name" value="" placeholder="姓名" readonly="readonly">
     </div>
     <div class="item">
-      <input type="text" name="id_card" value="" placeholder="请输入身份证号码">
+      <input type="text" name="id_card" value="" placeholder="身份证号码" readonly="readonly">
     </div>
     <div class="cardbt">请上传身份证</div>
     <div class="itemcard df aic">
@@ -141,7 +141,7 @@
     $api.fixStatusBar( $api.dom('header') );
     var bodyTop = $api.offset($api.dom('header')).h;
     $api.css($api.dom('body'),'padding-top:'+bodyTop+'px');
-    getMsg()
+   getMsg()
   }
   // 上传图片
   function uploadpic(num){
@@ -227,29 +227,51 @@
     });
     //上传剪辑后的图像到服务器
     api.ajax({
-        url : https + '/api/common/upload',
+        url : https + '/api/user/UploadIdCard',
         method : 'post',
         headers: {
             'Token':$api.getStorage("token")
         },
         data : {
             files : {
-                file : path
+                file : path,
+            },
+            values:{
+              num:num
+
             }
         }
     }, function(ret, err) {
         console.log(JSON.stringify(ret));
-        // console.log(JSON.stringify(err));
+        console.log(JSON.stringify(err));
         api.hideProgress();
         if(ret.code==1){
           if(num==1){
             zmimg=ret.data.url;
             $api.attr($api.dom("#id_card_zm"), 'src', https+zmimg);
-          }else {
+            $api.val($api.dom("input[name='real_name']"), ret.data.real_name);
+            $api.val($api.dom("input[name='id_card']"), ret.data.id_card,);
+            api.toast({
+              msg : ret.msg,
+              duration : 3000,
+              location : 'bottom'
+          });
+          }else{
             fmimg=ret.data.url;
             $api.attr($api.dom("#id_card_fm"), 'src', https+fmimg);
+            api.toast({
+              msg : ret.msg,
+              duration : 3000,
+              location : 'bottom'
+          });
           }
-        }else {
+        }else if(ret.code==0) {
+          api.toast({
+              msg:ret.msg,
+              duration : 3000,
+              location : 'bottom'
+          });
+        }else{
           api.toast({
               msg : '上传错误',
               duration : 3000,
