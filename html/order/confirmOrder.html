@@ -1,0 +1,1017 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>云API</title>
+    <link rel="stylesheet" type="text/css" href="../../css/api.css"/>
+    <link rel="stylesheet" type="text/css" href="../../css/style.css"/>
+    <link rel="stylesheet" type="text/css" href="../../css/swiper-3.3.1.min.css"/>
+    <style>
+      body{
+        padding-top: 50px;
+        height: auto;
+        padding-bottom: 100px;
+      }
+      header{
+        width: 100%;
+        background: #fff;
+        position: fixed;
+        top: 0;
+        left: 0;
+        z-index: 9999;
+        font-size: 20px;
+        font-weight: bold;
+        line-height: 28px;
+        color: #000000;
+      }
+      header .ul{
+        width: calc(100% - 32px);
+        height: 40px;
+        box-sizing: border-box;
+        margin: auto;
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      header .toleft{
+        position: absolute;
+        left: 0;
+        top: 50%;
+        margin-top: -14px;
+        width: 28px;
+        height: 28px;
+      }
+      .addAddress{
+        width: calc(100% - 52px);
+        height: 49px;
+        background: #EFEFF4;
+        border-radius: 34px;
+        margin:20px auto;
+        font-size: 18px;
+        font-weight: 400;
+        color: #f57921;
+      }
+      .addAddress span{
+        font-size: 28px;
+        vertical-align: middle;
+        margin-right: 10px;
+      }
+      .addressmsg{
+        width: calc(100% - 32px);
+        margin:20px auto;
+      }
+      .addressmsg .addressmsg_l{
+        width: calc(100% - 40px);
+      }
+      .addressmsg .name{
+        font-size: 16px;
+        font-weight: bold;
+        line-height: 22px;
+        color: #000000;
+      }
+      .addressmsg .name span{
+        font-size: 14px;
+        font-weight: 400;
+        line-height: 20px;
+        color: #999999;
+        margin-left: 10px;
+      }
+      .addressmsg .address{
+        font-size: 14px;
+        font-weight: 400;
+        line-height: 20px;
+        color: #999999;
+        margin-top:10px
+      }
+      .addressmsg .toright{
+        width: 24px;
+        margin-right: 10px;
+      }
+      .noaddress .addressmsg{
+        display: none
+      }
+      .hasaddress .addAddress{
+        display: none
+      }
+      .noaddress .goods {
+        width:calc(100% - 32px);
+        height: 140px;
+        background: #FFFFFF;
+        box-shadow: 2px 3px 20px rgba(106, 80, 250, 0.08);
+        opacity: 1;
+        border-radius: 10px;
+        margin:20px auto;
+        padding: 0 24px;
+        box-sizing: border-box;
+      }
+      .hasaddress .goods{
+        width: 100%;
+        padding: 25px 16px;
+        box-sizing: border-box;
+        border: 1px solid #EFEFF4;
+        border-left: none;
+        border-right: none
+      }
+      .goods .goodsimg{
+        width: 104px;
+        height:104px;
+      }
+      .goods .goods_r{
+        width: calc(100% - 130px);
+        /*height: 80px;*/
+      }
+      .goods .goods_r .name{
+        font-size: 14px;
+        font-weight: 400;
+        line-height: 22px;
+        color: #000000;
+        margin-bottom: 5px;
+      }
+      .hasaddress .goods .name{
+        font-size: 18px;
+      }
+      .goods .goods_r .property{
+        font-size: 12px;
+        font-weight: 400;
+        line-height: 17px;
+        color: #999999;
+        margin-bottom: 5px;
+      }
+      .goods .goods_r .property span{
+        margin-right: 10px;
+      }
+      .goods .goods_r .jifen{
+        font-size: 12px;
+        font-weight: 400;
+        line-height: 24px;
+        color: #000000;
+      }
+      .goods .goods_r .jifen span{
+        font-size: 20px;
+        color: #f57921;
+        font-weight: normal;
+        margin-right: 6px;
+      }
+      .subtotal{
+        width: 100%;
+        height: 62px;
+        border-bottom: 1px solid #EFEFF4;
+        padding: 0 16px;
+        box-sizing: border-box;
+        font-size: 16px;
+        font-weight: 400;
+        color: #999999;
+      }
+      .subtotal .num{
+        font-size: 16px;
+        font-weight: 400;
+        line-height: 22px;
+        color: #000000;
+      }
+      .bottom{
+        width: 100%;
+        padding: 0 26px;
+        box-sizing: border-box;
+        position: fixed;
+        bottom: 33px;
+        left: 0;
+      }
+      .bottom .bottom_l{
+        font-size: 18px;
+        font-weight: 400;
+        line-height: 20px;
+        color: #000000;
+        display: none
+      }
+      .bottom .bottom_l span{
+        color: #f57921
+      }
+      .bottom .buybtn{
+        /*width: 140px;*/
+        width: 100%;
+        height: 49px;
+        background: linear-gradient(270deg, #faa060 0%, #ff6a00 100%);
+        border-radius: 34px;
+        font-size: 18px;
+        font-weight: 400;
+        line-height: 49px;
+        color: #FFFFFF;
+        text-align: center;
+      }
+      .paytype{
+        width: 100%;
+        padding: 0 16px;
+        box-sizing: border-box;
+      }
+      .paytype .bt{
+        font-size: 18px;
+        font-weight: bold;
+        line-height: 25px;
+        color: #000000;
+        margin-top: 22px;
+      }
+      .paytype .item{
+        width: 100%;
+        margin-top: 20px;
+        font-size: 14px;
+        font-weight: 400;
+        line-height: 20px;
+        color: #333333;
+      }
+      .paytype .item .paylogo{
+        width: 30px;
+        height: 30px;
+        margin-right: 15px;
+      }
+      .paytype .item .radiobox{
+        position: relative;
+        overflow: hidden;
+        margin-right: 6px;
+      }
+      .paytype .item .radiobox input[type="radio"]{
+        position: absolute;
+        opacity: 0;
+        width: 24px;
+        height: 24px;
+        border-radius: 50%;
+        z-index: 9;
+      }
+      .paytype .item .radiobox input[type="radio"] + label {
+        display: block;
+        width: 24px;
+        height: 24px;
+        background: #FFFFFF;
+        border: 1px solid #cccccc;
+        border-radius: 50%;
+        z-index: 1;
+        box-sizing: border-box;
+      }
+      .paytype .item .radiobox input[type="radio"]:checked + label {
+        border: none;
+        background:url("../../image/select@2x@3x.png");
+        background-size: 100%
+      }
+      .pop{
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.5);
+        position: fixed;
+        left: 0;
+        top: 0;
+      }
+      .pop .popmain{
+        width: 270px;
+        height: 313px;
+        background: #FFFFFF;
+        border-radius: 5px;
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        margin-left: -135px;
+        margin-top: -156px;
+        padding: 165px 24px 53px;
+        box-sizing: border-box;
+        background: url("../../image/paybg.png") no-repeat;
+        background-size: 100% 100%;
+      }
+      .pop .popmain input{
+        width: 222px;
+        height: 40px;
+        border: 1px solid #ababab;
+        padding: 0 10px;
+        box-sizing: border-box;
+        border-radius: 20px;
+        text-align: center;
+      }
+      .pop .popmain .iknonw{
+        width: 222px;
+        height: 40px;
+        background: linear-gradient(270deg, #faa060 0%, #ff6a00 100%);
+        border-radius: 34px;
+        text-align: center;
+        line-height: 40px;
+        font-size: 18px;
+        font-weight: 400;
+        color: #FFFFFF;
+        border-radius: 20px;
+      }
+      .hide{
+        display: none
+      }
+    </style>
+</head>
+<body>
+  <header>
+    <div class="ul">
+      <img src="../../image/toleft.png" alt="" class="toleft" onclick="toBack()">
+      <div class="title">确认订单</div>
+    </div>
+  </header>
+  <div id="content">
+  </div>
+  <div class="pop hide" onclick="hidepop()">
+    <div class="popmain df aic ffc jcsb" onclick="showpop(event)">
+      <input type="password" name="pay_pwd" value="" placeholder="请输入支付密码"/>
+      <div class="iknonw" onclick="pay()">确定</div>
+    </div>
+  </div>
+</body>
+</html>
+<script type="text/javascript" src="../../script/api.js"></script>
+<script type="text/javascript" src="../../script/common.js"></script>
+<script type="text/javascript" src="../../script/template-web.js"></script>
+<script type="text/html" id="tpgoods">
+  {{if froms=="beauty"}}
+  <!-- 医美订单 -->
+  <div class="hasaddress">
+    <div class="addressmsg df aic jcsb">
+      <div class="addressmsg_l">
+        <div class="name">使用地址：{{msg.shop_name.shop_name}} </div>
+      </div>
+    </div>
+    <div class="goods df aic jcsb">
+      <img src="{{msg.goods_data.cover_image}}" alt="" class="goodsimg">
+      <div class="goods_r">
+        <div class="name">{{msg.goods_data.name}}</div>
+        <div class="property">
+          <span>{{msg.sku_str}}</span>
+          <span>x{{msg.num}}</span>
+        </div>
+        <div class="jifen df aife">
+          ￥<span>{{msg.one_money}}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="subtotal df aic jcsb">
+    <div>商品小计</div>
+    <div class="num">￥{{msg.all_money}}</div>
+  </div>
+  <div class="paytype">
+    <div class="bt">支付方式</div>
+    <div class="item df aic jcsb" onclick="paytype(1)">
+      <div class="item_l df aic"><img src="../../image/balance@2x@3x.png" alt="" class="paylogo">余额支付</div>
+      <div class="radiobox">
+        <input name="paytype" type="radio" value="type1">
+        <label></label>
+      </div>
+    </div>
+    <div class="item df aic jcsb" onclick="paytype(3)">
+      <div class="item_l df aic"><img src="../../image/Alipay@2x@3x.png" alt="" class="paylogo">支付宝支付</div>
+      <div class="radiobox">
+        <input name="paytype" type="radio" value="type3">
+        <label></label>
+      </div>
+    </div>
+    <!-- <div class="item df aic jcsb"  onclick="paytype(2)">
+      <div class="item_l df aic"><img src="../../image/WeChat@2x@3x.png" alt="" class="paylogo">微信支付</div>
+      <div class="radiobox">
+        <input name="paytype" type="radio" value="type2">
+        <label></label>
+      </div>
+    </div> -->
+    <!-- <div class="item df aic jcsb">
+      <div class="item_l df aic"><img src="../../image/UnionPay@2x@3x.png" alt="" class="paylogo">银联支付</div>
+      <div class="radiobox">
+        <input name="paytype" type="radio">
+        <label></label>
+      </div>
+    </div> -->
+  </div>
+  <div class="bottom df aic jcsb">
+    <div class="bottom_l df aic">实付： <span>￥{{msg.all_money}}</span></div>
+    <div class="buybtn" onclick="paybtn()">去支付</div>
+  </div>
+  {{else if froms=="integral"}}
+  <!-- 积分订单 -->
+  <div class="{{if address && address.id}} hasaddress {{else}} noaddress {{/if}}">
+    {{if address && address.id}}
+    <div class="addressmsg df aic jcsb">
+      <div class="addressmsg_l">
+        <div class="name">{{address.name}} <span>{{address.phone}}</span></div>
+        <div class="address">{{address.province_city_area}} {{address.address}}</div>
+      </div>
+      <img src="../../image/toright1.png" alt=""  class="toright" onclick="choseAdd()">
+    </div>
+    {{else}}
+    <div class="addAddress df aic jcc" onclick="add_Address()">
+      <span>+</span>
+      添加新地址
+    </div>
+    {{/if}}
+    <div class="goods df aic jcsb">
+      <img src="{{msg.cover_image}}" alt="" class="goodsimg">
+      <div class="goods_r">
+        <div class="name">{{msg.name}}</div>
+        <div class="property">
+          <span>{{msg.sku_name}}</span>
+          <span>x{{msg.number}}</span>
+        </div>
+        <div class="jifen df aife">
+          <span>{{msg.num}}</span>积分
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="subtotal df aic jcsb">
+    <div>商品小计</div>
+    <div class="num">{{msg.all_money}}积分</div>
+  </div>
+  <div class="paytype">
+    <div class="bt">支付方式</div>
+    <div class="item df aic jcsb" onclick="paytype(0)">
+      <div class="item_l df aic"><img src="../../image/balance@2x@3x.png" alt="" class="paylogo">积分支付</div>
+      <div class="radiobox">
+        <input name="paytype" type="radio"  value="type0">
+        <label></label>
+      </div>
+    </div>
+    <!-- <div class="item df aic jcsb" onclick="paytype(1)">
+      <div class="item_l df aic"><img src="../../image/balance@2x@3x.png" alt="" class="paylogo">余额支付</div>
+      <div class="radiobox">
+        <input name="paytype" type="radio" value="type1">
+        <label></label>
+      </div>
+    </div>
+    <div class="item df aic jcsb" onclick="paytype(3)">
+      <div class="item_l df aic"><img src="../../image/Alipay@2x@3x.png" alt="" class="paylogo">支付宝支付</div>
+      <div class="radiobox">
+        <input name="paytype" type="radio" value="type3">
+        <label></label>
+      </div>
+    </div>
+    <div class="item df aic jcsb"  onclick="paytype(2)">
+      <div class="item_l df aic"><img src="../../image/WeChat@2x@3x.png" alt="" class="paylogo">微信支付</div>
+      <div class="radiobox">
+        <input name="paytype" type="radio" value="type2">
+        <label></label>
+      </div>
+    </div> -->
+    <!-- <div class="item df aic jcsb">
+      <div class="item_l df aic"><img src="../../image/UnionPay@2x@3x.png" alt="" class="paylogo">银联支付</div>
+      <div class="radiobox">
+        <input name="paytype" type="radio">
+        <label></label>
+      </div>
+    </div> -->
+  </div>
+  <div class="bottom df aic jcsb">
+    <!-- <div class="bottom_l df aic">实付： <span>1500积分</span></div> -->
+    <div class="bottom_l df aic">实付： <span>￥{{msg.all_money}}</span></div>
+    <div class="buybtn" onclick="paybtn()">去支付</div>
+  </div>
+  {{else if froms=="seckill"}}
+  <!-- 抢购订单 -->
+  <div class="{{if address && address.id}} hasaddress {{else}} noaddress {{/if}}">
+    {{if address && address.id}}
+    <div class="addressmsg df aic jcsb">
+      <div class="addressmsg_l">
+        <div class="name">{{address.name}} <span>{{address.phone}}</span></div>
+        <div class="address">{{address.province_city_area}} {{address.address}}</div>
+      </div>
+      <img src="../../image/toright1.png" alt=""  class="toright"  onclick="choseAdd()">
+    </div>
+    {{else}}
+    <div class="addAddress df aic jcc" onclick="add_Address()">
+      <span>+</span>
+      添加新地址
+    </div>
+    {{/if}}
+    <div class="goods df aic jcsb">
+      <img src="{{msg.cover_image}}" alt="" class="goodsimg">
+      <div class="goods_r">
+        <div class="name">{{msg.name}}</div>
+        <div class="property">
+          {{if msg.sku_name}}
+          <span>{{msg.sku_name}}</span>
+          {{/if}}
+          <span>x{{msg.number}}</span>
+        </div>
+        <div class="jifen df aife">
+          ￥<span>{{msg.price}}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="subtotal df aic jcsb">
+    <div>商品小计</div>
+    <div class="num">￥{{msg.all_money}}</div>
+  </div>
+  <div class="paytype">
+    <div class="bt">支付方式</div>
+    <div class="item df aic jcsb" onclick="paytype(1)">
+      <div class="item_l df aic"><img src="../../image/balance@2x@3x.png" alt="" class="paylogo">余额支付</div>
+      <div class="radiobox">
+        <input name="paytype" type="radio" value="type1">
+        <label></label>
+      </div>
+    </div>
+    <div class="item df aic jcsb" onclick="paytype(3)">
+      <div class="item_l df aic"><img src="../../image/Alipay@2x@3x.png" alt="" class="paylogo">支付宝支付</div>
+      <div class="radiobox">
+        <input name="paytype" type="radio" value="type3">
+        <label></label>
+      </div>
+    </div>
+    <!-- <div class="item df aic jcsb"  onclick="paytype(2)">
+      <div class="item_l df aic"><img src="../../image/WeChat@2x@3x.png" alt="" class="paylogo">微信支付</div>
+      <div class="radiobox">
+        <input name="paytype" type="radio" value="type2">
+        <label></label>
+      </div>
+    </div> -->
+    <!-- <div class="item df aic jcsb">
+      <div class="item_l df aic"><img src="../../image/UnionPay@2x@3x.png" alt="" class="paylogo">银联支付</div>
+      <div class="radiobox">
+        <input name="paytype" type="radio">
+        <label></label>
+      </div>
+    </div> -->
+  </div>
+  <div class="bottom df aic jcsb">
+    <!-- <div class="bottom_l df aic">实付： <span>1500积分</span></div> -->
+    <div class="bottom_l df aic">实付： <span>￥{{msg.all_money}}</span></div>
+    <div class="buybtn" onclick="paybtn()">去支付</div>
+  </div>
+  {{else if froms=="presell"}}
+  <!-- 预售订单 -->
+  <div class="{{if address && address.id}} hasaddress {{else}} noaddress {{/if}}">
+    {{if address && address.id}}
+    <div class="addressmsg df aic jcsb">
+      <div class="addressmsg_l">
+        <div class="name">{{address.name}} <span>{{address.phone}}</span></div>
+        <div class="address">{{address.province_city_area}} {{address.address}}</div>
+      </div>
+      <img src="../../image/toright1.png" alt=""  class="toright"  onclick="choseAdd()">
+    </div>
+    {{else}}
+    <div class="addAddress df aic jcc" onclick="add_Address()">
+      <span>+</span>
+      添加新地址
+    </div>
+    {{/if}}
+    <div class="goods df aic jcsb">
+      <img src="{{msg.goods_details.cover_image}}" alt="" class="goodsimg">
+      <div class="goods_r">
+        <div class="name">{{msg.goods_details.name}}</div>
+        <div class="property">
+          {{if msg.specs_name}}
+          <span>{{msg.specs_name}}</span>
+          {{/if}}
+          <span>x1</span>
+        </div>
+        <div class="jifen df aife">
+          ￥<span>{{msg.price}}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="subtotal df aic jcsb">
+    <div>商品小计</div>
+    <div class="num">￥{{msg.price}}</div>
+  </div>
+  <div class="paytype">
+    <div class="bt">支付方式</div>
+    <div class="item df aic jcsb" onclick="paytype(1)">
+      <div class="item_l df aic"><img src="../../image/balance@2x@3x.png" alt="" class="paylogo">余额支付</div>
+      <div class="radiobox">
+        <input name="paytype" type="radio" value="type1">
+        <label></label>
+      </div>
+    </div>
+    <div class="item df aic jcsb" onclick="paytype(3)">
+      <div class="item_l df aic"><img src="../../image/Alipay@2x@3x.png" alt="" class="paylogo">支付宝支付</div>
+      <div class="radiobox">
+        <input name="paytype" type="radio" value="type3">
+        <label></label>
+      </div>
+    </div>
+    <!-- <div class="item df aic jcsb"  onclick="paytype(2)">
+      <div class="item_l df aic"><img src="../../image/WeChat@2x@3x.png" alt="" class="paylogo">微信支付</div>
+      <div class="radiobox">
+        <input name="paytype" type="radio" value="type2">
+        <label></label>
+      </div>
+    </div> -->
+  </div>
+  <div class="bottom df aic jcsb">
+    <div class="bottom_l df aic">实付： <span>￥{{msg.price}}</span></div>
+    <div class="buybtn" onclick="paybtn()">去支付</div>
+  </div>
+  {{/if}}
+</script>
+<script type="text/javascript">
+  var order_no, msg, pay_method="", froms, scene, address, preid;
+  apiready = function () {
+    $api.fixStatusBar( $api.dom('header') );
+    var bodyTop = $api.offset($api.dom('header')).h;
+    $api.css($api.dom('body'),'padding-top:'+bodyTop+'px');
+
+    froms=api.pageParam.froms;
+    if(froms == "beauty"){
+      order_no = api.pageParam.order_no;
+      getOrder();
+    }else if (froms == "presell") {
+      preid=api.pageParam.id;
+      preorder();
+    }else {
+      scene=api.pageParam.scene;
+      purchase()
+    }
+    api.addEventListener({
+        name: 'orderrefresh'
+    }, function (ret, err) {
+      if(froms == "beauty"){
+        order_no = api.pageParam.order_no;
+        getOrder();
+      }else if (froms == "presell") {
+        preid=api.pageParam.id;
+        preorder();
+      }else {
+        scene=api.pageParam.scene;
+        purchase()
+      }
+    });
+  }
+  function add_Address(){
+    // 添加新地址
+    api.addEventListener({
+        name: 'addressback'
+    }, function (ret, err) {
+      getaddress();
+    });
+    api.openWin({
+        name: 'addAddress',
+        url: '../address/add.html',
+        pageParam:{
+          froms:"confirmOrder"
+        }
+    });
+  }
+  function choseAdd(){
+    api.addEventListener({
+        name: 'choseAddress'
+    }, function (ret, err) {
+        address=ret.value.address;
+        console.log(JSON.stringify(address));
+        draw();
+    });
+    api.openWin({
+        name: 'addresslist',
+        url: '../address/list.html',
+        pageParam:{
+          froms:"confirmOrder"
+        }
+    });
+  }
+  // 预购获取商品详情
+  function purchase(){
+    var url;
+    if(froms == "integral"){
+      url="/api/integral.goods/purchase";
+      data={
+        number:scene.num,
+        id:scene.goods_id,
+        sku_id:scene.sku_id
+      }
+    }else if (froms == "seckill") {
+      url="/api/seckill.goods/purchase";
+      data={
+        id:scene.goods_id,
+        sku_id:scene.sku_id
+      }
+    }
+    request2(url, "post", data, function(res){
+      // console.log(JSON.stringify(res.data))
+      if(res.code == 1){
+        msg=res.data;
+        getaddress();
+      }
+    },function(error){
+
+    })
+  }
+  function getaddress(){
+    request2("/api/user/getaddress", "post", {}, function(res){
+      // console.log(JSON.stringify(res.data))
+      if(res.code == 1){
+        address=res.data;
+        draw();
+      }
+    },function(error){
+
+    })
+  }
+  function draw(){
+    var html = template("tpgoods", {msg:msg, https:https, froms:froms, address:address});
+    $api.html($api.dom("#content"),html);
+  }
+  function hidepop(){
+    $api.addCls($api.dom(".pop"), 'hide');
+  }
+  function showpop(event){
+    event.stopPropagation();
+  }
+  function paytype(num){
+    $api.attr($api.dom("input[name='paytype'][value=type"+num+"]"), 'checked', true);
+    pay_method = parseInt(num);
+  }
+  var id_integrals, paylist;
+  // 点击支付按钮
+  function paybtn(){
+    console.log(pay_method);
+    if(pay_method === ""){
+      api.toast({
+        msg:"请选择支付方式",
+        location:"middle"
+      });
+      return false;
+    }
+    if(froms=="beauty"){
+      if(pay_method==1){
+        if(msg.user_pay_status==1){
+          $api.removeCls($api.dom(".pop"), 'hide');
+        }else {
+          api.confirm({
+              title: '提示',
+              msg: '您还未设置支付密码，去设置?',
+              buttons: ['取消', '确定']
+          }, function(ret, err) {
+              if(ret.buttonIndex==2){
+                api.openWin({
+                    name: 'psd_pay',
+                    url: 'widget://html/HSE/psd_pay.html'
+                });
+              }
+          });
+        }
+      }else {
+        var data={
+          id:msg.id,
+          order_no:order_no,
+          actual_money:msg.all_money,
+          pay_method:pay_method
+        }
+        // console.log(JSON.stringify(data));
+        request2("/api/hospital/pay_hospital_order", "post", data, function(res){
+          // console.log(JSON.stringify(res))
+          if(res.code == 1){
+            paylist=res.data.list;
+            pay();
+          }
+        },function(error){
+
+        })
+      }
+    }else if (froms=="integral") {
+      if(!address || !address.id){
+        // console.log(pay_method);
+        api.toast({
+          msg:"请填写收货地址！",
+          location:"middle"
+        });
+        return false;
+      }
+      if(pay_method==1 || pay_method==2 || pay_method==3){
+        api.openFrame({
+            name: 'toast',
+            url: '../component/tosat.html',
+            rect: {
+                x: 0,
+                y: 0,
+                w: api.winWidth,
+                h: api.winHeight
+            },
+            pageParam: {
+              msgtxt:"暂未开通此功能"
+            },
+            bounces: true,
+            bgColor: 'rgba(0,0,0,.2)',
+            vScrollBarEnabled: true,
+            hScrollBarEnabled: true
+        });
+        return false;
+      }
+
+      // 创建订单
+      var data={
+        id:scene.goods_id,
+        specs_id:scene.sku_id,
+        address_id:address.id,
+        num:scene.num,
+        pay_data:pay_method
+      }
+      // console.log(JSON.stringify(data));
+      request2("/api/integral.goods/exchange", "post", data, function(res){
+        // console.log(JSON.stringify(res))
+        if(res.code == 1){
+          id_integrals=res.data.id;
+          paylist=res.data.list;
+          $api.removeCls($api.dom(".pop"), 'hide');
+        }
+      },function(error){
+
+      })
+    }else if (froms=="seckill") {
+      if(!address || !address.id){
+        // console.log(pay_method);
+        api.toast({
+          msg:"请填写收货地址！",
+          location:"middle"
+        });
+        return false;
+      }
+      var data={
+        id:scene.goods_id,
+        specs_id:scene.sku_id?scene.sku_id:"",
+        address_id:address.id,
+        num:scene.num,
+        pay_data:pay_method,
+        play:scene.play
+      }
+      // console.log(JSON.stringify(data));
+      // console.log("秒杀");
+      request2("/api/seckill.goods/createOrder", "post", data, function(res){
+        // console.log(JSON.stringify(res))
+        if(res.code == 1){
+          id_integrals=res.data.id;
+          paylist=res.data.list;
+          if(pay_method==1 || pay_method==0){
+            $api.removeCls($api.dom(".pop"), 'hide');
+          }else {
+            pay();
+          }
+        }
+      },function(error){
+
+      })
+    }else if (froms=="presell") {
+      if(!address || !address.id){
+        // console.log(pay_method);
+        api.toast({
+          msg:"请填写收货地址！",
+          location:"middle"
+        });
+        return false;
+      }
+      var data={
+        id:preid,
+        address_id:address.id,
+        pay_data:pay_method
+      }
+      if(pay_method==1){
+        $api.removeCls($api.dom(".pop"), 'hide');
+      }else {
+        request2("/api/seckill.preorder/getOrder", "post", data, function(res){
+          console.log(JSON.stringify(res))
+          if(res.code == 1){
+            paylist=res.data.list;
+
+            var aliPayPlus = api.require('aliPayPlus');
+            aliPayPlus.payOrder({
+                orderInfo: paylist
+            }, function(ret, err) {
+                if(ret.code=="9000"){
+                  api.sendEvent({
+                      name: 'freshlist'
+                  });
+                  toBack()
+                }
+            });
+          }
+        },function(error){
+
+        })
+      }
+    }
+  }
+  function pay(){
+    if((pay_method==1 || pay_method==0) && !$api.val($api.dom("input[name='pay_pwd']"))){
+      api.toast({
+        msg:"请输入支付密码",
+        location:"middle"
+      });
+      return false;
+    }else if (pay_method==3) {
+      //支付宝支付
+      var aliPayPlus = api.require('aliPayPlus');
+      aliPayPlus.payOrder({
+          orderInfo: paylist
+      }, function(ret, err) {
+          if(ret.code=="9000"){
+            tosuccess()
+          }
+      });
+      return false;
+    }
+    if(froms=="beauty"){
+      request2("/api/hospital/pay_hospital_order", "post", {
+        id:msg.id,
+        order_no:order_no,
+        actual_money:msg.all_money,
+        pay_method:pay_method,
+        pay_pwd:pay_method==1?$api.val($api.dom("input[name='pay_pwd']")):"",
+      }, function(res){
+        // console.log(JSON.stringify(res))
+        if(res.code == 1){
+          tosuccess()
+        }
+      },function(error){
+
+      })
+    }else if (froms=="integral"){
+      request2("/api/integral.Exchange/pay", "post", {
+        id:id_integrals,
+        pay_pwd:(pay_method==1 || pay_method==0)?$api.val($api.dom("input[name='pay_pwd']")):"",
+      }, function(res){
+        // console.log(JSON.stringify(res))
+        if(res.code == 1){
+          tosuccess()
+        }
+      },function(error){
+
+      })
+    }else if (froms=="seckill"){
+      request2("/api/seckill.order/pay", "post", {
+        id:id_integrals,
+        pay_pwd:(pay_method==1 || pay_method==0)?$api.val($api.dom("input[name='pay_pwd']")):"",
+      }, function(res){
+        // console.log(JSON.stringify(res))
+        if(res.code == 1){
+          tosuccess()
+        }
+      },function(error){
+
+      })
+    }else if (froms=="presell"){
+      var data={
+        id:preid,
+        address_id:address.id,
+        pay_data:pay_method,
+        pay_pwd:(pay_method==1 || pay_method==0)?$api.val($api.dom("input[name='pay_pwd']")):""
+      }
+      request2("/api/seckill.preorder/getOrder", "post", data, function(res){
+        // console.log(JSON.stringify(res))
+        if(res.code == 1){
+          api.sendEvent({
+              name: 'freshlist'
+          });
+          toBack()
+        }
+      },function(error){
+
+      })
+    }
+  }
+  function tosuccess(){
+    api.openWin({
+        name: 'paysuccess',
+        url: 'paySuccess.html',
+        pageParam:{
+          froms:froms
+        }
+    });
+    api.closeWin({name: 'confirmOrder'});
+  }
+  function getOrder(){
+    request2("/api/hospital/select_hospital_order", "post", {
+      order_no:order_no
+    }, function(res){
+      if(res.code == 1){
+        console.log(JSON.stringify(res.data));
+        msg=res.data;
+        var html = template("tpgoods", {msg:msg, https:https,froms:froms});
+        $api.html($api.dom("#content"),html);
+      }
+    },function(error){
+
+    })
+  }
+  // 获取预售订单
+  function preorder(){
+    request2("/api/seckill.preorder/firstClick", "post", {
+      id:preid
+    }, function(res){
+      if(res.code == 1){
+        console.log(JSON.stringify(res.data));
+        msg=res.data;
+        var html = template("tpgoods", {msg:msg, https:https,froms:froms});
+        $api.html($api.dom("#content"),html);
+        getaddress();
+      }
+    },function(error){
+
+    })
+  }
+  function toBack(){
+    api.historyBack({
+    },function(ret,err){
+        if (!ret.status) {
+          api.closeWin();
+        }
+    });
+  }
+</script>

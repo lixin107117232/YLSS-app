@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>物流信息</title>
+    <link rel="stylesheet" type="text/css" href="../../css/api.css"/>
+    <link rel="stylesheet" type="text/css" href="../../css/style.css"/>
+    <link rel="stylesheet" type="text/css" href="../../css/swiper-3.3.1.min.css"/>
+    <style>
+      body{
+        padding-top: 50px;
+        height: auto;
+        padding-bottom: 50px;
+      }
+      header{
+        width: 100%;
+        height: 50px;
+        background: #fff;
+        position: fixed;
+        top: 0;
+        left: 0;
+        z-index: 9999;
+        font-size: 20px;
+        font-weight: bold;
+        line-height: 28px;
+        color: #000000;
+      }
+      header .ul{
+        width: calc(100% - 32px);
+        margin: auto;
+        height: 40px;
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      header .toleft{
+        position: absolute;
+        left: 0;
+        top: 50%;
+        margin-top: -14px;
+        width: 28px;
+        height: 28px;
+      }
+      .infoSign{
+        width: calc(100% - 32px);
+        margin: auto;
+        background: #EFEFF4;
+        border-radius: 10px;
+        margin-bottom: 25px;
+        padding: 10px;
+        box-sizing: border-box;
+      }
+      .infoSign .bt{
+        font-size: 16px;
+        font-weight: bold;
+        line-height: 22px;
+        color: #000000;
+        margin-bottom: 10px;
+      }
+      .infoSign .info{
+        font-size: 14px;
+        font-weight: 400;
+        line-height: 24px;
+        color: #000000;
+      }
+      .listtitle{
+        width: calc(100% - 30px);
+        margin: auto;
+        font-size: 16px;
+        font-weight: bold;
+        line-height: 22px;
+        color: #000000;
+        margin-bottom: 10px
+      }
+      .infoSign .msg{
+        font-size: 14px;
+        font-weight: 400;
+        line-height: 25px;
+      }
+      .list .item{
+        width: calc(100% - 30px);
+        margin: auto;
+        margin-bottom: 70px;
+        position: relative;
+      }
+      .list .item:after{
+        content: " ";
+        display: block;
+        width: 0px;
+        height: 45px;
+        border: 2px solid #000000;
+        position: absolute;
+        left: 40px;
+        bottom: -60px;
+      }
+      .list .item:last-child::after{
+        display: none
+      }
+      .list .item .timebox{
+        width: 80px;
+        text-align: center;
+      }
+      .list .item .timebox .time{
+        font-size: 20px;
+        font-family: "苹方";
+        font-weight: bold;
+        line-height: 24px;
+        color: #000000;
+        margin-bottom: 10px
+      }
+      .list .item .timebox .date{
+        font-size: 12px;
+        font-weight: 400;
+        line-height: 17px;
+        color: #999999;
+      }
+      .list .item .item_msg{
+        width: calc(100% - 100px);
+        font-size: 12px;
+        font-weight: 400;
+        line-height: 17px;
+        color: #000000;
+      }
+    </style>
+</head>
+<body>
+  <header>
+    <div class="ul">
+      <img src="../../image/toleft.png" alt="" class="toleft" onclick="toBack()">
+      <div class="title">物流信息</div>
+    </div>
+  </header>
+  <div id="contetn">
+
+  </div>
+</body>
+</html>
+<script type="text/javascript" src="../../script/api.js"></script>
+<script type="text/javascript" src="../../script/common.js"></script>
+<script type="text/javascript" src="../../script/template-web.js"></script>
+<script type="text/html" id="tpinfoSign">
+  <div class="infoSign">
+    {{if top.state == "1"}}
+    <div class="bt">揽收</div>
+    {{else if top.state == "2"}}
+    <div class="bt">疑难</div>
+    {{else if top.state == "3"}}
+    <div class="bt">签收</div>
+    {{else if top.state == "4"}}
+    <div class="bt">退签</div>
+    {{else if top.state == "5"}}
+    <div class="bt">派件</div>
+    {{else if top.state == "6"}}
+    <div class="bt">退回</div>
+    {{else if top.state == "7"}}
+    <div class="bt">转单</div>
+    {{else if top.state == "10"}}
+    <div class="bt">待清关</div>
+    {{else if top.state == "11"}}
+    <div class="bt">清关中</div>
+    {{else if top.state == "12"}}
+    <div class="bt">已清关</div>
+    {{else if top.state == "13"}}
+    <div class="bt">清关异常</div>
+    {{else if top.state == "14"}}
+    <div class="bt">收件人拒签</div>
+    {{else if top.state == "0"}}
+    <div class="bt">运输中</div>
+    {{/if}}
+    <div class="info">
+      <div>承运来源：{{top.company_name}}</div>
+      <div>运单编号：{{top.numbers}}</div>
+    </div>
+  </div>
+  <div class="listtitle">物流详情：</div>
+  <div class="list">
+    {{each list}}
+    <div class="item df aic jcsb">
+      <div class="timebox">
+        <!-- <div class="time">12：47</div> -->
+        <div class="date">{{$value.ftime}}</div>
+      </div>
+      <div class="item_msg">{{$value.context}}</div>
+    </div>
+    {{/each}}
+  </div>
+</script>
+<script type="text/javascript">
+  apiready = function () {
+    $api.fixStatusBar( $api.dom('header') );
+    var bodyTop = $api.offset($api.dom('header')).h;
+    $api.css($api.dom('body'),'padding-top:'+bodyTop+'px');
+    getMsg();
+  }
+  function getMsg(){
+    request2("/api/integral.Exchange/companyDetails", "post", {
+      id:api.pageParam.order_id,
+      type:api.pageParam.froms=="integral"?1:2
+    }, function(res){
+      console.log(JSON.stringify(res.data));
+      if(res.code == 1){
+        var html = template("tpinfoSign", {list:res.data.list, top:res.data.top});
+        $api.html($api.dom("#contetn"),html);
+      }
+    },function(error){
+
+    })
+  }
+  function toBack(){
+    api.historyBack({
+    },function(ret,err){
+        if (!ret.status) {
+          api.closeWin();
+        }
+    });
+  }
+</script>

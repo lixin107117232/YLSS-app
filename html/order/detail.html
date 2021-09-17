@@ -1,0 +1,866 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>兑换订单</title>
+    <link rel="stylesheet" type="text/css" href="../../css/api.css"/>
+    <link rel="stylesheet" type="text/css" href="../../css/style.css"/>
+    <link rel="stylesheet" type="text/css" href="../../css/swiper-3.3.1.min.css"/>
+    <style>
+      body{
+        padding-top: 50px;
+        height: auto;
+        padding-bottom: 50px;
+      }
+      header{
+        width: 100%;
+        background: #fff;
+        position: fixed;
+        top: 0;
+        left: 0;
+        z-index: 9999;
+        font-size: 20px;
+        font-weight: bold;
+        line-height: 28px;
+        color: #000000;
+      }
+      header .ul{
+        width: calc(100% - 32px);
+        height: 40px;
+        box-sizing: border-box;
+        margin: auto;
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      header .toleft{
+        position: absolute;
+        left: 0;
+        top: 50%;
+        margin-top: -14px;
+        width: 28px;
+        height: 28px;
+      }
+      .status{
+        width: calc(100% - 32px);
+        height: 70px;
+        background: #EFEFF4;
+        border-radius: 10px;
+        margin:10px auto;
+        padding:  0 18px;
+        box-sizing: border-box;
+        font-size: 20px;
+        font-weight: bold;
+        line-height: 28px;
+        color: #000000;
+      }
+      .status .statusimg{
+        max-width:36px;
+        max-height: 36px;
+      }
+      .goods{
+        width: 100%;
+        padding: 25px 16px 0;
+        box-sizing: border-box;
+        /*border-bottom: 1px solid #EFEFF4;*/
+        border-left: none;
+        border-right: none
+      }
+      .goods .goodsimg{
+        width: 120px;
+        height:100px;
+      }
+      .goods .goods_r{
+        width: calc(100% - 145px);
+        /*height: 80px;*/
+      }
+      .goods .goods_r .name{
+        font-size: 18px;
+        font-weight: 400;
+        line-height: 22px;
+        color: #000000;
+        margin-bottom: 10px;
+      }
+      .goods .goods_r .property{
+        font-size: 14px;
+        font-weight: 400;
+        line-height: 17px;
+        color: #999999;
+        margin-bottom: 10px;
+      }
+      .goods .goods_r .property span{
+        margin-right: 10px;
+      }
+      .goods .goods_r .jifen{
+        font-size: 14px;
+        font-weight: 400;
+        height: 36px;
+        line-height: 36px;
+        color: #999;
+      }
+      .goods .goods_r .jifen span{
+        font-size: 20px;
+        color: #000;
+        font-weight: bold;
+        margin-right: 6px;
+      }
+      .control{
+        margin-top: 10px;
+        width: 100%;
+        padding: 0 16px 15px;
+        box-sizing: border-box;
+        border-bottom: 1px solid #EFEFF4;
+      }
+      .control .btn{
+        width: 80px;
+        height: 35px;
+        background: #EFEFF4;
+        border-radius: 25px;
+        font-size: 12px;
+        font-weight: 400;
+        line-height: 35px;
+        color: #999999;
+        text-align: center;
+        margin-left: 20px;
+      }
+      .control .btn.btn01{
+        background: #f57921;
+        color: #FFFFFF;
+      }
+      .consignee, .ordermsg{
+        border-bottom: 1px solid #f4f4f4;
+        padding: 20px 16px;
+        box-sizing: border-box;
+      }
+      .consignee .bt, .ordermsg .bt{
+        font-size: 18px;
+        font-weight: bold;
+        line-height: 25px;
+        color: #000000;
+        margin-bottom: 15px
+      }
+      .consignee .name{
+        font-size: 14px;
+        font-weight: 400;
+        line-height: 20px;
+        color: #777777;
+      }
+      .consignee .name span{
+        font-size: 14px;
+        font-weight: bold;
+        line-height: 20px;
+        color: #000000;
+        margin-right: 20px;
+        margin-bottom: 12px;
+      }
+      .consignee .address{
+        font-size: 14px;
+        font-weight: 400;
+        line-height: 20px;
+        color: #777777;
+      }
+      .ordermsg .item{
+        width: 100%;
+        display: flex;
+        align-items: center;
+        margin-bottom: 10px;
+      }
+      .ordermsg .item .labels{
+        font-size: 14px;
+        font-weight: 400;
+        line-height: 20px;
+        color: #999999;
+        width: 75px;
+      }
+      .ordermsg .item .vals{
+        font-size: 14px;
+        font-weight: 400;
+        line-height: 20px;
+        color: #000000;
+      }
+      .ifunpaid{
+        padding: 20px 16px;
+        box-sizing: border-box;
+        text-align: right;
+        font-size: 16px;
+        font-weight: bold;
+        line-height: 22px;
+        color: #f57921;
+      }
+      .qrcode{
+        width: 100%;
+        margin-top: 50px;
+      }
+      .qrcode img{
+        width: 160px;
+        height: 160px;
+        background: #FFFFFF;
+        border: 10px solid #EFEFF4;
+        border-radius: 10px;
+      }
+      .savebtn{
+        width: 200px;
+        height: 49px;
+        background: linear-gradient(270deg, #faa060 0%, #ff6a00 100%);
+        border-radius: 34px;
+        margin:30px auto;
+        font-size: 18px;
+        font-weight: 400;
+        line-height: 49px;
+        color: #FFFFFF;
+        text-align: center;
+      }
+      /*.control{
+        width: 100%;
+        height: 35px;
+        margin: 30px auto;
+      }
+      .control .btn{
+        width: 150px;
+        height: 49px;
+        background: #EFEFF4;
+        border-radius: 25px;
+        font-size: 18px;
+        font-weight: 400;
+        line-height: 49px;
+        color: #999999;
+        text-align: center;
+        margin-left: 20px;
+      }
+      .control .btn.btn01{
+        background: linear-gradient(270deg, #f57921 0%, #3755FF 100%);
+        color: #FFFFFF;
+      }*/
+      .pop{
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.5);
+        position: fixed;
+        left: 0;
+        top: 0;
+      }
+      .pop .popmain{
+        width: 270px;
+        height: 160px;
+        background: #FFFFFF;
+        border-radius: 5px;
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        margin-left: -135px;
+        margin-top: -80px;
+        padding: 23px 35px;
+        box-sizing: border-box;
+      }
+      .pop .popmain input{
+        width: 200px;
+        height: 40px;
+        border: 1px solid #ababab;
+        padding: 0 10px;
+        box-sizing: border-box;
+      }
+      .pop .popmain .iknonw{
+        width: 200px;
+        height: 40px;
+        background: linear-gradient(270deg, #faa060 0%, #ff6a00 100%);
+        border-radius: 34px;
+        text-align: center;
+        line-height: 40px;
+        font-size: 18px;
+        font-weight: 400;
+        color: #FFFFFF;
+      }
+      .hide{
+        display: none
+      }
+    </style>
+</head>
+<body>
+  <header>
+    <div class="ul">
+      <img src="../../image/toleft.png" alt="" class="toleft" onclick="toBack()">
+      <div class="title">订单详情</div>
+    </div>
+  </header>
+  <div id="content">
+  </div>
+  <div class="pop hide" onclick="hidepop()">
+    <div class="popmain df aic ffc jcsb" onclick="showpop(event)">
+      <input type="password" name="pay_pwd" value="" placeholder="请输入支付密码"/>
+      <div class="iknonw" onclick="pay2()">确定</div>
+    </div>
+  </div>
+</body>
+</html>
+<script type="text/javascript" src="../../script/api.js"></script>
+<script type="text/javascript" src="../../script/common.js"></script>
+<script type="text/javascript" src="../../script/template-web.js"></script>
+<script type="text/html" id="tpMsg">
+  {{if froms == "beauty"}}
+  <!-- 医美订单 -->
+  <div class="status df aic jcsb">
+    {{if msg.status==1}}
+    <div class="statusname">待使用</div>
+    <img src="../../image/or_status02.png" class="statusimg" alt="">
+    {{else if msg.status==2}}
+    <div class="statusname">已完成</div>
+    <img src="../../image/or_status03.png" class="statusimg" alt="">
+    {{else if msg.status==0}}
+    {{if msg.over_status==1}}
+    <div class="statusname" style="color:#999">已过期</div>
+    {{else}}
+    <div class="statusname">待付款</div>
+    <img src="../../image/or_status01.png" class="statusimg" alt="">
+    {{/if}}
+    {{/if}}
+  </div>
+  <div class="ordermsg" onclick="toMap('{{msg.shop_data.latitude}}','{{msg.shop_data.longitude}}')">
+    使用地址：{{msg.shop_data.location}}
+  </div>
+  <div class="goods df aic jcsb">
+    <img src="{{msg.hospital_goods_cover_image}}" alt="" class="goodsimg">
+    <div class="goods_r">
+      <div class="name">{{msg.hospital_goods_name}}</div>
+      <div class="property">
+        <span>{{msg.sku_str}}</span>
+        <span>x{{msg.num}}</span>
+      </div>
+      <div class="jifen df aife">
+        ￥<span>{{msg.one_money}}</span>
+      </div>
+    </div>
+  </div>
+  <div class="control df aic jcfe">
+    {{if msg.status==0 && msg.over_status != 1}}
+    <div class="btn" onclick="cancle()">取消订单</div>
+    <div class="btn btn01" onclick="pay()">去支付</div>
+    {{/if}}
+  </div>
+  <div class="ordermsg">
+    <div class="bt">订单信息</div>
+    <div class="item">
+      <div class="labels">商品总价</div>
+      <div class="vals">￥{{msg.all_money}}</div>
+    </div>
+    {{if msg.status != 0}}
+    <div class="item hide">
+      <div class="labels">实付金额</div>
+      <div class="vals">￥{{msg.actual_money}}</div>
+    </div>
+    {{/if}}
+    <div class="item">
+      <div class="labels">订单号</div>
+      <div class="vals">{{msg.order_no}}</div>
+    </div>
+    <div class="item">
+      <div class="labels">创建时间</div>
+      <div class="vals">{{msg.createtime}}</div>
+    </div>
+    {{if msg.status!=0}}
+    <div class="item">
+      <div class="labels">付款时间</div>
+      <div class="vals">{{msg.paytime}} </div>
+    </div>
+    {{/if}}
+  </div>
+  {{else if froms=="integral"}}
+  <!-- 积分订单 -->
+  <div class="status df aic jcsb">
+    {{if msg.status==3}}
+    <div class="statusname">待发货</div>
+    <img src="../../image/or_status02.png" class="statusimg" alt="">
+    {{else if msg.status==4}}
+    <div class="statusname">待收货</div>
+    <img src="../../image/or_status03.png" class="statusimg" alt="">
+    {{else if msg.status==5}}
+    <div class="statusname">已收货</div>
+    {{else if msg.status==2}}
+    <div class="statusname">已取消</div>
+    {{else if msg.status==0}}
+    {{if msg.over_status==1}}
+    <div class="statusname" style="color:#999">已过期</div>
+    {{else}}
+    <div class="statusname">待付款</div>
+    <img src="../../image/or_status01.png" class="statusimg" alt="">
+    {{/if}}
+    {{/if}}
+  </div>
+  <div class="goods df aic jcsb">
+    <img src="{{msg.goods_details.cover_image}}" alt="" class="goodsimg">
+    <div class="goods_r">
+      <div class="name">{{msg.goods_details.name}}</div>
+      <div class="property">
+        <span>{{msg.specs_name}}</span>
+        <span>x{{msg.num}}</span>
+      </div>
+      <div class="jifen df aife">
+        <span>{{msg.all_money}}</span>
+      </div>
+    </div>
+  </div>
+  <div class="control df aic jcfe">
+    {{if msg.status==0 && msg.over_status != 1}}
+    <div class="btn" onclick="cancle()">取消订单</div>
+    <div class="btn btn01" onclick="pay1(event,'{{msg.pay_data}}')">去支付</div>
+    {{/if}}
+    {{if msg.status == 4}}
+    <div class="btn" onclick="logistics()">查看物流</div>
+    <div class="btn btn01" onclick="receive()">确认收货</div>
+    {{/if}}
+  </div>
+  <div class="consignee">
+    <div class="bt">收件人信息</div>
+    <div class="name">
+      <span>{{msg.address.name}}</span>
+      {{msg.address.phone}}
+    </div>
+    <div class="address">{{msg.address.province_city_area+msg.address.address}}</div>
+  </div>
+  <div class="ordermsg">
+    <div class="bt">订单信息</div>
+    <div class="item">
+      <div class="labels">商品总价</div>
+      <div class="vals">{{msg.all_money}}</div>
+    </div>
+    <div class="item hide">
+      <div class="labels">实付金额</div>
+      {{if msg.status==0}}
+      <div class="vals">未支付</div>
+      {{else}}
+      <div class="vals">{{msg.actual_money}}</div>
+      {{/if}}
+    </div>
+    <div class="item">
+      <div class="labels">订单号</div>
+      <div class="vals">{{msg.out_trade_no}}</div>
+    </div>
+    <div class="item">
+      <div class="labels">快递单号</div>
+      <div class="vals">{{msg.numbers}}</div>
+    </div>
+    <div class="item">
+      <div class="labels">创建时间</div>
+      <div class="vals">{{msg.createtime}}</div>
+    </div>
+    {{if msg.paytime}}
+    <div class="item">
+      <div class="labels">付款时间</div>
+      <div class="vals">{{msg.paytime}}</div>
+    </div>
+    {{/if}}
+  </div>
+  {{if msg.status==0 && msg.over_status!=1}}
+  <div class="ifunpaid">待支付：￥{{msg.all_money}}</div>
+  {{/if}}
+  {{else if froms=="seckill"}}
+  <!-- 抢购订单 -->
+  <div class="status df aic jcsb">
+    {{if msg.status==3}}
+    <div class="statusname">待发货</div>
+    <img src="../../image/or_status02.png" class="statusimg" alt="">
+    {{else if msg.status==4}}
+    <div class="statusname">待收货</div>
+    <img src="../../image/or_status03.png" class="statusimg" alt="">
+    {{else if msg.status==5}}
+    <div class="statusname">已收货</div>
+    {{else if msg.status==2}}
+    <div class="statusname">已取消</div>
+    {{else if msg.status==6}}
+    <div class="statusname">维权订单</div>
+    {{else if msg.status==7}}
+    <div class="statusname">待选择</div>
+    {{else if msg.status==8}}
+    <div class="statusname">已完成</div>
+    {{else if msg.status==0}}
+    {{if msg.over_status==1}}
+    <div class="statusname" style="color:#999">已过期</div>
+    {{else}}
+    <div class="statusname">待付款</div>
+    <img src="../../image/or_status01.png" class="statusimg" alt="">
+    {{/if}}
+    {{/if}}
+  </div>
+  <div class="goods df aic jcsb">
+    <img src="{{msg.goods_details.cover_image}}" alt="" class="goodsimg">
+    <div class="goods_r">
+      <div class="name">{{msg.goods_details.name}}</div>
+      <div class="property">
+        <span>{{msg.specs_name}}</span>
+        <span>x{{msg.num}}</span>
+      </div>
+      <div class="jifen df aife">
+        ￥<span>{{msg.all_money}}</span>
+      </div>
+    </div>
+  </div>
+  <div class="control df aic jcfe">
+    {{if msg.status==0 && msg.over_status != 1}}
+    <div class="btn" onclick="cancle()">取消订单</div>
+    <div class="btn btn01"  onclick="pay1(event,'{{msg.pay_data}}')">去支付</div>
+    {{/if}}
+    {{if msg.status == 4}}
+    <div class="btn" onclick="logistics()">查看物流</div>
+    <div class="btn btn01" onclick="receive()">确认收货</div>
+    {{/if}}
+  </div>
+  {{if msg.address && msg.address.name}}
+  <div class="consignee">
+    <div class="bt">收件人信息</div>
+    <div class="name">
+      <span>{{msg.address.name}}</span>
+      {{msg.address.phone}}
+    </div>
+    <div class="address">{{msg.address.province_city_area+msg.address.address}}</div>
+  </div>
+  {{/if}}
+  <div class="ordermsg">
+    <div class="bt">订单信息</div>
+    <div class="item">
+      <div class="labels">商品总价</div>
+      <div class="vals">￥{{msg.all_money}}</div>
+    </div>
+    <div class="item hide">
+      <div class="labels">实付金额</div>
+      {{if msg.status==0}}
+      <div class="vals">未支付</div>
+      {{else}}
+      <div class="vals">￥{{msg.actual_money}}</div>
+      {{/if}}
+    </div>
+    <div class="item">
+      <div class="labels">订单号</div>
+      <div class="vals">{{msg.out_trade_no}}</div>
+    </div>
+    <div class="item">
+      <div class="labels">快递单号</div>
+      <div class="vals">{{msg.numbers}}</div>
+    </div>
+    <div class="item">
+      <div class="labels">创建时间</div>
+      <div class="vals">{{msg.createtime}}</div>
+    </div>
+    {{if msg.paytime}}
+    <div class="item">
+      <div class="labels">付款时间</div>
+      <div class="vals">{{msg.paytime_text}}</div>
+    </div>
+    {{/if}}
+  </div>
+  {{if msg.status==0 && msg.over_status!=1}}
+  <div class="ifunpaid">待支付：￥{{msg.all_money}}</div>
+  {{/if}}
+  {{else if froms=="presell"}}
+  <!-- 预售订单 -->
+  <div class="status df aic jcsb">
+    {{if msg.status==2}}
+    <div class="statusname">已取消</div>
+    {{else if msg.status==1}}
+    <div class="statusname">已完成</div>
+    {{else if msg.status==3}}
+    <div class="statusname">待预售</div>
+    {{else if msg.status==0}}
+    {{if msg.over_status==1}}
+    <div class="statusname" style="color:#999">已过期</div>
+    {{else}}
+    <div class="statusname">待付款</div>
+    <img src="../../image/or_status01.png" class="statusimg" alt="">
+    {{/if}}
+    {{/if}}
+  </div>
+  <div class="goods df aic jcsb">
+    <img src="{{msg.goods_details.cover_image}}" alt="" class="goodsimg">
+    <div class="goods_r">
+      <div class="name">{{msg.goods_details.name}}</div>
+      <div class="property">
+        <span>x1</span>
+      </div>
+      <div class="jifen df aife">
+        ￥<span>{{msg.price}}</span>
+      </div>
+    </div>
+  </div>
+  <div class="control df aic jcfe">
+    {{if msg.status==0 && msg.over_status != 1}}
+    <div class="btn btn01" onclick="pay()">去支付</div>
+    {{/if}}
+  </div>
+  <div class="ordermsg">
+    <div class="bt">订单信息</div>
+    <div class="item">
+      <div class="labels">商品总价</div>
+      <div class="vals">￥{{msg.price}}</div>
+    </div>
+    <div class="item hide">
+      <div class="labels">实付金额</div>
+      {{if msg.actual_money}}
+      <div class="vals">￥{{msg.actual_money}}</div>
+      {{else}}
+      <div class="vals">未支付</div>
+      {{/if}}
+    </div>
+    {{if msg.out_trade_no}}
+    <div class="item">
+      <div class="labels">订单号</div>
+      <div class="vals">{{msg.out_trade_no}}</div>
+    </div>
+    {{/if}}
+    <div class="item">
+      <div class="labels">创建时间</div>
+      <div class="vals">{{msg.createtime}}</div>
+    </div>
+    {{if msg.paytime}}
+    <div class="item">
+      <div class="labels">付款时间</div>
+      <div class="vals">{{msg.paytime}}</div>
+    </div>
+    {{/if}}
+  </div>
+  {{if msg.status==0 && msg.over_status!=1}}
+  <div class="ifunpaid">待支付：￥{{msg.price}}</div>
+  {{/if}}
+  {{/if}}
+  <!-- <div class="qrcode df aic jcc">
+    <img src="../../image/qrcode.png" alt="">
+  </div>
+  <div class="savebtn">保存到相册</div> -->
+  <!-- <div class="control df aic jcsa">
+    <div class="btn">取消订单</div>
+    <div class="btn btn01">去支付</div>
+  </div> -->
+</script>
+<script type="text/javascript">
+  var order_id, msg, froms;
+  apiready = function () {
+    $api.fixStatusBar( $api.dom('header') );
+    var bodyTop = $api.offset($api.dom('header')).h;
+    $api.css($api.dom('body'),'padding-top:'+bodyTop+'px');
+    froms=api.pageParam.froms;
+    order_id=api.pageParam.order_id;
+    getMsg()
+  }
+  var paytype;
+  // 积分、抢购支付
+  function pay1(event, type){
+    event.stopPropagation();
+    paytype=type;
+    if(paytype == 1 || paytype == 0){
+      $api.removeCls($api.dom(".pop"), 'hide');
+    }else {
+      // console.log(payid);
+      pay1request(order_id)
+    }
+  }
+  // 输入密码弹窗按钮
+  function pay2(){
+    $api.addCls($api.dom(".pop"), 'hide');
+    pay1request(order_id, $api.val($api.dom("input[name='pay_pwd']")))
+  }
+  function pay1request(id, pwd){
+    if (froms=="integral"){
+      request2("/api/integral.Exchange/pay", "post", {
+        id:id,
+        pay_pwd:pwd?pwd:"",
+      }, function(res){
+        console.log(JSON.stringify(res))
+        if(res.code == 1){
+          tosuccess()
+        }
+      },function(error){
+
+      })
+    }else if (froms == "seckill") {
+      request2("/api/seckill.order/pay", "post", {
+        id:id,
+        pay_pwd:pwd?pwd:"",
+      }, function(res){
+        console.log(JSON.stringify(res))
+        if(res.code == 1){
+          console.log(paytype);
+          if(paytype==3){
+            var paylist=res.data.list;
+            var aliPayPlus = api.require('aliPayPlus');
+            aliPayPlus.payOrder({
+                orderInfo: paylist
+            }, function(ret, err) {
+                if(ret.code=="9000"){
+                  tosuccess()
+                }
+            });
+          }else {
+            tosuccess()
+          }
+        }
+      },function(error){
+
+      })
+    }
+  }
+  var paytimer;
+  function tosuccess(){
+    api.toast({
+      msg:"支付成功",
+      location:"middle"
+    });
+    paytimer=setTimeout(function(){
+      page=1,list=[],isSclLoad=true;
+      getMsg();
+    },2000)
+  }
+  function getMsg(){
+    if(froms == "beauty"){
+      request2("/api/hospital/use_hospital_order", "post", {
+        order_id:order_id
+      }, function(res){
+        console.log(JSON.stringify(res.data));
+        if(res.code == 1){
+          msg=res.data;
+          var html = template("tpMsg", {msg:msg,https:https, froms:froms});
+          $api.html($api.dom("#content"),html);
+        }
+      },function(error){
+
+      })
+    }else if (froms == "integral") {
+      request2("/api/integral.exchange/details", "post", {
+        id:order_id
+      }, function(res){
+        console.log(JSON.stringify(res.data));
+        if(res.code == 1){
+          msg=res.data;
+          var html = template("tpMsg", {msg:msg,https:https,froms:froms});
+          $api.html($api.dom("#content"),html);
+        }
+      },function(error){
+
+      })
+    }else if (froms == "seckill") {
+      request2("/api/seckill.order/details", "post", {
+        id:order_id
+      }, function(res){
+        console.log(JSON.stringify(res.data));
+        if(res.code == 1){
+          msg=res.data;
+          var html = template("tpMsg", {msg:msg,https:https,froms:froms});
+          $api.html($api.dom("#content"),html);
+        }
+      },function(error){
+
+      })
+    }else if (froms == "presell") {
+      request2("/api/seckill.preorder/details", "post", {
+        id:order_id
+      }, function(res){
+        console.log(JSON.stringify(res.data));
+        if(res.code == 1){
+          msg=res.data;
+          var html = template("tpMsg", {msg:msg,https:https,froms:froms});
+          $api.html($api.dom("#content"),html);
+        }
+      },function(error){
+
+      })
+    }
+
+  }
+  // 支付
+  function pay(){
+    event.stopPropagation();
+    api.openWin({
+        name: 'confirmOrder',
+        url: '../order/confirmOrder.html',
+        pageParam:{
+          froms:froms,
+          order_no:msg.order_no
+        }
+    });
+  }
+  // 查看物流
+  function logistics(){
+    api.openWin({
+        name: 'logistics',
+        url: 'logistics.html',
+        pageParam:{
+          froms:froms,
+          order_id:order_id
+        }
+    });
+  }
+  // 确认收货
+  function receive(){
+    api.confirm({
+        title: '提示',
+        msg: '确定收货?',
+        buttons: ['确定', '取消']
+    }, function(ret, err) {
+        if(ret.buttonIndex==1){
+          var url, data={};
+          if (types == "integral") {
+            url= "/api/integral.Exchange/receipt";
+            data["id"]=order_id;
+          }else if (types == "seckill") {
+            url= "/api/seckill.order/receipt";
+            data["id"]=order_id;
+          }
+          request2(url, "post", data, function(res){
+            console.log(JSON.stringify(res.data));
+            if(res.code == 1){
+              getMsg();
+            }
+          },function(error){
+
+          })
+        }
+    });
+  }
+  // 取消订单
+  function cancle(){
+    api.confirm({
+        title: '提示',
+        msg: '订单取消后不可撤回， 确定要取消订单吗?',
+        buttons: ['确定', '取消']
+    }, function(ret, err) {
+        if(ret.buttonIndex==1){
+          var url, data={};
+          if(froms == "beauty"){
+            url= "/api/hospital/cancel_hospital_order";
+            data["order_id"]=order_id;
+          }else if (froms == "integral") {
+            url= "/api/integral.Exchange/cancel";
+            data["id"]=order_id;
+          }else if (froms == "seckill") {
+            url= "/api/seckill.order/cancel";
+            data["id"]=order_id;
+          }
+          request2(url, "post", data, function(res){
+            console.log(JSON.stringify(res.data));
+            if(res.code == 1){
+              getMsg();
+            }
+          },function(error){
+
+          })
+        }
+    });
+  }
+  function toMap(lat,lon){
+    api.openWin({
+        name: 'map',
+        url: 'map.html',
+        pageParam: {
+            lat: parseFloat(lat),
+            lon:parseFloat(lon)
+        }
+    });
+  }
+  function toBack(){
+    api.historyBack({
+    },function(ret,err){
+        if (!ret.status) {
+          api.closeWin();
+        }
+    });
+  }
+</script>

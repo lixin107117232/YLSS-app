@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>云API</title>
+    <link rel="stylesheet" type="text/css" href="../../css/api.css"/>
+    <link rel="stylesheet" type="text/css" href="../../css/style.css"/>
+    <style>
+      body{
+        padding-top: 50px;
+        height: auto;
+        background: #f4f4f4
+      }
+      header{
+        width: 100%;
+        background: #fff;
+        position: fixed;
+        top: 0;
+        left: 0;
+        z-index: 9999
+      }
+      header ul{
+        width: calc(100% - 32px);
+        height: 40px;
+        margin: auto;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+      header .toleft{
+        width: 28px;
+        height: 28px;
+      }
+      header .inputbox{
+        width: calc(100% - 40px);
+        height: 40px;
+        background: #F4F4F4;
+        border-radius: 20px;
+        padding: 0 28px 0 16px;
+        box-sizing: border-box;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+      header .inputbox input{
+        width: calc(100% - 20px);
+        height: 40px;
+        line-height: 40px;
+      }
+      header .inputbox .iconsearch{
+        width: 18px;
+        height: 18px;
+      }
+      .tab{
+        position: fixed;
+        top: 50px;
+        left: 0;
+        width: 100%;
+        height: 65px;
+        background: #fff;
+        padding: 0 16px;
+        box-sizing: border-box;
+        font-size: 18px;
+        font-weight: 400;
+        line-height: 65px;
+        color: #999999;
+      }
+      .tab .item{
+        width: 100px;
+        text-align: center;
+        position: relative;
+      }
+      .tab .item:first-child{
+        width: 56px;
+      }
+      .tab .item.active{
+        color: #f57921;
+      }
+      .tab .item .angle_top {
+        content: '';
+        width: 0;
+        height: 0;
+        display: block;
+        border-style: solid;
+        border-width: 0 4px 5px;
+        border-color: transparent transparent #EFEFF4;
+        position: absolute;
+        transform: rotate(180deg);
+        -ms-transform:  rotate(180deg);
+        -moz-transform:  rotate(180deg);
+        -webkit-transform:  rotate(180deg);
+        -o-transform:  rotate(180deg);
+        top: 50%;
+        margin-top: 1px;
+        right: 17px;
+      }
+      .tab .item .angle_bottom {
+        content: '';
+        width: 0;
+        height: 0;
+        display: block;
+        border-style: solid;
+        border-width: 0 4px 5px;
+        border-color: transparent transparent #EFEFF4;
+        position: absolute;
+        bottom: 50%;
+        right: 17px;
+        margin-bottom: 1px;
+      }
+      .tab .item.asce .angle_bottom{
+          border-color: transparent transparent #f57921;
+      }
+      .tab .item.desc .angle_top{
+          border-color: transparent transparent #f57921;
+      }
+      .list{
+        width: 100%;
+        overflow: hidden;
+        /*margin-top: 6px;*/
+        margin-top: 71px;
+      }
+      .list .item{
+        width: calc(50% - 3px);
+        /*height: 207px;*/
+        background: #fff;
+        float: left;
+        margin-right: 6px;
+        /*padding-top: 25px;*/
+        padding-bottom: 20px;
+        box-sizing: border-box;
+        margin-bottom: 5px;
+      }
+      .list .item:nth-child(2n){
+        margin-right: 0
+      }
+      .list .item .goodsimg{
+        /*width: 100px;*/
+        /*height: 100px;*/
+        width: 100%;
+        display: block;
+        margin: auto;
+      }
+      .list .item .goodsmsg{
+        width: calc(100% - 20px);
+        margin:10px auto 7px;
+        text-align: center;
+      }
+      .list .item .goodsmsg .price{
+        font-size: 20px;
+        font-weight: bold;
+        line-height: 24px;
+        color: #000000;
+        margin-right: 10px
+      }
+      .list .item .goodsmsg .count{
+        font-size: 12px;
+        font-weight: 400;
+        line-height: 17px;
+        color: #999999;
+      }
+      .list .item .goodsname{
+        width: calc(100% - 20px);
+        margin: auto;
+        font-size: 14px;
+        font-weight: 400;
+        line-height: 20px;
+        color: #999999;
+        text-align: center;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+      }
+    </style>
+</head>
+<body>
+  <header>
+    <ul>
+      <img src="../../image/toleft.png" alt="" class="toleft" onclick="toBack()">
+      <div class="inputbox">
+        <input type="text" name="name" value="" placeholder="请输入搜索内容">
+        <img src="../../image/icon_search.png" alt="" class="iconsearch" onclick="getList()">
+      </div>
+    </ul>
+  </header>
+  <div class="tab df aic jcsb" id="tab">
+  </div>
+  <div class="list">
+  </div>
+</body>
+</html>
+<script type="text/javascript" src="../../script/api.js"></script>
+<script type="text/javascript" src="../../script/common.js"></script>
+<script type="text/javascript" src="../../script/template-web.js"></script>
+<script type="text/html" id="tptab">
+  <div class="{{if !order}} item active {{else}} item  {{/if}}" onclick="changorder()">综合</div>
+  <div class="item {{if order == "num asce"}} asce {{else if order == "num desc"}} desc {{/if}}" onclick="changenum()">价格
+    <i class="angle_top"></i>
+    <i class="angle_bottom"></i>
+  </div>
+  <div class="item {{if order == "sales asce"}} asce {{else if order == "sales desc"}} desc {{/if}}" onclick="changesales()">销量
+    <i class="angle_top"></i>
+    <i class="angle_bottom"></i>
+  </div>
+</script>
+<script type="text/html" id="tplist">
+  {{each list}}
+  <div class="item" onclick="detail({{$value.id}})">
+    <img src="{{$value.allgoods.cover_image}}" alt="" class="goodsimg">
+    <div class="goodsmsg">
+      <span class="price">{{$value.num}}</span>
+      <span class="count">库存：{{$value.stock}}</span>
+    </div>
+    <div class="goodsname">
+        {{$value.allgoods.name}}
+    </div>
+  </div>
+  {{/each}}
+</script>
+<script type="text/javascript">
+  var order="", page=1, list=[], isSclLoad=true;
+  apiready = function () {
+    $api.fixStatusBar( $api.dom('header') );
+    var bodyTop = $api.offset($api.dom('header')).h;
+    $api.css($api.dom('body'),'padding-top:'+bodyTop+'px');
+    $api.css($api.dom('.tab'),'top:'+bodyTop+'px');
+    $api.val($api.dom("input[name='name']"), api.pageParam.name);
+    drawtab();
+    getList();
+    fnInitEvent();
+  }
+  // 商品详情
+  function detail(id){
+    api.openWin({
+        name: 'detail',
+        url: '../goods/detail.html',
+        pageParam:{
+          id:id
+        }
+    });
+  }
+  // 综合
+  function changorder(){
+    order= "";
+    drawtab();
+    page=1, list=[], isSclLoad=true;
+    getList()
+  }
+  // 价格
+  function changenum(){
+    order = (order && order == "num desc") ? "num asce" : "num desc", drawtab();
+    page=1, list=[], isSclLoad=true;
+    getList()
+  }
+  // 销量
+  function changesales(){
+    order = (order && order == "sales asce") ? "sales desc" : "sales asce", drawtab();
+    page=1, list=[], isSclLoad=true;
+    getList()
+  }
+  function drawtab(){
+    // console.log(order);
+    var html = template("tptab", {order:order});
+    $api.html($api.dom("#tab"),html);
+  }
+  // 上拉加载更多
+  function fnInitEvent() {
+     api.addEventListener({
+         name: 'scrolltobottom',
+         extra: {
+             threshold: 10
+         }
+     }, function(ret, err) {
+        if(isSclLoad){
+          page++;
+          getList();
+        }
+     });
+  };
+  function getList(){
+    request1("/api/integral.search/goods", "post", {
+      name:$api.val($api.dom("input[name='name']")),
+      order: order,
+      page:page
+    }, function(res){
+      console.log(JSON.stringify(res.data));
+      if(res.code == 1){
+        list=list.concat(res.data.data);
+        if(res.data.data.length<1){
+          isSclLoad=false;
+        }
+        var html = template("tplist", {list:list,https:https});
+        $api.html($api.dom(".list"),html);
+      }
+    },function(error){
+
+    })
+  }
+  function toBack(){
+    api.historyBack({
+    },function(ret,err){
+        if (!ret.status) {
+          api.closeWin();
+        }
+    });
+  }
+</script>

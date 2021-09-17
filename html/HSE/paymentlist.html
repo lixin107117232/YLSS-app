@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>银行卡绑定</title>
+    <link rel="stylesheet" type="text/css" href="../../css/api.css"/>
+    <link rel="stylesheet" type="text/css" href="../../css/style.css"/>
+    <link rel="stylesheet" type="text/css" href="../../css/swiper-3.3.1.min.css"/>
+    <style>
+      body{
+        padding-top: 50px;
+        height: auto;
+        padding-bottom: 50px;
+      }
+      header{
+        width: 100%;
+        background: #fff;
+        position: fixed;
+        top: 0;
+        left: 0;
+        z-index: 9999;
+        font-size: 20px;
+        font-weight: bold;
+        line-height: 28px;
+        color: #000000;
+      }
+      header .ul{
+        width: calc(100% - 32px);
+        height: 40px;
+        box-sizing: border-box;
+        margin: auto;
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      header .toleft{
+        position: absolute;
+        left: 0;
+        top: 50%;
+        margin-top: -14px;
+        width: 28px;
+        height: 28px;
+      }
+      .list{
+        margin-top: 20px
+      }
+      .list .item{
+        width: calc(100% - 32px);
+        margin: auto;
+        height: 62px;
+        border-bottom: 1px solid #f4f4f4;
+        padding: 0 7px;
+        box-sizing: border-box;
+        font-size: 16px
+      }
+      .list .item .item_l img{
+        width: 24px;
+        margin-right: 5px;
+      }
+      .list .item .more{
+        width: 20px;
+      }
+      .btn{
+        width: calc(100% - 52px);
+        height: 49px;
+        background: linear-gradient(270deg, #faa060 0%, #ff6a00 100%);
+        border-radius: 34px;
+        font-size: 18px;
+        font-weight: 400;
+        color: #ffffff;
+        margin:100px auto;
+      }
+    </style>
+</head>
+<body>
+  <header>
+    <div class="ul">
+      <img src="../../image/toleft.png" alt="" class="toleft" onclick="toBack()">
+      <div class="title">选择收款方式</div>
+    </div>
+  </header>
+  <div class="list">
+    <div class="item df aic jcsb" onclick="ali()">
+      <div class="item_l">
+        <img src="../../image/Alipay@2x@3x.png" alt="">
+        支付宝
+      </div>
+      <img src="../../image/toright3.png" alt="" class="more">
+    </div>
+    <!-- <div class="item df aic jcsb" onclick="wechat()">
+      <div class="item_l">
+        <img src="../../image/WeChat@2x@3x.png" alt="">
+        微信
+      </div>
+      <img src="../../image/toright3.png" alt="" class="more">
+    </div> -->
+    <div class="item df aic jcsb" onclick="cardlist()">
+      <div class="item_l">
+        <img src="../../image/UnionPay@2x@3x.png" alt="">
+        银行卡
+      </div>
+      <img src="../../image/toright3.png" alt="" class="more">
+    </div>
+  </div>
+</body>
+</html>
+<script type="text/javascript" src="../../script/api.js"></script>
+<script type="text/javascript" src="../../script/common.js"></script>
+<script type="text/javascript" src="../../script/template-web.js"></script>
+<script type="text/javascript" src="../../script/jquery-3.2.1.min.js"></script>
+<script type="text/javascript" src="../../script/swiper-3.3.1.jquery.min.js"></script>
+<script type="text/javascript">
+  apiready = function () {
+    $api.fixStatusBar( $api.dom('header') );
+    var bodyTop = $api.offset($api.dom('header')).h;
+    $api.css($api.dom('body'),'padding-top:'+bodyTop+'px');
+  }
+  function ali(){
+    api.openWin({
+        name: 'paymentAli',
+        url: 'paymentAli.html',
+        pageParam:{
+          froms:api.pageParam.froms=="balancetx"?"balancetx":""
+        }
+    });
+  }
+  function wechat(){
+    api.openWin({
+        name: 'paymentWechat',
+        url: 'paymentWechat.html',
+        pageParam:{
+          froms:api.pageParam.froms=="balancetx"?"balancetx":""
+        }
+    });
+  }
+  // 银行卡绑定
+  function cardlist(){
+    api.openWin({
+        name: 'bankclist',
+        url: 'bankc_list.html',
+        pageParam:{
+          froms:api.pageParam.froms=="balancetx"?"balancetx":""
+        }
+    });
+  }
+  function toBack(){
+    api.historyBack({
+    },function(ret,err){
+        if (!ret.status) {
+          api.closeWin();
+        }
+    });
+  }
+</script>

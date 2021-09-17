@@ -1,0 +1,685 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>云API</title>
+    <link rel="stylesheet" type="text/css" href="../../css/api.css"/>
+    <link rel="stylesheet" type="text/css" href="../../css/style.css"/>
+    <link rel="stylesheet" type="text/css" href="../../css/swiper-3.3.1.min.css"/>
+    <style>
+      body{
+        padding-top: 50px
+      }
+      header{
+        width: 100%;
+        background: #fff;
+        position: fixed;
+        top: 0;
+        left: 0;
+        z-index: 9999;
+        font-size: 20px;
+        font-weight: bold;
+        line-height: 28px;
+        color: #000000;
+      }
+      header .ul{
+        width: calc(100% - 32px);
+        height: 40px;
+        box-sizing: border-box;
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      header .toleft{
+        position: absolute;
+        left: 0;
+        top: 50%;
+        margin-top: -14px;
+        width: 28px;
+        height: 28px;
+      }
+      .banner{
+        margin-top: 20px
+      }
+      .banner, .banner .swiper-slide, .banner .swiper-slide img{
+        /*width: 200px;*/
+        /*height: 200px;*/
+        width: 100%
+      }
+      .banner .swiper-pagination-bullet{
+        width: 20px;
+        height: 5px;
+        background: #E3E3E3;
+        border-radius: 0
+      }
+      .banner .swiper-pagination-bullet-active{
+        width: 20px;
+        height: 5px;
+        background: #f57921;
+      }
+      .line01{
+        padding: 0 26px;
+        box-sizing: border-box;
+        margin-top: 25px;
+      }
+      .goodsname{
+        width: calc(100% - 24px);
+        font-size: 20px;
+        font-weight: 400;
+        line-height: 28px;
+        color: #000000;
+      }
+      .share{
+        width: 16px;
+        height: 16px;
+        margin-top: 6px;
+      }
+      .line02{
+        width: calc(100% - 32px);
+        margin: auto;
+        padding: 10px 10px 12px;
+        box-sizing: border-box;
+      }
+      .line02 .jifen{
+        font-size: 12px;
+        font-weight: 400;
+        line-height: 36px;
+        color: #000000;
+      }
+      .line02 .jifen span{
+        font-size: 30px;
+        color: #f57921;
+        font-weight: normal;
+        margin-right: 6px;
+      }
+      .line02 .price{
+        font-size: 12px;
+        font-weight: 400;
+        line-height: 36px;
+        color: #000000;
+      }
+      .line02 .price span{
+        font-size: 30px;
+        font-weight: 400;
+        line-height: 37px;
+        color: #000000;
+      }
+      .line02 .count{
+        font-size: 14px;
+        font-weight: 400;
+        line-height: 20px;
+        color: #999999;
+      }
+      .line03{
+        width: calc(100% - 32px);
+        margin: auto;
+        height: 60px;
+        border: 1px solid #f4f4f4;
+        border-left: none;
+        border-right: none;
+        padding: 16px 10px;
+        box-sizing: border-box;
+      }
+      .line03 .lables{
+        font-size: 16px;
+        font-weight: 400;
+        line-height: 22px;
+        color: #999999;
+      }
+      .line03 .vals{
+        font-size: 16px;
+        font-weight: 400;
+        line-height: 22px;
+        color: #000000;
+      }
+      .line03 .vals img{
+        width: 18px;
+        margin-left: 10px;
+      }
+      .bottom{
+        width: 100%;
+        background: #fff;
+        padding: 10px 26px;
+        box-sizing: border-box;
+        position: fixed;
+        bottom: 0px;
+        left: 0;
+      }
+      .bottom .bottom_l{
+        font-size: 14px;
+        font-weight: 400;
+        line-height: 20px;
+        color: #000000;
+      }
+      .bottom .radiobox{
+        position: relative;
+        overflow: hidden;
+        margin-right: 6px;
+      }
+      .bottom .radiobox input[type="radio"]{
+        position: absolute;
+        opacity: 0;
+        width: 24px;
+        height: 24px;
+        border-radius: 50%;
+        z-index: 9;
+      }
+      .bottom .radiobox input[type="radio"] + label {
+        display: block;
+        width: 24px;
+        height: 24px;
+        background: #FFFFFF;
+        border: 2px solid #999999;
+        border-radius: 50%;
+        z-index: 1;
+        box-sizing: border-box;
+      }
+      .bottom .radiobox input[type="radio"]:checked + label {
+        border: none;
+        background:url("../../image/select@2x@3x.png");
+        background-size: 100%
+      }
+      .bottom .buybtn{
+        width: 140px;
+        height: 49px;
+        background: linear-gradient(270deg, #faa060 0%, #ff6a00 100%);
+        border-radius: 34px;
+        font-size: 18px;
+        font-weight: 400;
+        line-height: 49px;
+        color: #FFFFFF;
+        text-align: center;
+      }
+      .pop{
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        z-index: 99999;
+        background: rgba(0,0,0,0.3);
+        width: 100%;
+        height: 100%;
+      }
+      .pop .popmain{
+        width: 100%;
+        background: #fff;
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        border-radius: 30px 30px 0px 0px;
+        padding: 24px 26px;
+        box-sizing: border-box;
+      }
+      .pop .goods {
+        margin-bottom: 24px;
+      }
+      .pop .goods .goodsimg{
+        width: 112px;
+        height:112px;
+      }
+      .pop .goods .goods_r{
+        width: calc(100% - 124px);
+        height: 112px;
+      }
+      .pop .goods_r .name{
+        font-size: 16px;
+        font-weight: 400;
+        line-height: 22px;
+        color: #000000;
+        margin-bottom: 20px;
+      }
+      .pop .goods_r .jifen{
+        font-size: 12px;
+        font-weight: 400;
+        line-height: 36px;
+        color: #000000;
+      }
+      .pop .goods_r .jifen span{
+        font-size: 20px;
+        color: #f57921;
+        font-weight: normal;
+        margin-right: 6px;
+      }
+      .pop .goods_r .price{
+        font-size: 12px;
+        font-weight: 400;
+        line-height: 36px;
+        color: #000000;
+      }
+      .pop .goods_r .price span{
+        font-size: 20px;
+        font-weight: 400;
+        line-height: 37px;
+        color: #000000;
+      }
+      .pop .goods_r .numcontrol{
+        width: 100px;
+        height: 30px;
+        background: #F4F4F4;
+        border-radius: 15px;
+        padding: 0 10px;
+        box-sizing: border-box;
+        font-size: 16px;
+      }
+      .pop .goods_r .numcontrol img{
+        width: 20px;
+        height: 20px;
+      }
+      .pop .property{
+        margin-bottom: 20px;
+      }
+      .pop .property .bt{
+        font-size: 16px;
+        font-weight: 400;
+        line-height: 22px;
+        color: #000000;
+        margin-bottom: 15px;
+      }
+      .pop .property .list{
+        overflow: hidden;
+      }
+      .pop .property .list .item{
+        float: left;
+        height: 30px;
+        line-height: 30px;
+        background: #EFEFF4;
+        border-radius: 16px;
+        padding: 0 18px;
+        font-size: 14px;
+        font-weight: 400;
+        color: #999999;
+        margin-right: 15px;
+        margin-bottom: 5px;
+        box-sizing: border-box;
+        min-width: 65px;
+        text-align: center;
+      }
+      .pop .property .list .item.active{
+        background: #f57921;
+        color: #fff
+      }
+      .pop .popmain .buybtn{
+        width: 100%;
+        height: 49px;
+        background: linear-gradient(270deg, #faa060 0%, #ff6a00 100%);
+        border-radius: 34px;
+        font-size: 18px;
+        font-weight: 400;
+        line-height: 25px;
+        color: #FFFFFF;
+        text-align: center;
+        line-height: 49px;
+        margin-top: 35px
+      }
+      .hide{
+        display: none
+      }
+      .xqbt{
+        width: 100%;
+        height: 40px;
+        border-bottom: 1px solid #f4f4f4;
+        padding: 0 28px;
+        box-sizing: border-box;
+        font-size: 16px;
+        color: #000;
+        line-height: 40px
+      }
+      .xq{
+        width: 100%;
+        padding-bottom: 90px;
+      }
+      .xq img{
+        width: 100%;
+        height: auto;
+      }
+    </style>
+</head>
+<body>
+  <header>
+    <div class="ul">
+      <img src="../../image/toleft.png" alt="" class="toleft"  onclick="toBack()">
+      <div class="title">商品详情</div>
+    </div>
+  </header>
+  <div id="content">
+
+  </div>
+  <div class="pop hide" onclick="hidepop(this)" id="pop">
+
+  </div>
+</body>
+</html>
+<script type="text/javascript" src="../../script/api.js"></script>
+<script type="text/javascript" src="../../script/common.js"></script>
+<script type="text/javascript" src="../../script/template-web.js"></script>
+<script type="text/javascript" src="../../script/jquery-3.2.1.min.js"></script>
+<script type="text/javascript" src="../../script/swiper-3.3.1.jquery.min.js"></script>
+<script type="text/html" id="tpdetail">
+  <div class="banner swiper-container">
+      <div class="swiper-wrapper">
+          {{each images}}
+          <div class="swiper-slide"><img src="{{$value}}" alt=""></div>
+          {{/each}}
+      </div>
+      <div class="swiper-pagination"></div>
+  </div>
+  <div class="df aifs jcsb line01">
+    <div class="goodsname">{{msg.name}}</div>
+    <!-- <img src="../../image/icon_share.png" alt="" class="share" onclick="fnOpen()"> -->
+  </div>
+  <div class="line02 df aic jcsb">
+    <div class="price df aife">
+      ￥<span>{{msg.sales_min}}</span>
+    </div>
+    <span class="count">库存：{{msg.stock}}</span>
+  </div>
+  <div class="line03 df ffc jcsb">
+    <div class="df aic jcsb"  onclick="buybtn()">
+      <div class="lables">商品规格</div>
+      <div class="vals">
+        <span>请选择</span>
+        <img src="../../image/toright.png" alt="">
+      </div>
+    </div>
+    <!-- <div class="df aic jcsb">
+      <div class="lables">配送区域</div>
+      <div class="vals">
+        <span>请选择</span>
+        <img src="../../image/toright.png" alt="">
+      </div>
+    </div> -->
+  </div>
+  <div class="xqbt">商品详情</div>
+  <div class="xq"></div>
+  <div class="bottom df aic jcsb">
+    <div class="bottom_l df aic">
+      <div class="radiobox">
+        <input name="agreement" type="radio">
+        <label></label>
+      </div>同意<span onclick="rule('buy')">购买协议</span>
+    </div>
+    <div class="buybtn" onclick="buybtn()">立即购买</div>
+  </div>
+</script>
+<script type="text/html" id="tpPop">
+  <div class="popmain" onclick="stopEvent(event)">
+    <div class="goods df aic jcsb">
+      <img src="{{specgoods.cover_image}}" alt="" class="goodsimg">
+      <div class="goods_r">
+        <div class="name">{{specgoods.name}}</div>
+        <div class="df aic jcsb">
+          {{if specgoods.sales}}
+          <div class="price">
+            ￥<span>{{specgoods.sales}}</span>
+          </div>
+          {{else}}
+          <div class="price">
+            ￥<span>{{specgoods.sales_min}}</span> ~ ￥<span>{{specgoods.sales_max}}</span>
+          </div>
+          {{/if}}
+          <div class="numcontrol df aic jcsb">
+            <img src="../../image/minus.png" alt="" onclick="minus()">
+            <span>{{num}}</span>
+            <img src="../../image/plus.png" alt="" onclick="plus()">
+          </div>
+        </div>
+      </div>
+    </div>
+    {{each specArr item}}
+    <div class="property">
+      <div class="bt">{{item.attr_name}}</div>
+      <div class="list">
+        {{each item.attr}}
+        <div class="{{if $value.checked}} active item {{else}} item {{/if}}" onclick="chose('{{item.attr_key_id}}','{{$value.symbol}}')">{{$value.attr_value}}</div>
+        {{/each}}
+      </div>
+    </div>
+    {{/each}}
+    <div class="buybtn" onclick="creatorder()">立即购买</div>
+  </div>
+</script>
+<script type="text/javascript">
+  var id, msg, images, specArr, specgoods, num=1;
+  var specs_id;
+  var MNActionButton;
+  apiready = function () {
+    $api.fixStatusBar( $api.dom('header') );
+    var bodyTop = $api.offset($api.dom('header')).h;
+    $api.css($api.dom('body'),'top:'+bodyTop+'px');
+    id=api.pageParam.id;
+    getDetail();
+    MNActionButton = api.require('MNActionButton');
+  }
+  function fnOpen() {
+      MNActionButton.open({
+          layout : {
+              row : 2, //（可选项）数字类型；每屏显示菜单按钮的行数；默认：2
+              col : 4, //（可选项）数字类型；每屏显示菜单按钮的列数；默认：3
+              rowSpacing : 10, //（可选项）数字类型；行与行之间的距离；默认：10
+              colSpacing : 10, //（可选项）数字类型；列与列之间的距离；默认：10
+              offset : 0 //（可选项）数字类型；整个菜单底部距离所属 window 底部的距离，只能为正整数；默认：0
+          },
+          animation : true, //（可选项）布尔类型；弹出和隐藏菜单时是否带弹出动画效果，true|false；默认：true
+          autoHide : true, //（可选项）布尔类型；点击菜单按钮后是否自动隐藏菜单，true|false；默认：true
+          styles : {
+              maskBg : 'rgba(0,0,0,0.2)', //（可选项）字符串类型；遮罩层背景，支持 rgb，rgba，#，img；默认：rgba(0,0,0,0.2)
+              bg : '#fff', //（可选项）字符串类型；菜单有效区域背景，支持 rgb，rgba，#，img；默认：#fff
+              cancelButton : {//（可选项）JSON 对象类型，取消按钮设置
+                  size : 44, //（可选项）数字类型；底部取消按钮的高和宽；默认：44
+                  bg : '#fff', //（可选项）字符串类型；取消按钮的 100% 宽度的背景，支持rgb，rgba，#，img；默认：'#fff'
+                  icon : 'widget://image/btn/iconfont-cancel.png', //（可选项）字符串类型：取消按钮的图标，要求本地路径（widget://、fs://）；默认：默认X型图标
+              },
+              item : {//（可选项）JSON 对象类型，菜单按钮设置
+                  titleColor : '#848484', //（可选项）字符串类型；菜单按钮文字颜色，支持 rgb，rgba，#；默认：#848484
+                  titleHighlight : 'dd2727', //（可选项）字符串类型；菜单按钮文字高亮颜色，支持 rgb，rgba，#；默认：同 titleColor
+                  titleSize : 12,                 //（可选项）数字类型；菜单按钮文字大小，同时也是文字栏所占高度，值为 0 时不显示文字栏；默认：12
+              },
+              indicator : {//（可选项）JSON 对象类型；页标指示器样式，若不传则不显示该指示器
+                  color : '#c4c4c4', //（可选项）字符串类型；其它页指示器颜色；支持rgb、rgba、#；默认：'#c4c4c4'
+                  highlight : '#9e9e9e' //（可选项）字符串类型；当前页指示器颜色；支持rgb、rgba、#；默认：'#9e9e9e'
+              }
+          },
+          items : [{
+              icon : 'widget://image/QQ.png', //（可选项）字符串类型；一个菜单按钮的图标，支持 rgb，rgba，#，img；默认：#fff
+              title : 'QQ好友' //字符串类型；菜单按钮的文字；默认：未设置时不显示，但文字栏仍按 titleSize 设置显示高度
+          }, {
+              icon : 'widget://image/quicklogin01.png',
+              highlight : 'widget://image/iconfont-weixin.png',
+              title : '微信好友'
+          }, {
+              icon : 'widget://image/circle.png',
+              highlight : 'widget://image/iconfont-pengyouquan.png',
+              title : '朋友圈'
+          }, {
+              icon : 'widget://image/more.png',
+              highlight : 'widget://image/iconfont-qitagengduoe1e4e5.png',
+              title : '更多'
+          }]
+      }, function(ret, err) {
+          if (ret) {
+              alert(JSON.stringify(ret));
+          } else {
+              alert(JSON.stringify(err));
+          }
+      });
+  }
+  function stopEvent(event){
+    event.stopPropagation();
+  }
+  // 购买协议
+  function rule(name){
+    api.openWin({
+        name: 'article',
+        url: '../myzoe/article.html',
+        pageParam:{
+          froms:name
+        }
+    });
+  }
+  // 创建订单
+  function creatorder(){
+    if(!specgoods.sku_id && specArr.length>0){
+      api.toast({
+        msg:"请选择规格",
+        location:"middle"
+      })
+      return false;
+    }
+    request2("/api/hospital/create_hospital_order", "post", {
+      goods_id:id,
+      sku_id:specgoods.sku_id,
+      num:num
+    }, function(res){
+      if(res.code == 1){
+        console.log(JSON.stringify(res.data));
+        api.openWin({
+            name: 'confirmOrder',
+            url: '../order/confirmOrder.html',
+            pageParam:{
+              froms:"beauty",
+              order_no:res.data.order_no
+            }
+        });
+      }
+    },function(error){
+
+    })
+  }
+  // 减
+  function minus(){
+    if(num>1){
+      num--;
+      drawSpec();
+    }
+  }
+  // 加
+  function plus(){
+    if(num<parseInt(specgoods.stock)){
+      num++;
+      drawSpec();
+    }else {
+      api.toast({
+        msg:"库存不够了",
+        location:"middle"
+      })
+    }
+  }
+  function chose(id,symbol){
+    // console.log("id:"+id);
+    // console.log("symbol:"+symbol);
+    for(var i=0; i<specArr.length; i++){
+      if(specArr[i].attr_key_id==id){
+        var attr=specArr[i].attr;
+        for(var j=0; j<attr.length; j++){
+          if(symbol==attr[j].symbol){
+            specArr[i].attr[j].checked= specArr[i].attr[j].checked?false : true;
+          }else {
+            specArr[i].attr[j].checked=false;
+          }
+        }
+        checkchose();
+      }
+    }
+  }
+  var skustring;
+  function checkchose(){
+    skustring=[];
+    for(var i=0; i<specArr.length; i++){
+      var attr=specArr[i].attr;
+      for(var j=0; j<attr.length; j++){
+        if(attr[j].checked){
+          skustring.push(attr[j].symbol);
+        }
+      }
+    }
+    if(skustring.length == specArr.length){
+      price_select()
+    }else {
+      drawSpec()
+    }
+  }
+  // 规格属性组合价格查询
+  function price_select(){
+    request1("/api/hospital/goods_price_select", "post", {
+      goods_id:id,
+      string:skustring.toString()
+    }, function(res){
+      if(res.code == 1){
+        specgoods.sales=res.data.sales;
+        specgoods.sku_id=res.data.sku_id;
+        specgoods.stock=res.data.stock;
+        drawSpec();
+      }
+    },function(error){
+
+    })
+  }
+  function buybtn(){
+    if($api.val($api.dom("input[name='agreement']:checked"))!='on'){
+      api.toast({
+        msg:"请阅读购买协议并同意",
+        location:"middle"
+      });
+      return false;
+    }
+    $api.removeCls($api.dom(".pop"), 'hide');
+  }
+  function hidepop(tag){
+    $api.addCls(tag, 'class');
+  }
+  function getDetail(){
+    // console.log(id);
+    request1("/api/hospital/goods_details", "post", {
+      goods_id:id
+    }, function(res){
+      console.log(JSON.stringify(res.data));
+      if(res.code == 1){
+        msg = res.data;
+        specgoods = res.data;
+        images = msg.images.split(",")
+        draw();
+        getSpecs();
+      }
+    },function(error){
+
+    })
+  }
+  function getSpecs(){
+    console.log(id);
+    request1("/api/hospital/goods_spec_attr", "post", {
+      goods_id:id
+    }, function(res){
+      console.log(JSON.stringify(res));
+      if(res.code == 1){
+        specArr=res.data;
+        drawSpec();
+      }
+    },function(error){
+
+    })
+  }
+  function draw(){
+    var html = template("tpdetail", {msg:msg,images:images, https:https});
+    $api.html($api.dom("#content"),html);
+    $api.html($api.dom(".xq"), msg.remark);
+
+    var swiperBanner = new Swiper('.swiper-container', {
+        slidesPerView: 1,
+        pagination: '.swiper-pagination',
+    });
+  }
+  function drawSpec(){
+    var html = template("tpPop", {specArr:specArr, https:https, specgoods: specgoods, num:num});
+    $api.html($api.dom("#pop"),html);
+  }
+  function toBack(){
+    api.historyBack({
+    },function(ret,err){
+        if (!ret.status) {
+          api.closeWin();
+        }
+    });
+  }
+</script>

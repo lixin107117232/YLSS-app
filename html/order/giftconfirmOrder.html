@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>云API</title>
+    <link rel="stylesheet" type="text/css" href="../../css/api.css"/>
+    <link rel="stylesheet" type="text/css" href="../../css/style.css"/>
+    <link rel="stylesheet" type="text/css" href="../../css/swiper-3.3.1.min.css"/>
+    <style>
+      body{
+        padding-top: 50px;
+        height: auto;
+        padding-bottom: 100px;
+      }
+      header{
+        width: 100%;
+        background: #fff;
+        position: fixed;
+        top: 0;
+        left: 0;
+        z-index: 9999;
+        font-size: 20px;
+        font-weight: bold;
+        line-height: 28px;
+        color: #000000;
+      }
+      header .ul{
+        width: calc(100% - 32px);
+        height: 40px;
+        box-sizing: border-box;
+        margin: auto;
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      header .toleft{
+        position: absolute;
+        left: 0;
+        top: 50%;
+        margin-top: -14px;
+        width: 28px;
+        height: 28px;
+      }
+      .addAddress{
+        width: calc(100% - 52px);
+        height: 49px;
+        background: #EFEFF4;
+        border-radius: 34px;
+        margin:20px auto;
+        font-size: 18px;
+        font-weight: 400;
+        color: #6A50FA;
+      }
+      .addAddress span{
+        font-size: 28px;
+        vertical-align: middle;
+        margin-right: 10px;
+      }
+      .addressmsg{
+        width: calc(100% - 32px);
+        margin:20px auto;
+      }
+      .addressmsg .addressmsg_l{
+        width: calc(100% - 40px);
+      }
+      .addressmsg .name{
+        font-size: 16px;
+        font-weight: bold;
+        line-height: 22px;
+        color: #000000;
+      }
+      .addressmsg .name span{
+        font-size: 14px;
+        font-weight: 400;
+        line-height: 20px;
+        color: #999999;
+        margin-left: 10px;
+      }
+      .addressmsg .address{
+        font-size: 14px;
+        font-weight: 400;
+        line-height: 20px;
+        color: #999999;
+        margin-top:10px
+      }
+      .addressmsg .toright{
+        width: 24px;
+        margin-right: 10px;
+      }
+      .noaddress .addressmsg{
+        display: none
+      }
+      .hasaddress .addAddress{
+        display: none
+      }
+      .noaddress .goods {
+        width:calc(100% - 32px);
+        height: 140px;
+        background: #FFFFFF;
+        box-shadow: 2px 3px 20px rgba(106, 80, 250, 0.08);
+        opacity: 1;
+        border-radius: 10px;
+        margin:20px auto;
+        padding: 0 24px;
+        box-sizing: border-box;
+      }
+      .hasaddress .goods{
+        width: 100%;
+        padding: 25px 16px;
+        box-sizing: border-box;
+        border: 1px solid #EFEFF4;
+        border-left: none;
+        border-right: none
+      }
+      .goods .goodsimg{
+        width: 104px;
+        height:104px;
+      }
+      .goods .goods_r{
+        width: calc(100% - 130px);
+        /*height: 80px;*/
+      }
+      .goods .goods_r .name{
+        font-size: 14px;
+        font-weight: 400;
+        line-height: 22px;
+        color: #000000;
+        margin-bottom: 5px;
+      }
+      .hasaddress .goods .name{
+        font-size: 18px;
+      }
+      .goods .goods_r .property{
+        font-size: 12px;
+        font-weight: 400;
+        line-height: 17px;
+        color: #999999;
+        margin-bottom: 5px;
+      }
+      .goods .goods_r .property span{
+        margin-right: 10px;
+      }
+      .goods .goods_r .jifen{
+        font-size: 12px;
+        font-weight: 400;
+        line-height: 24px;
+        color: #000000;
+      }
+      .goods .goods_r .jifen span{
+        font-size: 20px;
+        color: #6A50FA;
+        font-weight: normal;
+        margin-right: 6px;
+      }
+      .subtotal{
+        width: 100%;
+        height: 62px;
+        border-bottom: 1px solid #EFEFF4;
+        padding: 0 16px;
+        box-sizing: border-box;
+        font-size: 16px;
+        font-weight: 400;
+        color: #999999;
+      }
+      .subtotal .num{
+        font-size: 16px;
+        font-weight: 400;
+        line-height: 22px;
+        color: #000000;
+      }
+      .bottom{
+        width: 100%;
+        padding: 0 26px;
+        box-sizing: border-box;
+        position: fixed;
+        bottom: 33px;
+        left: 0;
+      }
+      .bottom .bottom_l{
+        font-size: 18px;
+        font-weight: 400;
+        line-height: 20px;
+        color: #000000;
+        display: none;
+      }
+      .bottom .bottom_l span{
+        color: #6A50FA
+      }
+      .bottom .buybtn{
+        /*width: 140px;*/
+        width: 100%;
+        height: 49px;
+        background: linear-gradient(270deg, #faa060 0%, #ff6a00 100%);
+        border-radius: 34px;
+        font-size: 18px;
+        font-weight: 400;
+        line-height: 49px;
+        color: #FFFFFF;
+        text-align: center;
+      }
+      .paytype{
+        width: 100%;
+        padding: 0 16px;
+        box-sizing: border-box;
+      }
+      .paytype .bt{
+        font-size: 18px;
+        font-weight: bold;
+        line-height: 25px;
+        color: #000000;
+        margin-top: 22px;
+      }
+      .paytype .item{
+        width: 100%;
+        margin-top: 20px;
+        font-size: 14px;
+        font-weight: 400;
+        line-height: 20px;
+        color: #333333;
+      }
+      .paytype .item .paylogo{
+        width: 30px;
+        height: 30px;
+        margin-right: 15px;
+      }
+      .paytype .item .radiobox{
+        position: relative;
+        overflow: hidden;
+        margin-right: 6px;
+      }
+      .paytype .item .radiobox input[type="radio"]{
+        position: absolute;
+        opacity: 0;
+        width: 24px;
+        height: 24px;
+        border-radius: 50%;
+        z-index: 9;
+      }
+      .paytype .item .radiobox input[type="radio"] + label {
+        display: block;
+        width: 24px;
+        height: 24px;
+        background: #FFFFFF;
+        border: 1px solid #cccccc;
+        border-radius: 50%;
+        z-index: 1;
+        box-sizing: border-box;
+      }
+      .paytype .item .radiobox input[type="radio"]:checked + label {
+        border: none;
+        background:url("../../image/select@2x@3x.png");
+        background-size: 100%
+      }
+      .pop{
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.5);
+        position: fixed;
+        left: 0;
+        top: 0;
+      }
+      .pop .popmain{
+        width: 270px;
+        height: 160px;
+        background: #FFFFFF;
+        border-radius: 5px;
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        margin-left: -135px;
+        margin-top: -80px;
+        padding: 23px 35px;
+        box-sizing: border-box;
+      }
+      .pop .popmain input{
+        width: 200px;
+        height: 40px;
+        border: 1px solid #ababab;
+        padding: 0 10px;
+        box-sizing: border-box;
+      }
+      .pop .popmain .iknonw{
+        width: 200px;
+        height: 40px;
+        background: linear-gradient(270deg, #faa060 0%, #ff6a00 100%);
+        border-radius: 34px;
+        text-align: center;
+        line-height: 40px;
+        font-size: 18px;
+        font-weight: 400;
+        color: #FFFFFF;
+      }
+      .hide{
+        display: none
+      }
+    </style>
+</head>
+<body>
+  <header>
+    <div class="ul">
+      <img src="../../image/toleft.png" alt="" class="toleft" onclick="toBack()">
+      <div class="title">确认订单</div>
+    </div>
+  </header>
+  <div id="content">
+  </div>
+  <div class="pop hide" onclick="hidepop()">
+    <div class="popmain df aic ffc jcsb" onclick="showpop(event)">
+      <input type="password" name="pay_pwd" value="" placeholder="请输入支付密码"/>
+      <div class="iknonw" onclick="pay()">确定</div>
+    </div>
+  </div>
+</body>
+</html>
+<script type="text/javascript" src="../../script/api.js"></script>
+<script type="text/javascript" src="../../script/common.js"></script>
+<script type="text/javascript" src="../../script/template-web.js"></script>
+<script type="text/html" id="tpgoods">
+  <!-- 抢购订单 -->
+  <div class="{{if address && address.id}} hasaddress {{else}} noaddress {{/if}}">
+    {{if address && address.id}}
+    <div class="addressmsg df aic jcsb">
+      <div class="addressmsg_l">
+        <div class="name">{{address.name}} <span>{{address.phone}}</span></div>
+        <div class="address">{{address.province_city_area}} {{address.address}}</div>
+      </div>
+      <img src="../../image/toright1.png" alt=""  class="toright" onclick="choseAdd()">
+    </div>
+    {{else}}
+    <div class="addAddress df aic jcc" onclick="add_Address()">
+      <span>+</span>
+      添加新地址
+    </div>
+    {{/if}}
+    <div class="goods df aic jcsb">
+      <img src="{{msg.cover_image}}" alt="" class="goodsimg">
+      <div class="goods_r">
+        <div class="name">{{msg.name}}</div>
+        <div class="property">
+          <span>x1</span>
+        </div>
+        <div class="jifen df aife">
+          ￥<span>{{msg.price}}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="subtotal df aic jcsb">
+    <div>商品小计</div>
+    <div class="num">￥{{msg.price}}</div>
+  </div>
+  <div class="paytype">
+    <div class="bt">支付方式</div>
+    <div class="item df aic jcsb" onclick="paytype(1)">
+      <div class="item_l df aic"><img src="../../image/balance@2x@3x.png" alt="" class="paylogo">余额支付</div>
+      <div class="radiobox">
+        <input name="paytype" type="radio" value="type1">
+        <label></label>
+      </div>
+    </div>
+    <div class="item df aic jcsb" onclick="paytype(3)">
+      <div class="item_l df aic"><img src="../../image/Alipay@2x@3x.png" alt="" class="paylogo">支付宝支付</div>
+      <div class="radiobox">
+        <input name="paytype" type="radio" value="type3">
+        <label></label>
+      </div>
+    </div>
+    <div class="item df aic jcsb"  onclick="paytype(2)">
+      <div class="item_l df aic"><img src="../../image/WeChat@2x@3x.png" alt="" class="paylogo">微信支付</div>
+      <div class="radiobox">
+        <input name="paytype" type="radio" value="type2">
+        <label></label>
+      </div>
+    </div>
+    <!-- <div class="item df aic jcsb">
+      <div class="item_l df aic"><img src="../../image/UnionPay@2x@3x.png" alt="" class="paylogo">银联支付</div>
+      <div class="radiobox">
+        <input name="paytype" type="radio">
+        <label></label>
+      </div>
+    </div> -->
+  </div>
+  <div class="bottom df aic jcsb">
+    <div class="bottom_l df aic">实付： <span>￥{{msg.price}}</span></div>
+    <div class="buybtn" onclick="paybtn()">去支付</div>
+  </div>
+</script>
+<script type="text/javascript">
+  var id, msg, pay_method="", froms, address;
+  apiready = function () {
+    $api.fixStatusBar( $api.dom('header') );
+    var bodyTop = $api.offset($api.dom('header')).h;
+    $api.css($api.dom('body'),'padding-top:'+bodyTop+'px');
+    id=api.pageParam.scene.id;
+
+    getOrder();
+  }
+  function add_Address(){
+    // 添加新地址
+    api.addEventListener({
+        name: 'addressback'
+    }, function (ret, err) {
+      getaddress();
+    });
+    api.openWin({
+        name: 'addAddress',
+        url: '../address/add.html',
+        pageParam:{
+          froms:"confirmOrder"
+        }
+    });
+  }
+  function choseAdd(){
+    api.addEventListener({
+        name: 'choseAddress'
+    }, function (ret, err) {
+        address=ret.value.address;
+        console.log(JSON.stringify(address));
+        draw();
+    });
+    api.openWin({
+        name: 'addresslist',
+        url: '../address/list.html',
+        pageParam:{
+          froms:"confirmOrder"
+        }
+    });
+  }
+  function getaddress(){
+    request2("/api/user/getaddress", "post", {}, function(res){
+      console.log(JSON.stringify(res.data))
+      if(res.code == 1){
+        address=res.data;
+        draw();
+      }
+    },function(error){
+
+    })
+  }
+  function draw(){
+    var html = template("tpgoods", {msg:msg, https:https,address:address});
+    $api.html($api.dom("#content"),html);
+  }
+  function hidepop(){
+    $api.addCls($api.dom(".pop"), 'hide');
+  }
+  function showpop(event){
+    event.stopPropagation();
+  }
+  function paytype(num){
+    $api.attr($api.dom("input[name='paytype'][value=type"+num+"]"), 'checked', true);
+    pay_method= parseInt(num);
+  }
+  var id_integrals,paylist;
+  // 点击支付按钮
+  function paybtn(){
+    if(!pay_method){
+      console.log(pay_method);
+      api.toast({
+        msg:"请选择支付方式",
+        location:"middle"
+      });
+      return false;
+    }
+    var data={
+      id:id,
+      address_id:address.id,
+      pay_data:pay_method
+    }
+    console.log(JSON.stringify(data));
+    request2("/api/gift/createOrder", "post", data, function(res){
+      console.log(JSON.stringify(res))
+      if(res.code == 1){
+        id_integrals=res.data.id;
+        paylist=res.data.paylist;
+        if(pay_method==1 || pay_method==0){
+          $api.removeCls($api.dom(".pop"), 'hide');
+        }else {
+          pay();
+        }
+      }
+    },function(error){
+
+    })
+  }
+  function pay(){
+    if((pay_method==1 || pay_method==0) && !$api.val($api.dom("input[name='pay_pwd']"))){
+      api.toast({
+        msg:"请输入支付密码",
+        location:"middle"
+      });
+      return false;
+    }else if (pay_method==3) {
+      //支付宝支付
+      var aliPayPlus = api.require('aliPayPlus');
+      aliPayPlus.payOrder({
+          orderInfo: paylist
+      }, function(ret, err) {
+          if(ret.code=="9000"){
+            tosuccess()
+          }
+      });
+      return false;
+    }
+    request2("/api/gift/pay", "post", {
+      id:id_integrals,
+      pay_pwd:(pay_method==1 || pay_method==0)?$api.val($api.dom("input[name='pay_pwd']")):"",
+    }, function(res){
+      console.log(JSON.stringify(res))
+      if(res.code == 1){
+        api.openWin({
+            name: 'paysuccess',
+            url: 'paySuccess.html',
+            pageParam:{
+              froms:"gift"
+            }
+        });
+      }
+    },function(error){
+
+    })
+  }
+  function getOrder(){
+    request2("/api/gift/details", "post", {
+      id:id
+    }, function(res){
+      console.log(JSON.stringify(res.data));
+      if(res.code == 1){
+        msg = res.data;
+        var html = template("tpgoods", {msg:msg, https:https});
+        $api.html($api.dom("#content"),html);
+        getaddress();
+      }
+    },function(error){
+
+    })
+  }
+  function toBack(){
+    api.historyBack({
+    },function(ret,err){
+        if (!ret.status) {
+          api.closeWin();
+        }
+    });
+  }
+</script>

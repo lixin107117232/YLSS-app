@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>忘记密码</title>
+    <link rel="stylesheet" type="text/css" href="../../css/api.css"/>
+    <link rel="stylesheet" type="text/css" href="../../css/style.css"/>
+    <style>
+      .bg{
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        min-height: 667px;
+        background: linear-gradient(270deg, #faa060 0%, #ff6a00 100%);
+        left: 0;
+        top: 0;
+        box-sizing: border-box;
+      }
+      .content{
+        width: 92%;
+        height: 72%;
+        background: #FFFFFF;
+        border-radius: 15px;
+        position: absolute;
+        left: 4%;
+        top: 9%;
+      }
+      .content .boxtop{
+        width: 100%;
+        height: 100%;
+        background: #FFFFFF;
+        box-shadow: 0px 3px 50px rgba(55, 85, 255, 0.2);
+        border-radius: 15px;
+        padding: 5.6% 8%;
+        box-sizing: border-box;
+      }
+      .content .boxtop .title{
+        font-size: 30px;
+        font-weight: bold;
+        line-height: 42px;
+        color: #000000;
+        margin-bottom: 6%;
+      }
+      .content .boxtop .item{
+        margin-bottom: 5%;
+      }
+      .content .boxtop .item label{
+        font-size: 18px;
+        font-weight: 400;
+        line-height: 25px;
+        color: #999999;
+        display: block;
+      }
+      .content .boxtop .item .inputbox{
+        width: 100%;
+        height: 48px;
+        line-height: 48px;
+        margin-top: 15px;
+        background: #EFEFF4;
+        border-radius: 34px;
+        padding: 0 10%;
+        box-sizing: border-box;
+
+      }
+      .content .boxtop .item input{
+        font-size: 16px;
+        /*font-weight: bold;*/
+        line-height: 28px;
+        color: #000000;
+      }
+      .content .boxtop .item .inputbox .getcode{
+        font-size: 14px;
+        font-weight: 400;
+        line-height: 20px;
+        color: #ff6a00;
+      }
+      .content .logintype{
+        font-size: 14px;
+        font-weight: 400;
+        line-height: 20px;
+        color: #ff6a00;
+        width: 100%;
+        text-align: right;
+        padding-right: 10%;
+        box-sizing: border-box;
+      }
+      .content .btn{
+        width: 100%;
+        height: 48px;
+        background: linear-gradient(270deg, #faa060 0%, #ff6a00 100%);
+        border-radius: 34px;
+        text-align: center;
+        line-height: 48px;
+        margin-top: 30px;
+        font-size: 20px;
+        font-weight: 400;
+        line-height: 48px;
+        color: #FFFFFF;
+      }
+      .hide{
+        display: none
+      }
+    </style>
+</head>
+<body>
+  <div class="bg">
+    <div class="content">
+      <div class="boxtop">
+        <div class="title">忘记密码</div>
+        <div class="item">
+          <label>手机号</label>
+          <div class="inputbox">
+            <input type="number" name="mobile" value="" placeholder="请输入手机号">
+          </div>
+        </div>
+        <div class="item" style="margin-bottom: 3%;">
+          <label>验证码</label>
+          <div class="inputbox df aic jcsb">
+            <input type="text" name="captcha" value="" placeholder="请输入验证码" style="width:calc(100% - 80px)">
+            <span class="getcode" onclick="getcode()">获取验证码</span>
+            <span class="getcode01 hide">再次获取</span>
+          </div>
+          <div class="inputbox df aic jcsb">
+            <input type="password" name="newpassword" value="" placeholder="请输入密码" style="width:calc(100% - 80px)">
+          </div>
+          <div class="inputbox df aic jcsb">
+            <input type="password" name="newpassword_again" value="" placeholder="请再次输入密码" style="width:calc(100% - 80px)">
+          </div>
+        </div>
+        <div class="btn" onclick="save()">保存</div>
+      </div>
+  </div>
+</body>
+</html>
+<script type="text/javascript" src="../../script/api.js"></script>
+<script type="text/javascript" src="../../script/common.js"></script>
+<script type="text/javascript">
+var timer;
+apiready = function () {
+  $api.fixStatusBar($api.dom('.bg'));
+}
+// 获取验证码
+function getcode(){
+  var mobile =$api.val($api.dom("input[name='mobile']"));
+
+  if(!mobile){
+    api.toast({
+      msg:"请填写手机号",
+      location:"middle"
+    });
+    return false;
+  }else if(!/^[1][3,4,5,6,7,8,9][0-9]{9}$/.test(mobile)){
+    api.toast({
+      msg:"手机号格式不正确",
+      location:"middle"
+    });
+    return false;
+  }
+  request1("/api/sms/send", "get", {
+    mobile:mobile,
+    "event":"update_pwd"
+  }, function(res){
+    countdown()
+  },function(error){
+
+  })
+}
+// 倒计时
+function countdown() {
+  var djs=60;
+
+  $api.addCls($api.dom(".getcode"), 'hide');
+  $api.removeCls($api.dom(".getcode01"), 'hide');
+  $api.text($api.dom(".getcode01"),djs+'s');
+
+  timer=setInterval(function(){
+    djs--;
+    if(djs==0){
+      clearInterval(timer);
+      $api.removeCls($api.dom(".getcode"), 'hide');
+      $api.addCls($api.dom(".getcode01"), 'hide');
+      $api.text($api.dom(".getcode"),'再次发送');
+      return false;
+    }
+    // console.log(djs);
+    $api.text($api.dom(".getcode01"),djs+'s');
+  },1000)
+};
+function save(){
+  var data={};
+      data["mobile"]=$api.val($api.dom("input[name='mobile']")),
+      data["newpassword"]=$api.val($api.dom("input[name='newpassword']")),
+      data["newpassword_again"]=$api.val($api.dom("input[name='newpassword_again']")),
+      data["captcha"]=$api.val($api.dom("input[name='captcha']"));
+  request1("/api/user/resetpwd", "post", data, function(res){
+    if(res.code == 1){
+      api.toast({
+        msg:"修改密码成功",
+        location:"middle"
+      });
+      timer=setTimeout(function(){
+        api.sendEvent({
+            name: 'loginout'
+        });
+        api.closeToWin({
+            name: 'root'
+        });
+      },2000)
+
+    }
+  },function(error){
+
+  })
+}
+</script>

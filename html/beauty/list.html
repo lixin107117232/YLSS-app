@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>列表页</title>
+    <link rel="stylesheet" type="text/css" href="../../css/api.css"/>
+    <link rel="stylesheet" type="text/css" href="../../css/style.css"/>
+    <style>
+      body{
+        padding-top: 50px;
+        height: auto;
+        background: #f4f4f4
+      }
+      header{
+        width: 100%;
+        height: 50px;
+        padding: 10px 16px 0;
+        box-sizing: border-box;
+        background: #fff;
+        position: fixed;
+        top: 0;
+        left: 0;
+        z-index: 9999;
+        font-size: 20px;
+        font-weight: bold;
+        line-height: 28px;
+        color: #000000;
+      }
+      header .ul{
+        width: 100%;
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      header .toleft{
+        position: absolute;
+        left: 0;
+        top: 50%;
+        margin-top: -14px;
+        width: 28px;
+        height: 28px;
+      }
+      .list{
+        width: 100%;
+        padding: 0 16px;
+        box-sizing: border-box;
+        margin:0 auto;
+        overflow: hidden;
+        background: #fff;
+        border-top: 1px solid #f4f4f4
+      }
+      .list .item{
+        width: calc(50% - 6px);
+        height: 190px;
+        background: #F6F6F6;
+        float: left;
+        padding-top: 16px;
+        box-sizing: border-box;
+        margin-top: 20px;
+        border-radius: 10px;
+        position: relative;
+      }
+      .list .item:nth-child(2n){
+        margin-right: 0
+      }
+      .list .item .goodsimg{
+        width: 100px;
+        height: 100px;
+        display: block;
+        margin: auto;
+      }
+      .list .item .goodsmsg{
+        width: calc(100% - 20px);
+        margin:10px auto 7px;
+        text-align: center;
+      }
+      .list .item .goodsmsg .price{
+        font-size: 20px;
+        font-weight: bold;
+        line-height: 24px;
+        color: #000000;
+        margin-right: 10px
+      }
+      .list .item .goodsmsg .count{
+        font-size: 12px;
+        font-weight: 400;
+        line-height: 17px;
+        color: #999999;
+      }
+      .list .item .goodsname{
+        width: calc(100% - 20px);
+        margin: auto;
+        font-size: 14px;
+        font-weight: 400;
+        line-height: 20px;
+        color: #999999;
+        text-align: center;
+      }
+      .list .item .flags{
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 85px;
+        height: 20px;
+        background: #f57921;
+        display: block;
+        border-top-left-radius: 10px;
+        border-bottom-right-radius: 10px;
+        font-size: 10px;
+        color: #fff;
+        text-align: center;
+        line-height: 20px;
+      }
+    </style>
+</head>
+<body>
+  <header>
+    <div class="ul">
+      <img src="../../image/toleft.png" alt="" class="toleft">
+      <div class="title">鼻综合</div>
+    </div>
+  </header>
+  <div class="list df aic jcsb fww">
+    <div class="item">
+      <span class="flags">进口商品</span>
+      <img src="../image/goods.png" alt="" class="goodsimg">
+      <div class="goodsmsg">
+        <span class="price">1350</span>
+        <span class="count">库存：1234</span>
+      </div>
+      <div class="goodsname">保湿魔瓶深度补水</div>
+    </div>
+    <div class="item">
+      <img src="../image/goods.png" alt="" class="goodsimg">
+      <div class="goodsmsg">
+        <span class="price">1350</span>
+        <span class="count">库存：1234</span>
+      </div>
+      <div class="goodsname">保湿魔瓶深度补水</div>
+    </div>
+    <div class="item">
+      <img src="../image/goods.png" alt="" class="goodsimg">
+      <div class="goodsmsg">
+        <span class="price">1350</span>
+        <span class="count">库存：1234</span>
+      </div>
+      <div class="goodsname">保湿魔瓶深度补水</div>
+    </div>
+  </div>
+</body>
+</html>
+<script type="text/javascript" src="../../script/api.js"></script>
+<script type="text/javascript" src="../../script/common.js"></script>
+<script type="text/javascript" src="../../script/template-web.js"></script>
+<script type="text/javascript">
+  apiready = function () {
+    $api.fixStatusBar( $api.dom('header') );
+    var bodyTop = $api.offset($api.dom('header')).h;
+    $api.css($api.dom('body'),'padding-top:'+bodyTop+'px');
+  }
+
+</script>

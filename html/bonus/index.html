@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>奖金</title>
+    <link rel="stylesheet" type="text/css" href="../../css/api.css"/>
+    <link rel="stylesheet" type="text/css" href="../../css/style.css"/>
+    <link rel="stylesheet" type="text/css" href="../../css/swiper-3.3.1.min.css"/>
+    <style>
+      body{
+        padding-top: 50px;
+        height: auto;
+        padding-bottom: 50px;
+      }
+      header{
+        width: 100%;
+        background: #fff;
+        position: fixed;
+        top: 0;
+        left: 0;
+        z-index: 9999;
+        font-size: 20px;
+        font-weight: bold;
+        line-height: 28px;
+        color: #000000;
+      }
+      header .ul{
+        width: calc(100% - 32px);
+        height: 40px;
+        box-sizing: border-box;
+        margin: auto;
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      header .toleft{
+        position: absolute;
+        left: 0;
+        top: 50%;
+        margin-top: -14px;
+        width: 28px;
+        height: 28px;
+      }
+      .balancebox{
+        width: 343px;
+        height: 168px;
+        background: url("../../image/banner.png");
+        margin:28px auto;
+        padding: 30px 40px;
+        box-sizing: border-box;
+        color: #fff
+      }
+      .balancebox .bt{
+        font-size: 16px;
+        font-family: PingFang SC;
+        font-weight: 400;
+        line-height: 22px;
+        color: #FFFFFF;
+      }
+      .balancebox .number{
+        font-size: 40px;
+        font-weight: 400;
+        line-height: 48px;
+        color: #FFFFFF;
+      }
+      .group {
+        width: 343px;
+        margin: 40px auto;
+        /*padding: 0 26px;*/
+        box-sizing: border-box;
+      }
+      .group .item{
+        width: 100%;
+        height: 49px;
+        background: #EFEFF4;
+        border-radius: 34px;
+        margin:20px auto;
+        padding: 0 20px;
+        box-sizing: border-box;
+      }
+      .group .item input{
+        width: 100%;
+        height: 49px;
+        line-height: 49px;
+      }
+      .btn{
+        width: 343px;
+        height: 49px;
+        background: linear-gradient(270deg, #faa060 0%, #ff6a00 100%);
+        border-radius: 34px;
+        font-size: 18px;
+        font-weight: 400;
+        color: #ffffff;
+        margin:40px auto 20px;
+      }
+      .tips{
+        width: 343px;
+        margin: auto;
+        font-size: 14px;
+        font-weight: 400;
+        line-height: 20px;
+        color: #999999;
+      }
+      .tipsbox{
+        width: 343px;
+        margin:40px auto;
+        font-size: 14px;
+        font-weight: 400;
+        line-height: 20px;
+        color: #b41014
+      }
+    </style>
+</head>
+<body>
+  <header>
+    <div class="ul">
+      <img src="../../image/toleft.png" alt="" class="toleft" onclick="toBack()">
+      <div class="title">奖金</div>
+    </div>
+  </header>
+  <div class="balancebox df ffc jcsb">
+    <div class="bt">我的奖金</div>
+    <div class="number"></div>
+  </div>
+  <div class="group">
+    <div class="item">
+      <input type="number" name="money" value="" placeholder="请输入转出金额">
+    </div>
+  </div>
+  <div class="btn df aic jcc" onclick="withdraw()">转出余额</div>
+  <div class="df aic jcsb tips">
+    <span onclick="record()">转出记录</span>
+    <span onclick="detail()">奖金详情</span>
+  </div>
+  <div class="tipsbox">
+
+  </div>
+</body>
+</html>
+<script type="text/javascript" src="../../script/api.js"></script>
+<script type="text/javascript" src="../../script/common.js"></script>
+<script type="text/javascript" src="../../script/template-web.js"></script>
+<script type="text/html" id="tp">
+  <!-- <div>最低转出奖金：{{msg.min_bonus_cash}}</div>
+  <div>手续费{{msg.bonus_transfer_charge}}%</div> -->
+</script>
+<script type="text/javascript">
+  var min_bonus_cash, //最低转出金
+      my_bonus;      //当前奖金
+  apiready = function () {
+    $api.fixStatusBar( $api.dom('header') );
+    var bodyTop = $api.offset($api.dom('header')).h;
+    $api.css($api.dom('body'),'padding-top:'+bodyTop+'px');
+    getbonus();
+  }
+  function getbonus(){
+    request2("/api/user/my_bonus", "post", {
+    }, function(res){
+      console.log(JSON.stringify(res.data));
+      if(res.code == 1){
+        $api.text($api.dom(".number"), res.data.my_bonus);
+        min_bonus_cash= parseFloat(res.data.min_bonus_cash);
+        my_bonus=parseFloat(res.data.my_bonus);
+
+        var html = template("tp", {msg:res.data});
+        $api.html($api.dom(".tipsbox"),html);
+      }
+    },function(error){
+
+    })
+  }
+  // 转出
+  function withdraw(){
+    var money = parseFloat($api.val($api.dom("input[name='money']")));
+    if(!money){
+      api.toast({
+        msg:"请输入转出金额",
+        location:"middle"
+      });
+      return false;
+    }
+    if(money<min_bonus_cash){
+      api.openFrame({
+          name: 'toast',
+          url: '../component/tosat.html',
+          rect: {
+              x: 0,
+              y: 0,
+              w: api.winWidth,
+              h: api.winHeight
+          },
+          pageParam: {
+            msgtxt:"最低转出奖金为"+min_bonus_cash+"元"
+          },
+          bounces: true,
+          bgColor: 'rgba(0,0,0,.2)',
+          vScrollBarEnabled: true,
+          hScrollBarEnabled: true
+      });
+      return false;
+    }
+    if(money>my_bonus){
+      api.toast({
+        msg:"当前奖金不足",
+        location:"middle"
+      });
+      return false;
+    }
+    request2("/api/user/do_bonus", "post", {
+      num:money
+    }, function(res){
+      console.log(JSON.stringify(res.data));
+      if(res.code == 1){
+        api.toast({
+          msg:"转出成功",
+          location:"middle"
+        });
+        getbonus();
+        api.sendEvent({
+            name: 'refresh'
+        });
+        $api.val($api.dom("input[name='money']"),"")
+      }
+    },function(error){
+
+    })
+  }
+  function record(){
+    api.openWin({
+        name: 'bal_record',
+        url: 'record.html'
+    });
+  }
+  function detail(){
+    api.openWin({
+        name: 'bal_record1',
+        url: 'record1.html'
+    });
+  }
+  function toBack(){
+    api.historyBack({
+    },function(ret,err){
+        if (!ret.status) {
+          api.closeWin();
+        }
+    });
+  }
+
+</script>

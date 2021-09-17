@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>我的团队</title>
+    <link rel="stylesheet" type="text/css" href="../../css/api.css"/>
+    <link rel="stylesheet" type="text/css" href="../../css/style.css"/>
+    <link rel="stylesheet" type="text/css" href="../../css/swiper-3.3.1.min.css"/>
+    <style>
+      body{
+        padding-top: 50px;
+        height: auto;
+        padding-bottom: 50px;
+      }
+      header{
+        width: 100%;
+        height: 40px;
+        background: #fff;
+        position: fixed;
+        top: 0;
+        left: 0;
+        z-index: 9999;
+        font-size: 20px;
+        font-weight: bold;
+        line-height: 28px;
+        color: #000000;
+        display: flex;
+        padding-top: 10px;
+      }
+      header .ul{
+        width: calc(100% - 32px);
+        height: 40px;
+        margin: auto;
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      header .toleft{
+        position: absolute;
+        left: 0;
+        top: 50%;
+        margin-top: -14px;
+        width: 28px;
+        height: 28px;
+      }
+      header .iconrecord{
+        position: absolute;
+        right: 0;
+        top: 50%;
+        margin-top: -14px;
+        width: 28px;
+        height: 28px;
+      }
+      .headbox{
+        width: calc(100% - 32px);
+        height: 222px;
+        margin: auto;
+        border-bottom: 1px solid #EFEFF4;
+      }
+      .headbox .item{
+        width: 50%;
+        display: flex;
+        flex-flow: column;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+      }
+      .headbox .item:first-child:after{
+        content:"";
+        display: block;
+        position: absolute;
+        right: 0;
+        top: 50%;
+        margin-top: -50px;
+        width: 1px;
+        height: 100px;
+        background: #EFEFF4;
+      }
+      .headbox .item .bt{
+        font-size: 14px;
+        font-weight: 400;
+        line-height: 20px;
+        color: #f57921;
+      }
+      .headbox .item .num{
+        font-size: 20px;
+        font-weight: bold;
+        line-height: 31px;
+        color: #000000;
+        margin-top: 18px;
+      }
+      .headbox .item .num span{
+        font-size: 25px;
+        line-height: 31px;
+        color: #000000;
+      }
+      .headbox .item .name{
+        font-size: 12px;
+        font-weight: 400;
+        line-height: 17px;
+        color: #999999;
+        margin-top: 5px;
+      }
+      .table{
+        width: calc(100% - 32px);
+        margin: auto;
+      }
+      .table .bt{
+        padding: 0 10px;
+        box-sizing: border-box;
+        font-size: 14px;
+        font-weight: 400;
+        line-height: 20px;
+        color: #f57921;
+        margin: 25px 0 5px;
+      }
+      .table .tr{
+        width: 100%;
+        height: 60px;
+        border-bottom: 1px solid #EFEFF4;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 10px;
+        box-sizing: border-box;
+      }
+      .table .tr div:first-child,.table .tr div:nth-child(2){
+        width: 35%;
+      }
+      .table .tr div:nth-child(2){
+        width: 30%;
+      }
+      .table .tr div:nth-child(3){
+        width: 20%;
+      }
+      .table .tr .td{
+        font-size: 14px;
+        font-weight: bold;
+        line-height: 20px;
+        color: #000000;
+        text-align: left;
+      }
+      .table .tr .th{
+        font-size: 14px;
+        font-weight: 400;
+        line-height: 20px;
+        color: #999999;
+      }
+    </style>
+</head>
+<body>
+  <header>
+    <div class="ul">
+      <img src="../../image/toleft.png" alt="" class="toleft" onclick="toBack()">
+      <div class="title">业绩明细</div>
+    </div>
+  </header>
+  <div id="content">
+
+  </div>
+</body>
+</html>
+<script type="text/javascript" src="../../script/api.js"></script>
+<script type="text/javascript" src="../../script/common.js"></script>
+<script type="text/javascript" src="../../script/template-web.js"></script>
+<script type="text/html" id="tp">
+  <div class="headbox df aic jcsa">
+    <div class="item">
+      <span class="bt">本月总消费</span>
+      <span class="num">￥<span>{{msg.user_sum_money}}</span></span>
+      <span class="name">个人</span>
+      <span class="num">￥<span>{{msg.team_sum_money}}</span></span>
+      <span class="name">团队</span>
+    </div>
+    <div class="item">
+      <span class="bt">上月总消费</span>
+      <span class="num">￥<span>{{msg.user_lastmonth_money}}</span></span>
+      <span class="name">个人</span>
+      <span class="num">￥<span>{{msg.team_lastmonth_money}}</span></span>
+      <span class="name">团队</span>
+    </div>
+  </div>
+  <div class="table">
+    <div class="bt">业绩明细</div>
+    <div class="tr">
+      <div class="td">时间</div>
+      <div class="td">昵称</div>
+      <div class="td">金额</div>
+    </div>
+    {{each team_achievement_data}}
+    <div class="tr">
+      <div class="th">{{$value.createtime}}</div>
+      <div class="th">{{$value.userdata.nickname}}</div>
+      <div class="th">￥{{$value.money}}</div>
+    </div>
+    {{/each}}
+  </div>
+</script>
+<script type="text/javascript">
+  var  page=1, team_achievement_data=[], isSclLoad=true;
+  apiready = function () {
+    $api.fixStatusBar( $api.dom('header') );
+    var bodyTop = $api.offset($api.dom('header')).h;
+    $api.css($api.dom('body'),'padding-top:'+bodyTop+'px');
+    getMsg();
+    fnInitEvent();
+  }
+  // 上拉加载更多
+  function fnInitEvent() {
+     api.addEventListener({
+         name: 'scrolltobottom',
+         extra: {
+             threshold: 10
+         }
+     }, function(ret, err) {
+        if(isSclLoad){
+          page++;
+          getMsg();
+        }
+     });
+  };
+  function getMsg(){
+    request2("/api/user/myteam_achievement", "post", {
+      page:page
+    }, function(res){
+      console.log(JSON.stringify(res.data));
+      if(res.code == 1){
+        team_achievement_data = team_achievement_data.concat(res.data.team_achievement_data);
+        if(res.data.team_achievement_data.length<1){
+          isSclLoad=false;
+        }
+        var html = template("tp", {msg:res.data, team_achievement_data:team_achievement_data});
+        $api.html($api.dom("#content"),html);
+      }
+    },function(error){
+
+    })
+  }
+  function swith(tag){
+    $api.toggleCls(tag, 'open');
+  }
+  function toBack(){
+    api.historyBack({
+    },function(ret,err){
+        if (!ret.status) {
+          api.closeWin();
+        }
+    });
+  }
+</script>

@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>修改资料</title>
+    <link rel="stylesheet" type="text/css" href="../../css/api.css"/>
+    <link rel="stylesheet" type="text/css" href="../../css/style.css"/>
+    <link rel="stylesheet" type="text/css" href="../../css/swiper-3.3.1.min.css"/>
+    <style>
+      body{
+        padding-top: 50px;
+        height: auto;
+        padding-bottom: 50px;
+      }
+      header{
+        width: 100%;
+        background: #fff;
+        position: fixed;
+        top: 0;
+        left: 0;
+        z-index: 9999;
+        font-size: 20px;
+        font-weight: bold;
+        line-height: 28px;
+        color: #000000;
+      }
+      header .ul{
+        width: calc(100% - 32px);
+        height: 40px;
+        box-sizing: border-box;
+        margin: auto;
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      header .toleft{
+        position: absolute;
+        left: 0;
+        top: 50%;
+        margin-top: -14px;
+        width: 28px;
+        height: 28px;
+      }
+      .group {
+        margin-top: 20px;
+      }
+      .group .item{
+        width: calc(100% - 32px);
+        height: 62px;
+        margin: auto;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        border-bottom: 1px solid #f4f4f4;
+        padding: 0 10px;
+        box-sizing: border-box;
+      }
+      .group .item label{
+        font-size: 16px;
+        font-weight: 400;
+        line-height: 22px;
+        color: #000000;
+      }
+      .group .item .item_r{
+        width: calc(100% - 60px);
+        text-align: right;
+        height: 62px;
+        line-height: 62px;
+        font-size: 14px;
+        color: #999999;
+      }
+      .btn{
+        width: calc(100% - 52px);
+        height: 49px;
+        background: linear-gradient(270deg, #faa060 0%, #ff6a00 100%);
+        border-radius: 34px;
+        font-size: 18px;
+        font-weight: 400;
+        color: #ffffff;
+        margin:100px auto;
+      }
+    </style>
+</head>
+<body>
+  <header>
+    <div class="ul">
+      <img src="../../image/toleft.png" alt="" class="toleft" onclick="toBack()">
+      <div class="title">修改资料</div>
+    </div>
+  </header>
+  <div class="group">
+
+  </div>
+  <div class="btn df aic jcc" onclick="save()">保存</div>
+</body>
+</html>
+<script type="text/javascript" src="../../script/api.js"></script>
+<script type="text/javascript" src="../../script/common.js"></script>
+<script type="text/javascript" src="../../script/template-web.js"></script>
+<script type="text/html" id="template">
+  <div class="item">
+    {{if name=='nickname'}}
+    <label>昵称</label>
+    <input type="text" name="vals" value="{{val}}" class="item_r">
+    {{else if name=='mobile'}}
+    <label>手机号</label>
+    <input type="number" name="vals" value="{{val}}" class="item_r">
+    {{/if}}
+  </div>
+</script>
+<script type="text/javascript">
+  var name, val, timer;
+  apiready = function () {
+    $api.fixStatusBar( $api.dom('header') );
+    var bodyTop = $api.offset($api.dom('header')).h;
+    $api.css($api.dom('body'),'padding-top:'+bodyTop+'px');
+    name=api.pageParam.name;
+    val=api.pageParam.val;
+    rend()
+  }
+  function save(){
+    if(name == 'nickname'){
+      request2("/api/user/updnickname", "post", {
+        newnickname:$api.val($api.dom("input[name='vals']"))
+      }, function(res){
+        if(res.code == 1){
+          api.toast({
+            msg:"修改成功",
+            location:"middle"
+          });
+          api.sendEvent({
+              name: 'refresh1'
+          });
+          timer=setTimeout(function(){
+            toBack();
+          },2000)
+        }
+      },function(error){
+
+      })
+    }
+
+  }
+  function rend(){
+    var html = template("template", {name:name,val:val});
+    $api.html($api.dom(".group"),html);
+  }
+  function toBack(){
+    api.historyBack({
+    },function(ret,err){
+        if (!ret.status) {
+          api.closeWin();
+        }
+    });
+  }
+</script>

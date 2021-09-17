@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>我的团队</title>
+    <link rel="stylesheet" type="text/css" href="../../css/api.css"/>
+    <link rel="stylesheet" type="text/css" href="../../css/style.css"/>
+    <link rel="stylesheet" type="text/css" href="../../css/swiper-3.3.1.min.css"/>
+    <style>
+      body{
+        padding-top: 50px;
+        height: auto;
+        padding-bottom: 50px;
+      }
+      header{
+        width: 100%;
+        /*height: 50px;*/
+        padding-top: 10px;
+        /*box-sizing: border-box;*/
+        background: #fff;
+        position: fixed;
+        top: 0;
+        left: 0;
+        z-index: 9999;
+        font-size: 20px;
+        font-weight: bold;
+        line-height: 28px;
+        color: #000000;
+      }
+      header .ul{
+        width: calc(100% - 32px);
+        margin: auto;
+        height: 40px;
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      header .toleft{
+        position: absolute;
+        left: 0;
+        top: 50%;
+        margin-top: -14px;
+        width: 28px;
+        height: 28px;
+      }
+      header .iconrecord{
+        position: absolute;
+        right: 0;
+        top: 50%;
+        margin-top: -14px;
+        width: 28px;
+        height: 28px;
+      }
+      .headbox{
+        width: calc(100% - 32px);
+        height: 150px;
+        margin: auto;
+        border-bottom: 1px solid #EFEFF4;
+      }
+      .headbox .item{
+        width: 50%;
+        display: flex;
+        flex-flow: column;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+      }
+      .headbox .item:first-child:after{
+        content:"";
+        display: block;
+        position: absolute;
+        right: 0;
+        top: 50%;
+        margin-top: -22px;
+        width: 1px;
+        height: 44px;
+        background: #EFEFF4;
+      }
+      .headbox .item .num{
+        font-size: 40px;
+        font-weight: 400;
+        line-height: 48px;
+        color: #000000;
+      }
+      .headbox .item .name{
+        font-size: 12px;
+        font-weight: 400;
+        line-height: 17px;
+        color: #999999;
+        margin-top: 5px;
+      }
+      .list{
+        padding-top: 27px;
+        width: calc(100% - 32px);
+        margin: auto;
+      }
+      .list .item{
+        width: 100%;
+        margin-bottom: 32px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+      .list .item .via{
+        width: 90px;
+        height: 90px;
+        background: #f57921;
+        border-radius: 10px;
+      }
+      .list .item .item_r{
+        width: calc(100% - 110px);
+        height: 90px;
+        position: relative;
+      }
+      .list .item .name{
+        font-size: 14px;
+        font-weight: 400;
+        line-height: 20px;
+        color: #000000;
+        margin-bottom: 5px;
+      }
+      .list .item .flags{
+        width: 40px;
+        height: 20px;
+        background: #EFEFF4;
+        border-radius: 2px;
+        font-size: 10px;
+        font-weight: 400;
+        line-height: 14px;
+        color: #f57921;
+        text-align: center;
+        line-height: 20px
+      }
+      .list .item .line03{
+        width: 100%;
+        position: absolute;
+        left: 0;
+        bottom: 0;
+      }
+      .list .item .line03 .ids{
+        font-size: 14px;
+        font-weight: 400;
+        line-height: 20px;
+        color: #000000;
+      }
+      .list .item .line03 .time{
+        font-size: 14px;
+        font-weight: 400;
+        line-height: 20px;
+        color: #999999;
+      }
+
+    </style>
+</head>
+<body>
+  <header>
+    <div class="ul">
+      <img src="../../image/toleft.png" alt="" class="toleft" onclick="toBack()">
+      <div class="title">我的团队</div>
+      <img src="../../image/icon_record.png" alt="" class="iconrecord" onclick="record()">
+    </div>
+  </header>
+  <div id="content">
+
+  </div>
+</body>
+</html>
+<script type="text/javascript" src="../../script/api.js"></script>
+<script type="text/javascript" src="../../script/common.js"></script>
+<script type="text/javascript" src="../../script/template-web.js"></script>
+<script type="text/html" id="tphtml">
+  <div class="headbox df aic jcsa">
+    <div class="item">
+      <span class="num">{{zt_num}}</span>
+      <span class="name">我的直推</span>
+    </div>
+    <div class="item">
+      <span class="num">{{team_num}}</span>
+      <span class="name">团队总数</span>
+    </div>
+  </div>
+  <div class="list">
+    {{each user_data}}
+    <div class="item">
+      <img src="{{https+$value.avatar}}" alt="" class="via">
+      <div class="item_r">
+        <div class="name">{{$value.nickname}}</div>
+        <div class="flags">{{if $value.level==1}}消费者{{else if $value.level==2}}代理商{{else if $value.level==3}}总代理{{/if}}</div>
+        <div class="line03 df aic jcsb">
+          <span class="ids">ID:{{$value.fictitious_id}}</span>
+          <span class="time">{{$value.createtime}}</span>
+        </div>
+      </div>
+    </div>
+    {{/each}}
+  </div>
+</script>
+<script type="text/javascript">
+  var  page=1, user_data=[], isSclLoad=true;
+  apiready = function () {
+    $api.fixStatusBar( $api.dom('header') );
+    var bodyTop = $api.offset($api.dom('header')).h;
+    $api.css($api.dom('body'),'padding-top:'+bodyTop+'px');
+    getList();
+    fnInitEvent();
+  }
+  // 上拉加载更多
+  function fnInitEvent() {
+     api.addEventListener({
+         name: 'scrolltobottom',
+         extra: {
+             threshold: 10
+         }
+     }, function(ret, err) {
+        if(isSclLoad){
+          page++;
+          getList();
+        }
+     });
+  };
+  function getList(){
+    request2("/api/user/my_team", "post", {
+      page:page
+    }, function(res){
+      console.log(JSON.stringify(res.data));
+      if(res.code == 1){
+        var ress=res.data;
+        user_data=user_data.concat(ress.user_data);
+        if(ress.user_data.length<1){
+          isSclLoad=false;
+        }
+        var html = template("tphtml", {zt_num:ress.zt_num,team_num:ress.team_num, user_data:user_data, https:https});
+        $api.html($api.dom("#content"),html);
+      }
+    },function(error){
+
+    })
+  }
+  function swith(tag){
+    $api.toggleCls(tag, 'open');
+  }
+  function record(){
+    api.openWin({
+        name: 'team_record',
+        url: 'record.html'
+    });
+  }
+  function toBack(){
+    api.historyBack({
+    },function(ret,err){
+        if (!ret.status) {
+          api.closeWin();
+        }
+    });
+  }
+</script>

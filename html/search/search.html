@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>云API</title>
+    <link rel="stylesheet" type="text/css" href="../../css/api.css"/>
+    <link rel="stylesheet" type="text/css" href="../../css/style.css"/>
+    <style>
+      body{
+        /*padding-top: 50px;*/
+      }
+      header{
+        width: 100%;
+        background: #fff;
+        /*position: fixed;
+        top: 0;
+        left: 0;*/
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 9999
+      }
+      header .inputbox{
+        width: calc(100% - 32px);
+        height: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+      header .inputbox .toleft{
+        width: 28px;
+        height: 28px;
+      }
+      header .inputbox input{
+        width: calc(100% - 76px);
+        height: 40px;
+        line-height: 40px;
+        border-radius: 20px;
+        padding: 0 28px 0 16px;
+        box-sizing: border-box;
+        background: #F4F4F4;
+      }
+      header .inputbox .iconsearch{
+        font-size: 16px;
+        font-weight: bold;
+        line-height: 22px;
+        color: #ff6a00;
+      }
+      .bt{
+        width: calc(100% - 32px);
+        margin:25px auto 10px;
+        font-size: 18px;
+        font-weight: 800;
+        line-height: 25px;
+        color: #000000;
+      }
+      .list{
+        width: calc(100% - 32px);
+        overflow: hidden;
+        margin:0 auto;
+      }
+      .list .item{
+        width: auto;
+        padding: 0 12px;
+        height: 35px;
+        background: #F4F4F4;
+        font-size: 14px;
+        font-weight: 400;
+        line-height: 35px;
+        color: #777777;
+        float: left;
+        margin-right: 10px;
+        margin-bottom: 15px;
+      }
+      .list .item.hot:before{
+        content: " ";
+        width: 12px;
+        height: 14px;
+        display: inline-block;
+        background: url("../../image/fire.png");
+        background-size: 100%;
+        margin-right: 10px;
+      }
+    </style>
+</head>
+<body>
+  <header>
+    <div class="inputbox">
+      <img src="../../image/toleft.png" alt="" class="toleft"  onclick="toBack()">
+      <input type="text" name="name" value="" placeholder="请输入搜索内容">
+      <span class="iconsearch" onclick="search()">搜索</span>
+    </div>
+  </header>
+  <div class="content"></div>
+</body>
+</html>
+<script type="text/javascript" src="../../script/api.js"></script>
+<script type="text/javascript" src="../../script/common.js"></script>
+<script type="text/javascript" src="../../script/template-web.js"></script>
+<script type="text/html" id="tplist">
+  <div class="bt">历史搜索</div>
+  <div class="list">
+    {{each list}}
+    <div class="item" onclick="chose('{{$value.name}}')">{{$value.name}}</div>
+    {{/each}}
+  </div>
+  <div class="bt">热门搜索</div>
+  <div class="list">
+    {{each hot_list}}
+    <div class="item hot" onclick="chose('{{$value.name}}')">{{$value.name}}</div>
+    {{/each}}
+  </div>
+</script>
+<script type="text/javascript">
+  var froms;
+  apiready = function () {
+    $api.fixStatusBar( $api.dom('header') );
+    var bodyTop = $api.offset($api.dom('header')).h;
+    $api.dom("input[name='name']").focus();
+    froms=api.pageParam.froms;
+    getList();
+  }
+  function chose(val){
+    $api.val($api.dom("input[name='name']"), val);
+    search();
+  }
+  function search(){
+    if(!$api.val($api.dom("input[name='name']"))){
+      api.toast({
+          msg : '请填写搜索关键词',
+          duration : 3000,
+          location : 'middle'
+      });
+      return false;
+    }
+    var url= (froms == "integral" ? "../exchange/searchlist.html" : "../beauty/searchlist.html")
+    api.openWin({
+        name: 'searchlist',
+        url: url,
+        pageParam:{
+          name: $api.val($api.dom("input[name='name']"))
+        }
+    });
+  }
+  function getList(){
+    var hot_list=[], list=[];
+    if(froms=="integral"){
+      request2("/api/integral.search/index", "post", {}, function(res){
+        console.log(JSON.stringify(res.data));
+        if(res.code == 1){
+          hot_list=res.data.hot_list;
+          list=res.data.list;
+          draw()
+        }
+      },function(error){
+
+      })
+    }else if(froms=="beauty"){
+      request1("/api/hospital/hot_search", "post", {}, function(res){
+        console.log(JSON.stringify(res.data));
+        if(res.code == 1){
+          hot_list=res.data;
+          if($api.getStorage("token")){
+            request2("/api/hospital/recent_search", "post", {}, function(res){
+              console.log(JSON.stringify(res.data));
+              if(res.code == 1){
+                list=res.data;
+                draw()
+              }
+            },function(error){
+              draw()
+            })
+          }else {
+
+          }
+        }
+      },function(error){
+
+      })
+    }
+    function draw(){
+      var html = template("tplist", {hot_list:hot_list,list:list, https:https, froms:froms});
+      $api.html($api.dom(".content"),html);
+    }
+  }
+  function toBack(){
+    api.historyBack({
+    },function(ret,err){
+        if (!ret.status) {
+          api.closeWin();
+        }
+    });
+  }
+</script>

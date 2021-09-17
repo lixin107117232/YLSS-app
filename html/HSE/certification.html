@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>实名认证</title>
+    <link rel="stylesheet" type="text/css" href="../../css/api.css"/>
+    <link rel="stylesheet" type="text/css" href="../../css/style.css"/>
+    <link rel="stylesheet" type="text/css" href="../../css/swiper-3.3.1.min.css"/>
+    <style>
+      body{
+        padding-top: 50px;
+        height: auto;
+        padding-bottom: 50px;
+      }
+      header{
+        width: 100%;
+        background: #fff;
+        position: fixed;
+        top: 0;
+        left: 0;
+        z-index: 9999;
+        font-size: 20px;
+        font-weight: bold;
+        line-height: 28px;
+        color: #000000;
+      }
+      header .ul{
+        width: calc(100% - 32px);
+        height: 40px;
+        box-sizing: border-box;
+        margin: auto;
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      header .toleft{
+        position: absolute;
+        left: 0;
+        top: 50%;
+        margin-top: -14px;
+        width: 28px;
+        height: 28px;
+      }
+      .group{
+        margin-top: 40px;
+      }
+      .group .item{
+        width: calc(100% - 52px);
+        height: 49px;
+        background: #EFEFF4;
+        border-radius: 34px;
+        margin:20px auto;
+        padding: 0 20px;
+        box-sizing: border-box;
+      }
+      .group .item input{
+        width: 100%;
+        height: 100%;
+        font-size: 14px;
+        font-weight: 400;
+        line-height: 20px;
+        color: #333;
+        line-height: 49px;
+      }
+      .group .cardbt{
+        width: calc(100% - 52px);
+        margin:30px auto 18px;
+        font-size: 16px;
+        font-weight: 400;
+        line-height: 22px;
+        color: #000000;
+      }
+      .group .itemcard{
+        width: calc(100% - 52px);
+        margin:0 auto;
+      }
+      .group .itemcard .upbox{
+        width: 155px;
+        height: 130px;
+        background: #f57921;
+        border-radius: 10px;
+        margin-right: 15px
+      }
+      .group .itemcard .upbox img{
+        width: 155px;
+        height: 130px;
+        border-radius: 10px;
+      }
+      .btn{
+        width: calc(100% - 52px);
+        height: 49px;
+        background: linear-gradient(270deg, #faa060 0%, #ff6a00 100%);
+        border-radius: 34px;
+        font-size: 18px;
+        font-weight: 400;
+        color: #ffffff;
+        margin:100px auto;
+      }
+      .hide{
+        display: none;
+      }
+    </style>
+</head>
+<body>
+  <header>
+    <div class="ul">
+      <img src="../../image/toleft.png" alt="" class="toleft" onclick="toBack()">
+      <div class="title">实名认证</div>
+    </div>
+  </header>
+  <div class="group">
+    <div class="item">
+      <input type="text" name="real_name" value="" placeholder="请输入真实姓名">
+    </div>
+    <div class="item">
+      <input type="text" name="id_card" value="" placeholder="请输入身份证号码">
+    </div>
+    <div class="cardbt">请上传身份证</div>
+    <div class="itemcard df aic">
+      <div class="upbox">
+        <img src="../../image/certification_1.png" alt="" id="id_card_zm"  onclick="uploadpic(1)">
+        <!-- <span>上传正面</span> -->
+      </div>
+      <div class="upbox">
+        <img src="../../image/certification_2.png" alt="" id="id_card_fm" onclick="uploadpic(2)">
+        <!-- <span>上传反面</span> -->
+      </div>
+    </div>
+  </div>
+  <div class="btn df aic jcc" id="btn" onclick="add()">确认</div>
+</body>
+</html>
+<script type="text/javascript" src="../../script/api.js"></script>
+<script type="text/javascript" src="../../script/common.js"></script>
+<script type="text/javascript" src="../../script/template-web.js"></script>
+<script type="text/javascript">
+  apiready = function () {
+    $api.fixStatusBar( $api.dom('header') );
+    var bodyTop = $api.offset($api.dom('header')).h;
+    $api.css($api.dom('body'),'padding-top:'+bodyTop+'px');
+    getMsg()
+  }
+  // 上传图片
+  function uploadpic(num){
+    // console.log(index);
+    api.actionSheet({
+         title : '上传照片',
+         cancelTitle : '取消',
+         buttons : ['拍照', '手机相册']
+     }, function(ret, err) {
+         if (ret) {
+             if (ret.buttonIndex == 1) {
+                //  相机拍照
+                getPicByCamera(num)
+             } else if (ret.buttonIndex == 2) {
+                 //手机相册选图片
+                 getPicOne(num)
+             }
+         }
+     });
+  }
+  //  相机拍照
+  function  getPicByCamera(num) {
+    confirmPer('camera,storage',function(){
+      api.getPicture({
+           sourceType : 'camera',
+           encodingType : 'jpg',
+           mediaValue :'pic',
+           destinationType : 'url',
+           allowEdit : false,
+           quality : 100,
+           saveToPhotoAlbum : false
+       }, function(ret, err) {
+           //  alert(JSON.stringify(ret));
+           if (ret) {
+             if(ret.data){
+               saveImg(num,ret.data);
+             }
+           } else {
+               api.toast({
+                   msg : '图像获取失败',
+                   duration : 3000,
+                   location : 'bottom'
+               });
+           }
+       });
+    })
+  }
+  //手机相册选图片
+  function getPicOne(num) {
+    confirmPer('storage',function(){
+      api.getPicture({
+         sourceType: 'album',
+         encodingType:'jpg',
+         mediaValue: 'pic',
+         destinationType: 'url',
+         allowEdit: true,
+         quality: 50,
+        //  targetWidth: 100,
+        //  targetHeight: 100,
+         saveToPhotoAlbum: false
+      }, function(ret, err) {
+           console.log(JSON.stringify(ret.data));
+          if (ret) {
+            if(ret.data){
+              saveImg(num,ret.data);
+            }
+          } else {
+              api.toast({
+                  msg : '图像获取失败',
+                  duration : 3000,
+                  location : 'bottom'
+              });
+          }
+      });
+    })
+  }
+  var zmimg, fmimg;
+  // 上传图片
+  function saveImg(num,path){
+    api.showProgress({
+        title: '上传中...',
+        text: '先喝杯茶...',
+    });
+    //上传剪辑后的图像到服务器
+    api.ajax({
+        url : https + '/api/common/upload',
+        method : 'post',
+        headers: {
+            'Token':$api.getStorage("token")
+        },
+        data : {
+            files : {
+                file : path
+            }
+        }
+    }, function(ret, err) {
+        console.log(JSON.stringify(ret));
+        // console.log(JSON.stringify(err));
+        api.hideProgress();
+        if(ret.code==1){
+          if(num==1){
+            zmimg=ret.data.url;
+            $api.attr($api.dom("#id_card_zm"), 'src', https+zmimg);
+          }else {
+            fmimg=ret.data.url;
+            $api.attr($api.dom("#id_card_fm"), 'src', https+fmimg);
+          }
+        }else {
+          api.toast({
+              msg : '上传错误',
+              duration : 3000,
+              location : 'bottom'
+          });
+        }
+    });
+  }
+  function getMsg(){
+    request2("/api/user/identity_verification", "post", {    }, function(res){
+      console.log(JSON.stringify(res.data));
+      if(res.code == 1 && res.data.id_card){
+        $api.val($api.dom("input[name='real_name']"), res.data.real_name);
+        $api.val($api.dom("input[name='id_card']"), res.data.id_card);
+        $api.attr($api.dom("#id_card_zm"), 'src', https+res.data.id_card_zm);
+        $api.attr($api.dom("#id_card_fm"), 'src', https+res.data.id_card_fm);
+        $api.addCls($api.dom("#btn"), 'hide');
+      }
+    },function(error){
+
+    })
+  }
+  var timer;
+  // 保存
+  function add(){
+    request2("/api/user/save_identity_verification", "post", {
+      real_name:$api.val($api.dom("input[name='real_name']")),
+      id_card:$api.val($api.dom("input[name='id_card']")),
+      id_card_zm:zmimg,
+      id_card_fm:fmimg
+    }, function(res){
+      console.log(JSON.stringify(res.data));
+      if(res.code == 1){
+        api.toast({
+            msg : '提交成功',
+            duration : 2000,
+            location : 'middle'
+        });
+        timer=setTimeout(function(){
+          toBack();
+        },2000)
+      }
+    },function(error){
+
+    })
+  }
+  function toBack(){
+    api.historyBack({
+    },function(ret,err){
+        if (!ret.status) {
+          api.closeWin();
+        }
+    });
+  }
+</script>

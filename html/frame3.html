@@ -1,0 +1,1015 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>个人</title>
+    <link rel="stylesheet" type="text/css" href="../css/api.css"/>
+    <link rel="stylesheet" type="text/css" href="../css/style.css"/>
+    <style>
+      .bg{
+        width: 100%;
+        padding-top: 0px;
+        min-height: 860px;
+        background-size: 100%;
+        background-repeat: no-repeat;
+        position: relative;
+        top: 0;
+        left: 0;
+        background-color:#efedee ;
+      }
+      .headmsg {
+        width: 100%;
+        padding: 50px 30px 20px;
+        box-sizing: border-box;
+        margin:0px auto;
+        position: relative;
+      }
+      .headmsg .via{
+        width: 50px;
+        height: 50px;
+        border-radius: 50px;
+        border:3px solid #ffffff;
+      }
+      .headmsg .headmsg_c{
+        width: calc(100% - 100px);
+        color: #fff;
+      }
+      .headmsg .headmsg_c .account{
+        width: 140px;
+        font-size: 22px;
+        font-weight: 400;
+        line-height: 26px;
+        color: #FFFFFF;
+        letter-spacing: 0px;
+        margin-bottom:5px;
+        text-align: justify;
+      }
+      .headmsg .headmsg_c .flags{
+        width: 70px;
+        height: 20px;
+        background: #FFFFFF;
+        border-radius: 5px;
+        text-align: center;
+        line-height: 20px;
+        font-size: 12px;
+        color: #FE720E;
+        margin-right: 10px;
+        display: inline-block;
+        padding: 0;
+      }
+      .headmsg .headmsg_c .accountid{
+        font-size: 16px;
+        font-weight: 400;
+        line-height: 17px;
+        color: #FFFFFF;
+
+      }
+      .headmsg .toright{
+        width: 20px;
+        border:1px solid #FFFFFF;
+        padding: 3px;
+        border-radius: 20px;
+      }
+      .numberbox{
+        width: 100%;
+        padding: 0 20px;
+        box-sizing: border-box;
+        margin:10px auto 100px;
+        position: relative;
+        z-index: 2
+      }
+      .numberbox .item{
+        width: 30%;
+        display: flex;
+        flex-flow: column;
+        align-items: center;
+        justify-content: center;
+        color: #fff
+      }
+      .numberbox .item .num{
+        font-size: 20px;
+        line-height: 20px;
+        margin-bottom: 5px;
+      }
+      .numberbox .item .name{
+        font-size: 16px;
+        line-height: 22px;
+      }
+      .per01{
+        position:relative;
+        width: calc(100% - 30px);
+        height: 300px;
+        background: #FFFFFF;
+        z-index: 2;
+        border-radius: 5px;
+        margin: -40px auto 10px;
+        padding-top:10px;
+      }
+      .ddzx01{
+        width:calc(45% - 5px);
+        height:100px;
+        float:left;
+        padding:10px;
+        color:#000000;
+      }
+      .ddzx01 span.bar{
+        width:calc(100% - 5px);
+        margin:10px auto 10px;
+        line-height: 1rem;
+        height: 1rem;
+        font-size:1rem;
+        padding-left:.5rem;
+        letter-spacing: 1px;
+        font-weight:bold;
+        border-left: 3px solid #faa060;
+        position: relative;
+      }
+      .ddzx01 span.bar img{
+        width:auto;
+        height:100%;
+        right:20px;
+        position: absolute;
+      }
+      .ddzx02{
+        width:calc(45% - 5px);
+        height:100px;
+        float:left;
+        padding:10px;
+        color:#000000;
+      }
+      .ddzx02 span.bar{
+        width:calc(100% - 5px);
+        margin:10px auto 10px;
+        line-height: 1rem;
+        height: 1rem;
+        font-size:1rem;
+        padding-left:.5rem;
+        letter-spacing: 1px;
+        font-weight:bold;
+        border-left: 3px solid #faa060;
+        position: relative;
+      }
+      .ddzx02 span.bar img{
+        width:auto;
+        height:100%;
+        right:20px;
+        position: absolute;
+      }
+      .ddzx03{
+        width:calc(100% - 5px);
+        height:100px;
+        float:left;
+        padding:10px;
+        color:#000000;
+      }
+      .ddzx03 span.bar{
+        width:calc(100% - 5px);
+        margin:30px auto 10px;
+        line-height: 1rem;
+        height: 1rem;
+        font-size:1rem;
+        padding-left:.5rem;
+        letter-spacing: 1px;
+        font-weight:bold;
+        border-left: 3px solid #faa060;
+        position: relative;
+      }
+      .ddzx03 span.bar img{
+        width:auto;
+        height:100%;
+        right:38px;
+        position: absolute;
+      }
+      .tgzx{
+        width: calc(100% - 50px);
+        position:relative;
+        margin:20px auto 10px;
+        display: block;
+      }
+      .tgzx span{
+        font-size:1rem;
+        font-weight:bold;
+        line-height: 1rem;
+        padding-left:.5rem;
+        letter-spacing: 1px;
+        border-left: 3px solid #faa060;
+      }
+      .per02{
+        position:relative;
+        width: calc(100% - 30px);
+        height: 60px;
+        background: #FFFFFF;
+        z-index: 2;
+        border-radius: 5px;
+        margin: 10px auto 10px;
+      }
+      .per03{
+        position:relative;
+        width: calc(100% - 30px);
+        height: 100px;
+        background: #fcfafb;
+        z-index: 2;
+        border-radius: 5px;
+        margin: 10px auto 10px;
+      }
+      .menu03{
+        position: relative;
+        width: 100%;
+        /*height: 500px;*/
+        border-radius: 10px 10px 0px 0px;
+        background: #fff;
+        padding-top:5px;
+        padding-bottom: 10px;
+      }
+      .menu03 .item{
+        width: calc(49% - 32px);
+        margin: 10px auto 0;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+      .menu03 .item .itemicon{
+        width: 30px;
+        height: 30px;
+        margin-right: 10px;
+      }
+      .menu03 .item .item_l{
+        font-size: 14px;
+        font-weight: 400;
+        line-height: 20px;
+        color: #000000;
+      }
+      .menu03 .item .more{
+        width: 1rem;
+        height:auto;
+        margin-left: 10px
+      }
+      .menu04{
+        width:100%;
+        height: 100px;
+        margin:10px auto 10px;
+      }
+      .menu04 .item{
+        display: flex;
+        flex-flow: column;
+        align-items: center;
+        justify-content: center;
+        font-size: 12px;
+        font-weight: 400;
+        line-height: 20px;
+        color: #000000;
+      }
+      .menu04 .item img{
+        width: 30px;
+        height: auto;
+        margin-bottom: 10px;
+      }
+      .menu04 .item span{
+        font-size:10px;
+      }
+      .menu01{
+        width:100%;
+        height: 60px;
+        margin-top: 0px;
+        margin:20px auto 10px;
+      }
+      .menu01 .item{
+        display: flex;
+        flex-flow: column;
+        align-items: center;
+        justify-content: center;
+        font-size: 12px;
+        font-weight: 400;
+        line-height: 20px;
+        color: #000000;
+      }
+      .menu01 .item img{
+        max-width: 50px;
+        max-height: 50px;
+        margin-bottom: 10px;
+      }
+      .menu02{
+        position: relative;
+        width: calc(100% - 32px);
+        height: 30px;
+        margin: 20px auto 0;
+        border-radius: 10px;
+        background: #fff;
+        padding-top: 10px;
+        padding-bottom:10px;
+      }
+      .menu02 .item{
+        width: calc(100% - 32px);
+        margin: 0px auto;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+      .menu02 .item .itemicon{
+        width: 30px;
+        height: 30px;
+        margin-right: 14px;
+      }
+      .menu02 .item .item_l{
+        font-size: 14px;
+        font-weight: 400;
+        line-height: 20px;
+        color: #000000;
+      }
+      .menu02 .item .item_r{
+        font-size: 14px;
+        font-weight: 400;
+        line-height: 20px;
+        color: #999999;
+      }
+      .menu02 .item .more{
+        width: 15px;
+        margin-left: 10px
+      }
+      .huiyuan{
+        width:100%;
+        height:250px;
+        margin:0 auto;
+        background: linear-gradient(0deg, #faa060 0%, #ff6a00 100%);
+        z-index: 1;
+      }
+    </style>
+</head>
+<body>
+  <div class="bg">
+    <!-- <img src="../image/bg.png" alt="" class="bgimg" onclick="bgupimg()"> -->
+    <header>
+
+    </header>
+    <div id="content">
+
+    </div>
+  </div>
+</body>
+</html>
+<script type="text/javascript" src="../script/api.js"></script>
+<script type="text/javascript" src="../script/common.js"></script>
+<script type="text/javascript" src="../script/template-web.js"></script>
+<script type="text/html" id="template">
+  {{if islogin}}
+  <div class="huiyuan">
+    <div class="headmsg df aic jcsb">
+      <img src="{{https+msg.avatar}}" alt="" class="via">
+      <div class="headmsg_c">
+        <div class="account">{{msg.mobile}}</div>
+        <div class="df aic jcsb" style="width:140px; padding: 0 2px; box-sizing: border-box;">
+          <!-- <span class="flags" onclick="person()">个人主页 > </span> -->
+          {{if msg.level == 2}}
+          <span class="flags">代理商</span>
+          {{else if msg.level == 3}}
+          <span class="flags">总代理</span>
+          {{else}}
+          <span class="flags">消费者</span>
+          {{/if}}
+          <span class="accountid">ID:{{msg.fictitious_id}}</span>
+        </div>
+      </div>
+      <img src="../image/toright2.png" alt="" class="toright" onclick="person()">
+    </div>
+    <div class="numberbox df aic jcsa">
+      <div class="item" onclick="balance()">
+        <div class="num">{{msg.money}}</div>
+        <div class="name">YL</div>
+      </div>
+      <div class="item" onclick="integral()">
+        <div class="num">{{msg.score}}</div>
+        <div class="name">积分</div>
+      </div>
+      <div class="item" onclick="bonus()">
+        <div class="num">{{msg.bonus}}</div>
+        <div class="name">SP</div>
+      </div>
+    </div>
+  </div>
+  
+<div class="per01">
+     <div class="ddzx01">
+        <span class="bar" onclick="order('seckill')">抢购订单<img src="../image/toright.png" alt="" class="more"></span>
+        <div class="menu01 df aic jcsa">
+          <div class="item" onclick="order('seckill')">
+            <img src="../image/my01.png" alt="">
+            <span>待选择</span>
+          </div>
+          <div class="item" onclick="order('seckill')">
+            <img src="../image/my02.png" alt="">
+            <span>待发货</span>
+          </div>
+          <!-- <div class="item" onclick="order('integral')">
+            <img src="../image/myzoemenu03.png" alt="">
+            <span>兑换订单</span>
+          </div> -->
+          <!-- <div class="item" onclick="order('beauty')">
+            <img src="../image/myzoemenu04.png" alt="">
+            <span>医美订单</span>
+          </div> -->
+        </div>
+     </div>
+     <div class="ddzx02">
+        <span class="bar"  onclick="order('presell')">预售订单<img src="../image/toright.png" alt="" class="more"></span>
+        <div class="menu01 df aic jcsa">
+          <div class="item" onclick="order('presell')">
+            <img src="../image/my03.png" alt="">
+            <span>待预售</span>
+          </div>
+          <div class="item" onclick="order('presell')">
+            <img src="../image/my04.png" alt="">
+            <span>待支付</span>
+          </div>
+        </div>
+     </div>
+   <div class="ddzx03">
+      <span class="bar" onclick="order('integral')">兑换订单<img src="../image/toright.png" alt="" class="more"></span>
+      <div class="menu01 df aic jcsa">
+        <div class="item" onclick="order('integral')">
+          <img src="../image/my05.png" alt="">
+          <span>待支付</span>
+        </div>
+        <div class="item" onclick="order('integral')">
+          <img src="../image/my06.png" alt="">
+          <span>待发货</span>
+        </div>
+        <div class="item" onclick="order('integral')">
+          <img src="../image/my07.png" alt="">
+          <span>待收货</span>
+        </div>
+        <div class="item" onclick="order('integral')">
+          <img src="../image/my08.png" alt="">
+          <span>已完成</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="tgzx">
+    <span>推广中心</span>
+  </div>
+
+  <div class="per02">
+    <div class="menu03 df aic jcsa">
+      <div class="item" onclick="myteam()">
+        <div class="item_l">
+          <img src="../image/Myteam@3x@3x.png" alt="" class="itemicon">
+          我的团队
+        </div>
+        <img src="../image/toright.png" alt="" class="more">
+      </div>
+      <div class="item" onclick="invite()">
+        <div class="item_l">
+          <img src="../image/Invitefriends@3x@3x.png" alt="" class="itemicon">
+          邀请好友
+        </div>
+        <img src="../image/toright.png" alt="" class="more">
+      </div>
+    </div>
+  </div>
+
+  <div class="tgzx">
+    <span>安全管理</span>
+  </div>
+
+  <div class="per03">
+  <div class="menu04 df aic jcsa">
+    <div class="item" onclick="passwd()">
+      <img src="../image/anquan01.png" alt="">
+      <span>登录密码修改</span>
+    </div>
+    <div class="item" onclick="psd_pay()">
+      <img src="../image/anquan02.png" alt="">
+      <span>支付设置</span>
+    </div>
+    <div class="item" onclick="addresslist()">
+      <img src="../image/anquan03.png" alt="">
+      <span>收货地址管理</span>
+    </div>
+    <div class="item" onclick="certification()">
+      <img src="../image/anquan04.png" alt="">
+      <span>实名认证</span>
+    </div>
+    <div class="item" onclick="paymentterm()">
+      <img src="../image/anquan05.png" alt="">
+      <span>收款方式</span>
+    </div>
+  </div>
+  </div>
+
+  <div class="menu02">
+    <div class="item" onclick="aboutUs()">
+      <div class="item_l">
+        <img src="../image/Mymerchant@3x@3x.png" alt="" class="itemicon">
+        关于我们
+      </div>
+      <img src="../image/toright.png" alt="" class="more">
+    </div>
+    <!-- <div onclick="imchat()" class="item">
+      <div class="item_l">
+        <img src="../image/customerservice@3x@3x.png" alt="" class="itemicon">
+        联系客服
+      </div>
+      <div class="item_r df aic">
+        <img src="../image/toright.png" alt="" class="more">
+      </div>
+    </div> -->
+  </div>
+  {{else}}
+  <div class="huiyuan">
+    <div class="headmsg df aic jcsa">
+      <img src="../image/via.png" alt="" class="via">
+      <div class="headmsg_c" style="width:calc(100% - 80px)" onclick="login()">
+        <div class="account">点击登录</div>
+      </div>
+    </div>
+
+    <div class="numberbox df aic jcsa">
+      <div class="item" onclick="login()">
+        <div class="num">0</div>
+        <div class="name">YL</div>
+      </div>
+      <div class="item" onclick="login()">
+        <div class="num">0</div>
+        <div class="name">积分</div>
+      </div>
+      <div class="item" onclick="login()">
+        <div class="num">0</div>
+        <div class="name">SP</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="per01">
+    <div class="ddzx01">
+      <span class="bar" onclick="login()">抢购订单<img src="../image/toright.png" alt="" class="more"></span>
+      <div class="menu01 df aic jcsa">
+        <div class="item" onclick="login()">
+          <img src="../image/my01.png" alt="">
+          <span>待选择</span>
+        </div>
+        <div class="item" onclick="login()">
+          <img src="../image/my02.png" alt="">
+          <span>待发货</span>
+        </div>
+        <!-- <div class="item" onclick="order('integral')">
+          <img src="../image/myzoemenu03.png" alt="">
+          <span>兑换订单</span>
+        </div> -->
+        <!-- <div class="item" onclick="order('beauty')">
+          <img src="../image/myzoemenu04.png" alt="">
+          <span>医美订单</span>
+        </div> -->
+      </div>
+    </div>
+    <div class="ddzx02">
+      <span class="bar" onclick="login()">预售订单<img src="../image/toright.png" alt="" class="more"></span>
+      <div class="menu01 df aic jcsa">
+        <div class="item" onclick="login()">
+          <img src="../image/my03.png" alt="">
+          <span>待预售</span>
+        </div>
+        <div class="item" onclick="login()">
+          <img src="../image/my04.png" alt="">
+          <span>待支付</span>
+        </div>
+      </div>
+    </div>
+    <div class="ddzx03">
+      <span class="bar" onclick="login()">兑换订单<img src="../image/toright.png" alt="" class="more"></span>
+      <div class="menu01 df aic jcsa">
+        <div class="item" onclick="login()">
+          <img src="../image/my05.png" alt="">
+          <span>待支付</span>
+        </div>
+        <div class="item" onclick="login()">
+          <img src="../image/my06.png" alt="">
+          <span>待发货</span>
+        </div>
+        <div class="item" onclick="login()">
+          <img src="../image/my07.png" alt="">
+          <span>待收货</span>
+        </div>
+        <div class="item" onclick="login()">
+          <img src="../image/my08.png" alt="">
+          <span>已完成</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="tgzx">
+    <span>推广中心</span>
+  </div>
+
+  <div class="per02">
+    <div class="menu03 df aic jcsa">
+      <div class="item" onclick="login()">
+        <div class="item_l">
+          <img src="../image/Myteam@3x@3x.png" alt="" class="itemicon">
+          我的团队
+        </div>
+        <img src="../image/toright.png" alt="" class="more">
+      </div>
+      <div class="item" onclick="login()">
+        <div class="item_l">
+          <img src="../image/Invitefriends@3x@3x.png" alt="" class="itemicon">
+          邀请好友
+        </div>
+        <img src="../image/toright.png" alt="" class="more">
+      </div>
+    </div>
+  </div>
+
+  <div class="tgzx">
+    <span>安全管理</span>
+  </div>
+
+  <div class="per03">
+  <div class="menu04 df aic jcsa">
+    <div class="item" onclick="login()">
+      <img src="../image/anquan01.png" alt="">
+      <span>登录密码修改</span>
+    </div>
+    <div class="item" onclick="login()">
+      <img src="../image/anquan02.png" alt="">
+      <span>支付设置</span>
+    </div>
+    <div class="item" onclick="login()">
+      <img src="../image/anquan03.png" alt="">
+      <span>收货地址管理</span>
+    </div>
+    <div class="item" onclick="login()">
+      <img src="../image/anquan04.png" alt="">
+      <span>实名认证</span>
+    </div>
+    <div class="item" onclick="login()">
+      <img src="../image/anquan05.png" alt="">
+      <span>收款方式</span>
+    </div>
+  </div>
+  </div>
+
+  <div class="menu02">
+    <div class="item" onclick="aboutUs()">
+      <div class="item_l">
+        <img src="../image/Mymerchant@3x@3x.png" alt="" class="itemicon">
+        关于我们
+      </div>
+      <img src="../image/toright.png" alt="" class="more">
+    </div>
+    <!-- <div onclick="imchat()" class="item">
+      <div class="item_l">
+        <img src="../image/customerservice@3x@3x.png" alt="" class="itemicon">
+        联系客服
+      </div>
+      <div class="item_r df aic">
+        <img src="../image/toright.png" alt="" class="more">
+      </div>
+    </div> -->
+  </div>
+
+  {{/if}}
+</script>
+<script type="text/javascript">
+var islogin=false;
+apiready = function () {
+  // $api.fixStatusBar( $api.dom('header') );
+  // var bodyTop = $api.offset($api.dom('header')).h;
+  // $api.css($api.dom('.bg'),'padding-top:'+bodyTop+'px');
+  //监听登录成功事件
+  api.addEventListener({
+      name: 'loginSuccess'
+  }, function (ret, err) {
+      islogin=true;
+      getMsg();
+  });
+  api.addEventListener({
+      name: 'loginout'
+  }, function (ret, err) {
+      islogin=false;
+      msg={};
+      draw();
+  });
+  api.addEventListener({
+      name: 'refresh'
+  }, function (ret, err) {
+    getMsg();
+  });
+  if($api.getStorage("token")){
+    islogin=true;
+    getMsg();
+  }else {
+    islogin=false;
+    draw();
+  }
+  // 下拉刷新
+  api.setRefreshHeaderInfo({
+      bgColor: '#fff',
+　　　　　textColor: '#4d4d4d',
+  },function(ret, err){
+      if($api.getStorage("token")){
+        islogin=true;
+        getMsg();
+      }else {
+        islogin=false;
+        draw();
+      }
+      api.refreshHeaderLoadDone();
+  });
+}
+function imchat(){
+  api.openWin({
+    name: 'imchat',
+      url: 'myzoe/imchat.html',
+      pageParam: {
+          name: 'test'
+      }
+  });
+}
+// 上传图片
+function bgupimg(){
+  // console.log(index);
+  api.actionSheet({
+       title : '上传照片',
+       cancelTitle : '取消',
+       buttons : ['拍照', '手机相册']
+   }, function(ret, err) {
+       if (ret) {
+           if (ret.buttonIndex == 1) {
+              //  相机拍照
+              getPicByCamera()
+           } else if (ret.buttonIndex == 2) {
+               //手机相册选图片
+               getPicOne()
+           }
+       }
+   });
+}
+//  相机拍照
+function  getPicByCamera() {
+  confirmPer('camera,storage',function(){
+    api.getPicture({
+         sourceType : 'camera',
+         encodingType : 'jpg',
+         mediaValue :'pic',
+         destinationType : 'url',
+         allowEdit : false,
+         quality : 100,
+         saveToPhotoAlbum : false
+     }, function(ret, err) {
+         //  alert(JSON.stringify(ret));
+         if (ret) {
+           if(ret.data){
+             saveImg(ret.data);
+           }
+         } else {
+             api.toast({
+                 msg : '图像获取失败',
+                 duration : 3000,
+                 location : 'bottom'
+             });
+         }
+     });
+  })
+}
+//手机相册选图片
+function getPicOne(types) {
+  confirmPer('storage',function(){
+    api.getPicture({
+       sourceType: 'album',
+       encodingType:'jpg',
+       mediaValue: 'pic',
+       destinationType: 'url',
+       allowEdit: true,
+       quality: 50,
+      //  targetWidth: 100,
+      //  targetHeight: 100,
+       saveToPhotoAlbum: false
+    }, function(ret, err) {
+         console.log(JSON.stringify(ret.data));
+        if (ret) {
+          if(ret.data){
+            saveImg(ret.data);
+          }
+        } else {
+            api.toast({
+                msg : '图像获取失败',
+                duration : 3000,
+                location : 'bottom'
+            });
+        }
+    });
+  })
+}
+// 上传图片
+function saveImg(path){
+  api.showProgress({
+      title: '上传中...',
+      text: '先喝杯茶...',
+  });
+  //上传剪辑后的图像到服务器
+  api.ajax({
+      url : https + '/api/common/upload',
+      method : 'post',
+      headers: {
+          'Token':$api.getStorage("token")
+      },
+      data : {
+          files : {
+              file : path
+          }
+      }
+  }, function(ret, err) {
+      console.log(JSON.stringify(ret));
+      // console.log(JSON.stringify(err));
+      api.hideProgress();
+      if(ret.code==1){
+        request2("/api/user/upd_bj_img", "post", {
+          url:ret.data.url
+        }, function(res){
+          console.log(JSON.stringify(res))
+          api.toast({
+              msg : '修改成功',
+              duration : 3000,
+              location : 'bottom'
+          });
+          api.sendEvent({
+              name: 'refresh'
+          });
+        },function(error){
+          console.log(JSON.stringify(error))
+        })
+      }else {
+        api.toast({
+            msg : '上传错误',
+            duration : 3000,
+            location : 'bottom'
+        });
+      }
+  });
+}
+// 我的团队
+function myteam(){
+  api.openWin({
+      name: 'myteam',
+      url: 'myteam/index.html'
+  });
+}
+// 订单
+function order(types){
+  if(types == "beauty"){
+    api.openFrame({
+        name: 'toast',
+        url: 'component/tosat.html',
+        rect: {
+            x: 0,
+            y: 0,
+            w: api.winWidth,
+            h: api.winHeight
+        },
+        pageParam: {
+          msgtxt:"暂未开通此功能"
+        },
+        bounces: true,
+        bgColor: 'rgba(0,0,0,.2)',
+        vScrollBarEnabled: true,
+        hScrollBarEnabled: true
+    });
+    return false;
+  }
+  api.openWin({
+      name: 'orderlist',
+      url: 'order/list.html',
+      pageParam:{
+        types: types
+      }
+  });
+}
+// 安全设置
+function HSE(){
+  api.openWin({
+      name: 'HSE',
+      url: 'HSE/index.html'
+  });
+}
+// 余额
+function balance(){
+  api.openWin({
+      name: 'balance',
+      url: 'balance/index.html'
+  });
+}
+// 积分
+function integral(){
+  api.openWin({
+      name: 'integral',
+      url: 'integral/index.html'
+  });
+}
+// 奖金
+function bonus(){
+  api.openWin({
+      name: 'bonus',
+      url: 'bonus/index.html'
+  });
+}
+// 个人设置
+function person(){
+  api.openWin({
+      name: 'person',
+      url: 'person/person.html'
+  });
+}
+// 邀请好友
+function invite(){
+  api.openWin({
+      name: 'invite',
+      url: 'myzoe/inviteqrcode.html'
+  });
+}
+// 关于我们
+function aboutUs(){
+  api.openWin({
+      name: 'aboutUs',
+      url: 'myzoe/aboutUs.html'
+  });
+}
+  // 收货地址
+  function addresslist(){
+    api.openWin({
+        name: 'address',
+        url: 'address/list.html'
+    });
+  }
+  // 修改登录密码
+  function passwd(){
+    // api.openWin({
+    //     name: 'passwd',
+    //     url: '../account/passwd.html'
+    // });
+    api.openWin({
+        name: 'passwd',
+        url: 'HSE/psd_login.html'
+    });
+  }
+  // 支付密码设置
+  function psd_pay() {
+    api.openWin({
+        name: 'psd_pay',
+        url: 'HSE/psd_pay.html'
+    });
+  }
+  // 银行卡绑定
+  function cardlist(){
+    api.openWin({
+        name: 'bankclist',
+        url: 'HSE/bankc_list.html'
+    });
+  }
+  // 收款方式
+  function paymentterm(){
+    api.openWin({
+        name: 'payment',
+        url: 'HSE/paymentlist.html'
+    });
+  }
+  // 实名认证
+  function certification(){
+    api.openWin({
+        name: 'certification',
+        url: 'HSE/certification.html'
+    });
+  }
+  function toBack(){
+    api.historyBack({
+    },function(ret,err){
+        if (!ret.status) {
+          api.closeWin();
+        }
+    });
+  }
+var msg;
+function getMsg() {
+  request2("/api/user/index", "post", {
+  }, function(res){
+    console.log(JSON.stringify(res.data));
+    if(res.code == 1){
+      msg=res.data;
+      draw();
+    }
+  },function(error){
+
+  })
+}
+function draw(){
+  var html = template("template", {msg:msg,https:https,islogin:islogin});
+  $api.html($api.dom("#content"),html);
+  if(msg && msg.bj_img){
+    $api.attr($api.dom(".bgimg"), 'src', https+msg.bj_img);
+  }
+}
+
+</script>

@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>医美-搜索结果页</title>
+    <link rel="stylesheet" type="text/css" href="../../css/api.css"/>
+    <link rel="stylesheet" type="text/css" href="../../css/style.css"/>
+    <style>
+      body{
+        padding-top: 50px;
+        height: auto;
+        background: #f4f4f4
+      }
+      header{
+        width: 100%;
+        height: 50px;
+        background: #fff;
+        position: fixed;
+        top: 0;
+        left: 0;
+        z-index: 9999
+      }
+      header ul{
+        width: calc(100% - 32px);
+        height: 40px;
+        margin: auto;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+      header .toleft{
+        width: 28px;
+        height: 28px;
+      }
+      header .inputbox{
+        width: calc(100% - 40px);
+        height: 40px;
+        background: #F4F4F4;
+        border-radius: 20px;
+        padding: 0 28px 0 16px;
+        box-sizing: border-box;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+      header .inputbox input{
+        width: calc(100% - 20px);
+        height: 40px;
+        line-height: 40px;
+      }
+      header .inputbox .iconsearch{
+        width: 18px;
+        height: 18px;
+      }
+      .dianc{ width: 100%; height: 100%; background: #fff;}
+      .dianc .left{ float: left; width: 25%; height: 100%; background: #fff; overflow-y: scroll; padding-top: 10px; position: fixed; left: 0; top: 50px; box-sizing: border-box}
+      .dianc .left ul{ padding-bottom: .8rem}
+      .dianc .left li{ width: 100%; height: 50px; line-height: 50px; text-align: center; position: relative}
+      .dianc .left li.active{ background: #fff; color: #6A50FA; font-size: 16px;}
+
+      .dianc .right{position: fixed; right: 0; bottom: 20px;width: 73%; height: calc(100% - 100px); padding: 20px 22px; box-sizing: border-box; background: #F4F4F4;  margin-top: 50px; border-radius: 30px 0px 0px 30px; overflow-y: scroll;}
+      .dianc .right .imgbox{width: 230px; margin: auto;}
+      .dianc .right .imgbox img{
+        width: 230px;
+        border-radius: 10px;
+      }
+      .dianc .right ul{
+        width: 230px;
+        margin: auto;
+      }
+      .dianc .right li{
+        width: 110px;
+        margin-top: 20px;
+        display: flex;
+        flex-flow: column;
+        align-items: center;
+        justify-content: center;
+      }
+      .dianc .right li .goodsimg{
+        width: 110px;
+        height: 100px;
+        background: #FFFFFF;
+        border-radius: 10px;
+        margin-bottom: 10px;
+      }
+      .dianc .right li .goodname{
+        font-size: 12px;
+        font-weight: 400;
+        line-height: 17px;
+        color: #000000;
+      }
+    </style>
+</head>
+<body>
+  <header>
+    <ul>
+      <img src="../../image/toleft.png" alt="" class="toleft" onclick="toBack()">
+      <div class="inputbox" onclick="search()">
+        <input type="text" name="" value="" placeholder="气垫鞋" disabled>
+        <img src="../../image/icon_search.png" alt="" class="iconsearch">
+      </div>
+    </ul>
+  </header>
+  <section class="dianc">
+      <div class="left">
+      </div>
+      <div class="right">
+          <div class="imgbox">
+            <img src="../../image/banner.png" alt="" id="banimg">
+          </div>
+          <ul class="df aic fww jcsb" id="list">
+          </ul>
+      </div>
+  </section>
+</body>
+</html>
+<script type="text/javascript" src="../../script/api.js"></script>
+<script type="text/javascript" src="../../script/common.js"></script>
+<script type="text/javascript" src="../../script/template-web.js"></script>
+<script type="text/html" id="tpclass">
+  <ul>
+      {{each menu}}
+      <li class="{{if $value.id == type_id}} active {{/if}}" onclick="changeTab({{$value.id}})">{{$value.name}}</li>
+      {{/each}}
+  </ul>
+</script>
+<script type="text/html" id="tplist">
+  {{each list}}
+  <li onclick="detail({{$value.goods_id}})">
+    <img src="{{$value.goodsdata.cover_image}}" alt="" class="goodsimg">
+    <div class="goodname">{{$value.goodsdata.name}}</div>
+  </li>
+  {{/each}}
+  {{if list.length<1}}
+    <div style="width:100%; text-align:center; line-height:100px">该分类暂无商品</div>
+  {{/if}}
+</script>
+<script type="text/javascript">
+  var menu=[], page=1, list=[], isSclLoad=true,type_id;
+  apiready = function () {
+    $api.fixStatusBar( $api.dom('header') );
+    var bodyTop = $api.offset($api.dom('header')).h;
+    $api.css($api.dom('body'),'padding-top:'+bodyTop+'px');
+    type_id=api.pageParam.id;
+    getGoodsclass();
+    getList();
+    getBan();
+  }
+  // 商品详情
+  function detail(id){
+    api.openWin({
+        name: 'beauty_detail',
+        url: '../goods/beauty_detail.html',
+        pageParam:{
+          id:id
+        }
+    });
+  }
+  function changeTab(id){
+    type_id=id;
+    drawTab();
+    list=[], isSclLoad=true,type_id;
+    getList();
+  }
+  function getBan(){
+    request1("/api/hospital/type_image", "post", {
+    }, function(res){
+      console.log(JSON.stringify(res.data));
+      if(res.code == 1){
+        $api.attr($api.dom("#banimg"), 'src', https+res.data);
+      }
+    },function(error){
+
+    })
+  }
+  function getGoodsclass(){
+    request1("/api/hospital/goods_class", "post", {
+    }, function(res){
+      console.log(JSON.stringify(res.data));
+      if(res.code == 1){
+        menu = res.data;
+        drawTab();
+      }
+    },function(error){
+
+    })
+  }
+  function getList(){
+    request1("/api/hospital/class_goods_data", "post", {
+      type_id:type_id
+    }, function(res){
+      console.log(JSON.stringify(res.data));
+      if(res.code == 1){
+        list=res.data
+        drawList();
+      }
+    },function(error){
+
+    })
+  }
+  // 去搜索页
+  function search(){
+    api.openWin({
+        name: 'search',
+        url: '../search/search.html',
+        pageParam:{
+          froms:"beauty"
+        }
+    });
+  }
+  function drawTab(){
+    var html = template("tpclass", {menu:menu, https:https,type_id:type_id});
+    $api.html($api.dom(".left"),html);
+  }
+  function drawList(){
+    var html = template("tplist", {list:list,  https:https});
+    $api.html($api.dom("#list"),html);
+  }
+  function toBack(){
+    api.historyBack({
+    },function(ret,err){
+        if (!ret.status) {
+          api.closeWin();
+        }
+    });
+  }
+</script>

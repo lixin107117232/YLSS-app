@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>兑换订单</title>
+    <link rel="stylesheet" type="text/css" href="../../css/api.css"/>
+    <link rel="stylesheet" type="text/css" href="../../css/style.css"/>
+    <link rel="stylesheet" type="text/css" href="../../css/swiper-3.3.1.min.css"/>
+    <style>
+      body{
+        padding-top: 50px;
+        height: auto;
+        padding-bottom: 50px;
+      }
+      header{
+        width: 100%;
+        background: #fff;
+        position: fixed;
+        top: 0;
+        left: 0;
+        z-index: 9999;
+        font-size: 20px;
+        font-weight: bold;
+        line-height: 28px;
+        color: #000000;
+      }
+      header .ul{
+        width: calc(100% - 32px);
+        margin: auto;
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      header .toleft{
+        position: absolute;
+        left: 0;
+        top: 50%;
+        margin-top: -14px;
+        width: 28px;
+        height: 28px;
+      }
+    </style>
+</head>
+<body>
+  <header>
+    <div class="ul">
+      <img src="../../image/toleft.png" alt="" class="toleft" onclick="toBack()">
+      <div class="title">地图</div>
+    </div>
+  </header>
+</body>
+</html>
+<script type="text/javascript" src="../../script/api.js"></script>
+<script type="text/javascript" src="../../script/common.js"></script>
+<script type="text/javascript" src="../../script/template-web.js"></script>
+<script type="text/javascript">
+  var order_id, msg, froms;
+  var map;
+  apiready = function () {
+    $api.fixStatusBar( $api.dom('header') );
+    var bodyTop = $api.offset($api.dom('header')).h;
+    $api.css($api.dom('body'),'padding-top:'+bodyTop+'px');
+
+    map = api.require('bMap');
+    var systemType = api.systemType;  // 比如： ios
+    if(systemType == "ios"){
+      map.initMapSDK(function(ret) {
+          if (ret.status) {
+              toMap(api.pageParam.lat,api.pageParam.lon);
+          }
+      });
+    }else {
+      toMap(api.pageParam.lat,api.pageParam.lon);
+    }
+  }
+  function toMap(lat,lon){
+    // console.log(lat);
+    // console.log(lon);
+    map.open({
+        rect: {
+            x: 0,
+            y: $api.offset($api.dom('header')).h,
+            w: api.winWidth,
+            h: api.winHeight-$api.offset($api.dom('header')).h
+        },
+        center: {
+            lon: lon,
+            lat: lat
+        },
+        zoomLevel: 12,
+        showUserLocation: true,
+        fixedOn: api.frameName,
+        fixed: true
+    }, function(ret) {
+
+    });
+    map.addAnnotations({
+    annotations: [{
+            id: 1,
+            lon: lon,
+            lat:  lat
+        }],
+        icon: 'widget://',
+        draggable: true
+    }, function(ret) {
+        if (ret) {
+            alert(ret.id);
+        }
+    });
+  }
+  function toBack(){
+    api.historyBack({
+    },function(ret,err){
+        if (!ret.status) {
+          api.closeWin();
+        }
+    });
+  }
+</script>

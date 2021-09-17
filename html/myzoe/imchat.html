@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>客服地址</title>
+    <link rel="stylesheet" type="text/css" href="../../css/api.css"/>
+    <link rel="stylesheet" type="text/css" href="../../css/style.css"/>
+    <link rel="stylesheet" type="text/css" href="../../css/swiper-3.3.1.min.css"/>
+    <style>
+      body{
+        padding-top: 50px;
+        height: auto;
+        padding-bottom: 50px;
+      }
+      header{
+        width: 100%;
+        padding-top: 10px;
+        background: #fff;
+        position: fixed;
+        top: 0;
+        left: 0;
+        z-index: 9999;
+        font-size: 20px;
+        font-weight: bold;
+        line-height: 28px;
+        color: #000000;
+      }
+      header .ul{
+        width: calc(100% - 32px);
+        height: 40px;
+        margin: auto;
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      header .toleft{
+        position: absolute;
+        left: 0;
+        top: 50%;
+        margin-top: -14px;
+        width: 28px;
+        height: 28px;
+      }
+      .logo{
+        width: 100px;
+        height: 100px;
+        background: #EFEFF4;
+        border-radius: 10px;
+        margin:60px auto;
+      }
+      .logo img{
+        width: 100px;
+        height: 100px;
+        border-radius: 10px;
+      }
+      .items{
+        width: calc(100% - 32px);
+        margin: auto;
+        border-bottom: 1px solid #f4f4f4;
+        padding: 0 0 20px;
+        font-size: 16px;
+        font-weight: 400;
+        line-height: 22px;
+        color: #000000;
+      }
+      .content{
+        width: 100%;
+        padding: 0 16px;
+        box-sizing: border-box;
+      }
+      .content img{
+        max-width: 100%
+      }
+    </style>
+</head>
+<body>
+  <header></header>
+  <div class="content" id="content">
+
+  </div>
+</body>
+</html>
+<script type="text/javascript" src="../../script/api.js"></script>
+<script type="text/javascript" src="../../script/common.js"></script>
+<script type="text/javascript" src="../../script/template-web.js"></script>
+<script type="text/javascript">
+  apiready = function () {
+    $api.fixStatusBar( $api.dom('header'));
+    api.setStatusBarStyle({
+        color:"#6A50FA"
+    });
+    api.addEventListener({
+        name: 'keyback'
+    }, function(ret, err) {
+      api.setStatusBarStyle({
+          color:"transparent"
+      });
+      api.closeFrame();
+      api.closeWin();
+    });
+    var bodyTop = $api.offset($api.dom('header')).h;
+    $api.css($api.dom('body'),'padding-top:'+bodyTop+'px');
+    api.openFrame({
+        name: 'imchats',
+        url: 'https://kefu.easemob.com/webim/im.html?configId=fd6bd14f-0460-47a6-b905-1a30aec2b618###',
+        rect: {
+            x: 0,
+            y: bodyTop,
+            w: api.winWidth,
+            h: api.winHeight-bodyTop
+        },
+        pageParam: {
+            name: 'test'
+        }
+    });
+  }
+</script>

@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>安全管理</title>
+    <link rel="stylesheet" type="text/css" href="../../css/api.css"/>
+    <link rel="stylesheet" type="text/css" href="../../css/style.css"/>
+    <link rel="stylesheet" type="text/css" href="../../css/swiper-3.3.1.min.css"/>
+    <style>
+      body{
+        padding-top: 50px;
+        height: auto;
+        padding-bottom: 50px;
+      }
+      header{
+        width: 100%;
+        background: #fff;
+        position: fixed;
+        top: 0;
+        left: 0;
+        z-index: 9999;
+        font-size: 20px;
+        font-weight: bold;
+        line-height: 28px;
+        color: #000000;
+      }
+      header .ul{
+        width: calc(100% - 32px);
+        height: 40px;
+        box-sizing: border-box;
+        margin: auto;
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      header .toleft{
+        position: absolute;
+        left: 0;
+        top: 50%;
+        margin-top: -14px;
+        width: 28px;
+        height: 28px;
+      }
+      .group .item{
+        width: calc(100% - 32px);
+        height: 62px;
+        margin: auto;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        border-bottom: 1px solid #f4f4f4;
+        padding: 0 10px;
+        box-sizing: border-box;
+      }
+      .group .item label{
+        font-size: 16px;
+        font-weight: 400;
+        line-height: 22px;
+        color: #000000;
+      }
+      .group .item .item_r{
+        font-size: 14px;
+        color: #999999;
+      }
+      .group .item .more{
+        width: 16px;
+        margin-left: 20px;
+      }
+    </style>
+</head>
+<body>
+  <header>
+    <div class="ul">
+      <img src="../../image/toleft.png" alt="" class="toleft" onclick="toBack()">
+      <div class="title">安全管理</div>
+    </div>
+  </header>
+  <div class="group">
+    <div class="item" onclick="passwd()">
+      <label>登录密码修改</label>
+      <div class="item_r">
+        <img src="../../image/toright3.png" alt="" class="more">
+      </div>
+    </div>
+    <div class="item" onclick="psd_pay()">
+      <label>支付设置</label>
+      <div class="item_r">
+        <img src="../../image/toright3.png" alt="" class="more">
+      </div>
+    </div>
+    <div class="item" onclick="addresslist()">
+      <label>收货地址管理</label>
+      <div class="item_r">
+        <img src="../../image/toright3.png" alt="" class="more">
+      </div>
+    </div>
+    <!-- <div class="item" onclick="cardlist()">
+      <label>银行卡绑定</label>
+      <div class="item_r">
+        <img src="../../image/toright3.png" alt="" class="more">
+      </div>
+    </div> -->
+    <div class="item" onclick="paymentterm()">
+      <label>收款方式</label>
+      <div class="item_r">
+        <img src="../../image/toright3.png" alt="" class="more">
+      </div>
+    </div>
+    <div class="item" onclick="certification()">
+      <label>实名认证</label>
+      <div class="item_r">
+        <img src="../../image/toright3.png" alt="" class="more">
+      </div>
+    </div>
+  </div>
+</body>
+</html>
+<script type="text/javascript" src="../../script/api.js"></script>
+<script type="text/javascript" src="../../script/common.js"></script>
+<script type="text/javascript" src="../../script/template-web.js"></script>
+<script type="text/javascript">
+  apiready = function () {
+    $api.fixStatusBar( $api.dom('header') );
+    var bodyTop = $api.offset($api.dom('header')).h;
+    $api.css($api.dom('body'),'padding-top:'+bodyTop+'px');
+  }
+  // 收货地址
+  function addresslist(){
+    api.openWin({
+        name: 'address',
+        url: '../address/list.html'
+    });
+  }
+  // 修改登录密码
+  function passwd(){
+    // api.openWin({
+    //     name: 'passwd',
+    //     url: '../account/passwd.html'
+    // });
+    api.openWin({
+        name: 'passwd',
+        url: 'psd_login.html'
+    });
+  }
+  // 支付密码设置
+  function psd_pay() {
+    api.openWin({
+        name: 'psd_pay',
+        url: 'psd_pay.html'
+    });
+  }
+  // 银行卡绑定
+  function cardlist(){
+    api.openWin({
+        name: 'bankclist',
+        url: 'bankc_list.html'
+    });
+  }
+  // 收款方式
+  function paymentterm(){
+    api.openWin({
+        name: 'payment',
+        url: 'paymentlist.html'
+    });
+  }
+  // 实名认证
+  function certification(){
+    api.openWin({
+        name: 'certification',
+        url: 'certification.html'
+    });
+  }
+  function toBack(){
+    api.historyBack({
+    },function(ret,err){
+        if (!ret.status) {
+          api.closeWin();
+        }
+    });
+  }
+
+</script>

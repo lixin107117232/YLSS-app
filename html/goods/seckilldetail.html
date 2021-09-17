@@ -1,0 +1,629 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>云API</title>
+    <link rel="stylesheet" type="text/css" href="../../css/api.css"/>
+    <link rel="stylesheet" type="text/css" href="../../css/style.css"/>
+    <link rel="stylesheet" type="text/css" href="../../css/swiper-3.3.1.min.css"/>
+    <style>
+      body{
+        padding-top: 50px
+      }
+      header{
+        width: 100%;
+        background: #fff;
+        position: fixed;
+        top: 0;
+        left: 0;
+        z-index: 9999;
+        font-size: 20px;
+        font-weight: bold;
+        line-height: 28px;
+        color: #000000;
+      }
+      header .ul{
+        width: calc(100% - 32px);
+        height: 40px;
+        box-sizing: border-box;
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      header .toleft{
+        position: absolute;
+        left: 0;
+        top: 50%;
+        margin-top: -14px;
+        width: 28px;
+        height: 28px;
+      }
+      .banner, .banner .swiper-slide, .banner .swiper-slide img{
+        /*width: 200px;*/
+        /*height: 200px;*/
+        width: 100%
+      }
+      .banner .swiper-pagination-bullet{
+        width: 20px;
+        height: 5px;
+        background: #E3E3E3;
+        border-radius: 0
+      }
+      .banner .swiper-pagination-bullet-active{
+        width: 20px;
+        height: 5px;
+        background: #f57921;
+      }
+      .line01{
+        padding: 0 26px;
+        box-sizing: border-box;
+        margin-top: 25px;
+      }
+      .goodsname{
+        width: calc(100% - 24px);
+        font-size: 20px;
+        font-weight: 400;
+        line-height: 28px;
+        color: #000000;
+      }
+      .share{
+        width: 16px;
+        height: 16px;
+        margin-top: 6px;
+      }
+      .line02{
+        width: calc(100% - 32px);
+        margin: auto;
+        padding: 10px 10px 12px;
+        box-sizing: border-box;
+      }
+      .line02 .jifen{
+        font-size: 12px;
+        font-weight: 400;
+        line-height: 36px;
+        color: #000000;
+      }
+      .line02 .jifen span{
+        font-size: 30px;
+        color: #f57921;
+        font-weight: normal;
+        margin-right: 6px;
+      }
+      .line02 .price{
+        font-size: 12px;
+        font-weight: 400;
+        line-height: 36px;
+        color: #000000;
+      }
+      .line02 .price span{
+        font-size: 30px;
+        font-weight: 400;
+        line-height: 37px;
+        color: #000000;
+      }
+      .line02 .count{
+        font-size: 14px;
+        font-weight: 400;
+        line-height: 20px;
+        color: #999999;
+      }
+      .line03{
+        width: calc(100% - 32px);
+        margin: auto;
+        height: 60px;
+        border: 1px solid #f4f4f4;
+        border-left: none;
+        border-right: none;
+        padding: 16px 10px;
+        box-sizing: border-box;
+      }
+      .line03 .lables{
+        font-size: 16px;
+        font-weight: 400;
+        line-height: 22px;
+        color: #999999;
+      }
+      .line03 .vals{
+        font-size: 16px;
+        font-weight: 400;
+        line-height: 22px;
+        color: #000000;
+      }
+      .line03 .vals img{
+        width: 18px;
+        margin-left: 10px;
+      }
+      .bottom{
+        width: 100%;
+        padding: 10px 26px;
+        box-sizing: border-box;
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        background: #fff
+      }
+      .bottom .bottom_l{
+        font-size: 14px;
+        font-weight: 400;
+        line-height: 20px;
+        color: #000000;
+      }
+      .bottom .radiobox{
+        position: relative;
+        overflow: hidden;
+        margin-right: 6px;
+      }
+      .bottom .radiobox input[type="radio"]{
+        position: absolute;
+        opacity: 0;
+        width: 24px;
+        height: 24px;
+        border-radius: 50%;
+        z-index: 9;
+      }
+      .bottom .radiobox input[type="radio"] + label {
+        display: block;
+        width: 24px;
+        height: 24px;
+        background: #FFFFFF;
+        border: 2px solid #999999;
+        border-radius: 50%;
+        z-index: 1;
+        box-sizing: border-box;
+      }
+      .bottom .radiobox input[type="radio"]:checked + label {
+        border: none;
+        background:url("../../image/select@2x@3x.png");
+        background-size: 100%
+      }
+      .bottom .buybtn{
+        width: 140px;
+        height: 49px;
+        background: linear-gradient(270deg, #faa060 0%, #ff6a00 100%);
+        border-radius: 34px;
+        font-size: 18px;
+        font-weight: 400;
+        line-height: 49px;
+        color: #FFFFFF;
+        text-align: center;
+      }
+      .pop{
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        z-index: 999;
+        background: rgba(0,0,0,0.3);
+        width: 100%;
+        height: 100%;
+      }
+      .pop .popmain{
+        width: 100%;
+        background: #fff;
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        border-radius: 30px 30px 0px 0px;
+        padding: 24px 26px;
+        box-sizing: border-box;
+      }
+      .pop .goods {
+        margin-bottom: 24px;
+      }
+      .pop .goods .goodsimg{
+        width: 112px;
+        height:112px;
+      }
+      .pop .goods .goods_r{
+        width: calc(100% - 124px);
+        height: 112px;
+      }
+      .pop .goods_r .name{
+        font-size: 16px;
+        font-weight: 400;
+        line-height: 22px;
+        color: #000000;
+        margin-bottom: 20px;
+      }
+      .pop .goods_r .jifen{
+        font-size: 12px;
+        font-weight: 400;
+        line-height: 36px;
+        color: #000000;
+      }
+      .pop .goods_r .jifen span{
+        font-size: 20px;
+        color: #f57921;
+        font-weight: normal;
+        margin-right: 6px;
+      }
+      .pop .goods_r .price{
+        font-size: 12px;
+        font-weight: 400;
+        line-height: 36px;
+        color: #000000;
+      }
+      .pop .goods_r .price span{
+        font-size: 20px;
+        font-weight: 400;
+        line-height: 37px;
+        color: #000000;
+      }
+      .pop .goods_r .numcontrol{
+        width: 100px;
+        height: 30px;
+        /*background: #F4F4F4;*/
+        border-radius: 15px;
+        padding: 0 10px;
+        box-sizing: border-box;
+        font-size: 16px;
+      }
+      .pop .goods_r .numcontrol img{
+        width: 20px;
+        height: 20px;
+      }
+      .pop .property{
+        margin-bottom: 20px;
+      }
+      .pop .property .bt{
+        font-size: 16px;
+        font-weight: 400;
+        line-height: 22px;
+        color: #000000;
+        margin-bottom: 15px;
+      }
+      .pop .property .list{
+        overflow: hidden;
+      }
+      .pop .property .list .item{
+        float: left;
+        height: 30px;
+        line-height: 30px;
+        background: #EFEFF4;
+        border-radius: 16px;
+        padding: 0 18px;
+        font-size: 14px;
+        font-weight: 400;
+        color: #999999;
+        margin-right: 15px;
+        margin-bottom: 5px;
+        box-sizing: border-box;
+        min-width: 65px;
+        text-align: center;
+      }
+      .pop .property .list .item.active{
+        background: #f57921;
+        color: #fff
+      }
+      .pop .popmain .buybtn{
+        width: 100%;
+        height: 49px;
+        background: linear-gradient(270deg, #faa060 0%, #ff6a00 100%);
+        border-radius: 34px;
+        font-size: 18px;
+        font-weight: 400;
+        line-height: 25px;
+        color: #FFFFFF;
+        text-align: center;
+        line-height: 49px;
+        margin-top: 35px
+      }
+      .hide{
+        display: none
+      }
+      .xqbt{
+        width: 100%;
+        height: 40px;
+        border-bottom: 1px solid #f4f4f4;
+        padding: 0 28px;
+        box-sizing: border-box;
+        font-size: 16px;
+        color: #000;
+        line-height: 40px
+      }
+      .xq{
+        width: 100%;
+        padding-bottom: 90px;
+      }
+      .xq img{
+        width: 100%;
+        height: auto;
+      }
+    </style>
+</head>
+<body>
+  <header>
+    <div class="ul">
+      <img src="../../image/toleft.png" alt="" class="toleft"  onclick="toBack()">
+      <div class="title">商品详情</div>
+    </div>
+  </header>
+  <div id="content">
+  </div>
+  <div class="pop hide" onclick="hidepop(this)" id="pop">
+
+  </div>
+</body>
+</html>
+<script type="text/javascript" src="../../script/api.js"></script>
+<script type="text/javascript" src="../../script/common.js"></script>
+<script type="text/javascript" src="../../script/template-web.js"></script>
+<script type="text/javascript" src="../../script/jquery-3.2.1.min.js"></script>
+<script type="text/javascript" src="../../script/swiper-3.3.1.jquery.min.js"></script>
+<script type="text/html" id="tpdetail">
+  <div class="banner swiper-container">
+      <div class="swiper-wrapper">
+          {{each images}}
+          <div class="swiper-slide"><img src="{{$value}}" alt=""></div>
+          {{/each}}
+      </div>
+      <div class="swiper-pagination"></div>
+  </div>
+  <div class="df aifs jcsb line01">
+    <div class="goodsname">{{msg.allgoods.name}}</div>
+    <!-- <img src="../../image/icon_share.png" alt="" class="share"> -->
+  </div>
+  <div class="line02 df aic jcsb">
+    <div class="jifen df aife">
+      <span>{{msg.price}}</span> 元
+    </div>
+    <!-- <div class="price df aife">
+      ￥<span>{{msg.num}}</span>
+    </div> -->
+    <span class="count">库存：{{msg.stock}}</span>
+  </div>
+  <div class="line03 df ffc jcsb">
+    <div class="df aic jcsb" onclick="buybtn()">
+      <div class="lables">商品规格</div>
+      <div class="vals" >
+        <span>请选择</span>
+        <img src="../../image/toright.png" alt="">
+      </div>
+    </div>
+    <!-- <div class="df aic jcsb">
+      <div class="lables">配送区域</div>
+      <div class="vals">
+        <span>请选择</span>
+        <img src="../../image/toright.png" alt="">
+      </div>
+    </div> -->
+  </div>
+  <div class="xqbt">商品详情</div>
+  <div class="xq"></div>
+  <div class="bottom df aic jcsb">
+    <div class="bottom_l df aic">
+      <div class="radiobox">
+        <input name="agreement" type="radio">
+        <label></label>
+      </div>同意<span onclick="rule('buy')">购买协议</span>
+    </div>
+    <div class="buybtn" onclick="buybtn()">立即购买</div>
+  </div>
+</script>
+<script type="text/html" id="tpPop">
+  <div class="popmain"  onclick="stopEvent(event)">
+    <div class="goods df aic jcsb">
+      <img src="{{specgoods.allgoods.cover_image}}" alt="" class="goodsimg">
+      <div class="goods_r">
+        <div class="name">{{specgoods.allgoods.name}}</div>
+        <div class="df aic">
+          <div class="price">
+            ￥<span>{{specgoods.price}}</span>
+          </div>
+          <div class="numcontrol df aic jcc">
+            <!-- <img src="../../image/minus.png" alt="" onclick="minus()"> -->
+            <span>×{{num}}</span>
+            <!-- <img src="../../image/plus.png" alt="" onclick="plus()"> -->
+          </div>
+        </div>
+      </div>
+    </div>
+    {{each specArr item}}
+    <div class="property">
+      <div class="bt">{{item.attr_name}}</div>
+      <div class="list">
+        {{each item.seckillattrval}}
+        <div class="{{if $value.checked}} active item {{else}} item {{/if}}"  onclick="chose('{{item.attr_key_id}}','{{$value.symbol}}')">{{$value.attr_value}}</div>
+        {{/each}}
+      </div>
+    </div>
+    {{/each}}
+    <div class="buybtn" onclick="creatorder()">立即抢购</div>
+  </div>
+</script>
+<script type="text/javascript">
+  var id, msg, images, specArr, num=1,specgoods, play;
+  var specs_id;
+  apiready = function () {
+    $api.fixStatusBar( $api.dom('header') );
+    var bodyTop = $api.offset($api.dom('header')).h;
+    $api.css($api.dom('body'),'top:'+bodyTop+'px');
+    id=api.pageParam.id;
+    play=api.pageParam.play;
+    console.log(play);
+    getDetail()
+  }
+  function stopEvent(event){
+    event.stopPropagation();
+  }
+  // 购买协议
+  function rule(name){
+    api.openWin({
+        name: 'article',
+        url: '../myzoe/article.html',
+        pageParam:{
+          froms:name
+        }
+    });
+  }
+  // 创建订单
+  function creatorder(){
+    if(!specgoods.sku_id && specArr.length>0){
+      api.toast({
+        msg:"请选择规格",
+        location:"middle"
+      })
+      return false;
+    }
+    api.openWin({
+        name: 'confirmOrder',
+        url: '../order/confirmOrder.html',
+        pageParam:{
+          froms:"seckill",
+          scene:{
+            goods_id:id,
+            sku_id:specgoods.sku_id,
+            num:num,
+            play:play
+          }
+        }
+    });
+  }
+  // 减
+  function minus(){
+    if(num>1){
+      num--;
+      drawSpec();
+    }
+  }
+  // 加
+  function plus(){
+    if(num<parseInt(specgoods.stock)){
+      num++;
+      drawSpec();
+    }else {
+      api.toast({
+        msg:"库存不够了",
+        location:"middle"
+      })
+    }
+  }
+  function chose(id,symbol){
+    for(var i=0; i<specArr.length; i++){
+      if(specArr[i].attr_key_id==id){
+        var attr=specArr[i].seckillattrval;
+        for(var j=0; j<attr.length; j++){
+          if(symbol==attr[j].symbol){
+            specArr[i].seckillattrval[j].checked= specArr[i].seckillattrval[j].checked?false : true;
+          }else {
+            specArr[i].seckillattrval[j].checked=false;
+          }
+        }
+        checkchose();
+      }
+    }
+  }
+  var skustring;
+  function checkchose(){
+    skustring=[];
+    for(var i=0; i<specArr.length; i++){
+      var attr=specArr[i].seckillattrval;
+      for(var j=0; j<attr.length; j++){
+        if(attr[j].checked){
+          skustring.push(attr[j].symbol);
+        }
+      }
+    }
+    if(skustring.length == specArr.length){
+      price_select()
+    }else {
+      drawSpec()
+    }
+  }
+  // 规格属性组合价格查询
+  function price_select(){
+    request1("/api/seckill.goods/getSpecs", "post", {
+      id:id,
+      play:play,
+      path:skustring.toString()
+    }, function(res){
+      if(res.code == 1){
+        console.log(JSON.stringify(res.data));
+        // specgoods.sales=res.data.sales;
+        specgoods.sku_id=res.data.sku_id;
+        specgoods.stock=res.data.stock;
+        drawSpec();
+      }
+    },function(error){
+
+    })
+  }
+  function buybtn(){
+    if(!$api.getStorage("token")){
+      // 如果未登录，请先登录
+      login();
+      return false;
+    }
+    if($api.val($api.dom("input[name='agreement']:checked"))!='on'){
+      api.toast({
+        msg:"请阅读购买协议并同意",
+        location:"middle"
+      });
+      return false;
+    }
+    $api.removeCls($api.dom(".pop"), 'hide');
+  }
+  function hidepop(tag){
+    $api.addCls(tag, 'hide');
+  }
+  function getDetail(){
+    request1("/api/seckill.goods/details", "post", {
+      id:id
+    }, function(res){
+      console.log(JSON.stringify(res.data));
+      if(res.code == 1){
+        msg = res.data;
+        specgoods = res.data;
+        images = res.data.allgoods.images.split(",");
+        if(res.data.specs_data=='1'){
+          draw();
+          getSpecs();
+        }else{
+          specArr=[];
+          draw();
+          drawSpec();
+        }
+      }
+    },function(error){
+
+    })
+  }
+  function getSpecs(){
+    console.log(id);
+    request1("/api/seckill.goods/goodsSpecs", "post", {
+      id:id,
+      play:play
+    }, function(res){
+      console.log(JSON.stringify(res.data));
+      if(res.code == 1){
+        specArr=res.data;
+        drawSpec();
+      }
+    },function(error){
+
+    })
+  }
+  function draw(){
+    var html = template("tpdetail", {msg:msg,images:images, https:https});
+    $api.html($api.dom("#content"),html);
+    $api.html($api.dom(".xq"), msg.allgoods.content);
+    var swiperBanner = new Swiper('.swiper-container', {
+        slidesPerView: 1,
+        pagination: '.swiper-pagination',
+    });
+  }
+  function drawSpec(){
+    var html = template("tpPop", {specArr:specArr, https:https, specgoods: specgoods, num:num});
+    $api.html($api.dom("#pop"),html);
+  }
+  function toBack(){
+    api.historyBack({
+    },function(ret,err){
+        if (!ret.status) {
+          api.closeWin();
+        }
+    });
+  }
+</script>
